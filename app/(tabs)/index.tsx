@@ -28,7 +28,7 @@ export default function HomeScreen() {
         </ThemedText>
         <ThemedView style={styles.listContainer}>
           {supportedLanguagesFromAPI.map((item) => (
-            <ThemedView style={styles.buttonContainer}>
+            <ThemedView key={item.id} style={styles.buttonContainer}>
               <Pressable
                 style={styles.button}
                 onPress={() => {
@@ -58,8 +58,8 @@ const styles = StyleSheet.create({
     gap: 100,
   },
   heading: {
-    fontSize: 50,
-    lineHeight: lineHeight(50),
+    fontSize: 40,
+    lineHeight: lineHeight(20),
     textAlign: "center",
   },
   listContainer: {
@@ -67,9 +67,9 @@ const styles = StyleSheet.create({
     flexGrow: 0,
   },
   buttonContainer: {
-    width: 180,
-    height: 100,
-    marginHorizontal: 20,
+    width: 120,
+    height: 80,
+    marginHorizontal: 15,
     justifyContent: "center",
     alignItems: "center",
   },
@@ -84,8 +84,8 @@ const styles = StyleSheet.create({
     justifyContent: "center",
   },
   buttonText: {
-    fontSize: 25,
-    lineHeight: lineHeight(25),
+    fontSize: 20,
+    lineHeight: lineHeight(15),
     textAlign: "center",
   },
 });

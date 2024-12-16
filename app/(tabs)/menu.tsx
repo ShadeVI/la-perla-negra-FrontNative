@@ -8,7 +8,7 @@ export default function TabTwoScreen() {
       style={{ flex: 1, justifyContent: "center", alignItems: "center" }}
     >
       <ThemedView>
-        <Text style={{ color: "white" }}>Menu</Text>
+        <Text style={{ color: "black" }}>Menu</Text>
       </ThemedView>
     </SafeAreaView>
   );
