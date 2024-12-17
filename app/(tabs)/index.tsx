@@ -16,7 +16,7 @@ export default function HomeScreen() {
 
   return (
     <View style={styles.container}>
-      <Text style={styles.heading}>La Perla Negra</Text>
+      <Text style={styles.heading}>La Perla Negra - Test 17dic. 22:01</Text>
       <FlatList
         data={supportedLanguagesFromAPI}
         renderItem={({ item }) => (
