@@ -1,6 +1,7 @@
 import { Colors } from "@/constants/Colors";
 import { useTheme } from "@/context/Theme";
-import { FlatList, Pressable, StyleSheet, Text, View } from "react-native";
+import { FlatList, StyleSheet, Text, View } from "react-native";
+import LanguageButton from "@/components/LanguageButton";
 
 //REMPLAZAR ESTE ARRAY CON UNA LLAMADA A LA API
 const supportedLanguagesFromAPI = [
@@ -10,8 +11,8 @@ const supportedLanguagesFromAPI = [
 ];
 
 export default function HomeScreen() {
-  const { theme } = useTheme();
-
+  // crea la prop `theme` per lo stile
+  const { theme } = useTheme();  // Tipizza il tema
   const styles = createStyles(theme);
 
   return (
@@ -20,16 +21,9 @@ export default function HomeScreen() {
       <FlatList
         data={supportedLanguagesFromAPI}
         renderItem={({ item }) => (
-          <View key={item.id} style={styles.buttonContainer}>
-            <Pressable
-              style={styles.button}
-              onPress={() => {
-                console.log("hello");
-              }}
-            >
-              <Text style={styles.buttonText}>{item.name}</Text>
-            </Pressable>
-          </View>
+          <LanguageButton
+          item={item} 
+          theme={theme} />
         )}
         contentContainerStyle={{
           flexDirection: "row",
