@@ -1,5 +1,6 @@
 import { createContext, useContext, useState } from "react";
 import { Colors } from "@/constants/Colors";
+import { Appearance } from "react-native";
 
 export const ThemeContext = createContext({});
 
@@ -12,6 +13,10 @@ export const ThemeProvider = ({
 }) => {
   const [colorScheme, setColorScheme] = useState(initialColorScheme);
   const theme = colorScheme ? Colors[colorScheme] : Colors.light;
+
+  Appearance.addChangeListener(({ colorScheme }) =>
+    setColorScheme(colorScheme ?? null)
+  );
 
   return (
     <ThemeContext.Provider value={{ theme, colorScheme, setColorScheme }}>
