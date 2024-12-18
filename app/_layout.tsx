@@ -1,3 +1,4 @@
+import { LanguageProvider } from "@/context/Language";
 import { ThemeProvider } from "@/context/Theme";
 import { useFonts } from "expo-font";
 import { Stack } from "expo-router";
@@ -28,13 +29,15 @@ export default function RootLayout() {
 
   return (
     <ThemeProvider initialColorScheme={Appearance.getColorScheme()}>
-      <SafeAreaProvider>
-        <StatusBar style="auto" />
-        <Stack>
-          <Stack.Screen name="(tabs)" options={{ headerShown: false }} />
-          <Stack.Screen name="+not-found" />
-        </Stack>
-      </SafeAreaProvider>
+      <LanguageProvider>
+        <SafeAreaProvider>
+          <StatusBar style="auto" />
+          <Stack>
+            <Stack.Screen name="(tabs)" options={{ headerShown: false }} />
+            <Stack.Screen name="+not-found" />
+          </Stack>
+        </SafeAreaProvider>
+      </LanguageProvider>
     </ThemeProvider>
   );
 }
