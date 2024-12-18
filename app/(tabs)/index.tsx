@@ -1,6 +1,7 @@
 import { Colors } from "@/constants/Colors";
 import { useTheme } from "@/context/Theme";
-import { FlatList, Pressable, StyleSheet, Text, View } from "react-native";
+import { StyleSheet, Text, View } from "react-native";
+import ButtonContainer from "@/components/ButtonContainer";
 
 //REMPLAZAR ESTE ARRAY CON UNA LLAMADA A LA API
 const supportedLanguagesFromAPI = [
@@ -17,26 +18,7 @@ export default function HomeScreen() {
   return (
     <View style={styles.container}>
       <Text style={styles.heading}>La Perla Negra</Text>
-      <FlatList
-        data={supportedLanguagesFromAPI}
-        renderItem={({ item }) => (
-          <View key={item.id} style={styles.buttonContainer}>
-            <Pressable
-              style={styles.button}
-              onPress={() => {
-                console.log("hello");
-              }}
-            >
-              <Text style={styles.buttonText}>{item.name}</Text>
-            </Pressable>
-          </View>
-        )}
-        contentContainerStyle={{
-          flexDirection: "row",
-          gap: 50,
-        }}
-        style={styles.list}
-      />
+      <ButtonContainer data={supportedLanguagesFromAPI}/>
     </View>
   );
 }
@@ -55,27 +37,6 @@ const createStyles = (theme: typeof Colors.light | undefined = Colors.light) =>
       textAlign: "center",
       color: theme.text,
     },
-    list: {
-      flexGrow: 0,
-    },
-    buttonContainer: {
-      width: 120,
-      height: 80,
-      justifyContent: "center",
-      alignItems: "center",
-    },
-    button: {
-      width: "100%",
-      height: "100%",
-      padding: 15,
-      backgroundColor: "rgb(202,202,202)",
-      color: "white",
-      borderRadius: 10,
-      alignItems: "center",
-      justifyContent: "center",
-    },
-    buttonText: {
-      fontSize: 20,
-      textAlign: "center",
-    },
+    
+    
   });
