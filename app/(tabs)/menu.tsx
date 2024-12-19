@@ -1,4 +1,4 @@
-import { client } from "@/lib/sanity";
+import { client } from "@/lib/sanity/sanity";
 import { useEffect, useState } from "react";
 import { StyleSheet, View, Text, FlatList } from "react-native";
 

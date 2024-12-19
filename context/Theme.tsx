@@ -2,6 +2,8 @@ import { createContext, useContext, useState } from "react";
 import { Colors } from "@/constants/Colors";
 import { Appearance } from "react-native";
 
+type ColorScheme = "dark" | "light" | undefined | null;
+
 export const ThemeContext = createContext({});
 
 export const ThemeProvider = ({
@@ -9,7 +11,7 @@ export const ThemeProvider = ({
   initialColorScheme = "dark",
 }: {
   children: React.ReactNode;
-  initialColorScheme: "dark" | "light" | undefined | null;
+  initialColorScheme: ColorScheme;
 }) => {
   const [colorScheme, setColorScheme] = useState(initialColorScheme);
   const theme = colorScheme ? Colors[colorScheme] : Colors.light;
@@ -27,8 +29,6 @@ export const ThemeProvider = ({
 
 export const useTheme = (): {
   theme?: typeof Colors.light;
-  colorScheme?: "dark" | "light" | undefined | null;
-  setColorScheme?: React.Dispatch<
-    React.SetStateAction<"dark" | "light" | null>
-  >;
+  colorScheme?: ColorScheme;
+  setColorScheme?: React.Dispatch<React.SetStateAction<ColorScheme>>;
 } => useContext(ThemeContext);

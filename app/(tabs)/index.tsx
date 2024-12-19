@@ -1,16 +1,19 @@
 import { Colors } from "@/constants/Colors";
+import { useLanguage } from "@/context/Language";
 import { useTheme } from "@/context/Theme";
 import { FlatList, Pressable, StyleSheet, Text, View } from "react-native";
 
 //REMPLAZAR ESTE ARRAY CON UNA LLAMADA A LA API
-const supportedLanguagesFromAPI = [
+/* const supportedLanguagesFromAPI = [
   { id: "es", name: "Español" },
   { id: "en", name: "English" },
   { id: "de", name: "Deutsche" },
-];
+]; */
 
 export default function HomeScreen() {
-  const { theme } = useTheme();
+  const { theme, colorScheme } = useTheme();
+  const { allSupportedLanguages, setSelectedLanguage, selectedLanguage } =
+    useLanguage();
 
   const styles = createStyles(theme);
 
@@ -18,16 +21,31 @@ export default function HomeScreen() {
     <View style={styles.container}>
       <Text style={styles.heading}>La Perla Negra</Text>
       <FlatList
-        data={supportedLanguagesFromAPI}
+        data={allSupportedLanguages}
         renderItem={({ item }) => (
           <View key={item.id} style={styles.buttonContainer}>
             <Pressable
-              style={styles.button}
+              style={[
+                styles.button,
+                selectedLanguage?.id === item.id && {
+                  backgroundColor: theme?.tint,
+                },
+              ]}
               onPress={() => {
-                console.log("hello");
+                setSelectedLanguage(item);
               }}
             >
-              <Text style={styles.buttonText}>{item.name}</Text>
+              <Text
+                style={[
+                  styles.buttonText,
+                  selectedLanguage?.id === item.id && {
+                    color:
+                      colorScheme === "dark" ? theme?.text : theme?.background,
+                  },
+                ]}
+              >
+                {item.title}
+              </Text>
             </Pressable>
           </View>
         )}
