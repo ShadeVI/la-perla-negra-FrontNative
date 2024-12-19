@@ -32,8 +32,7 @@ export default function HomeScreen() {
                 },
               ]}
               onPress={() => {
-                console.log(item);
-                setSelectedLanguage && setSelectedLanguage(item);
+                setSelectedLanguage(item);
               }}
             >
               <Text

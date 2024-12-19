@@ -1,6 +1,7 @@
 import { fetchSupportedLanguages } from "@/lib/sanity/httpSanity";
 import {
   createContext,
+  Dispatch,
   SetStateAction,
   useContext,
   useEffect,
@@ -13,18 +14,28 @@ export interface Language {
   isDefault: boolean;
 }
 
-export const LanguageContext = createContext({});
+interface INITIAL_CONTEXT {
+  selectedLanguage: Language | null;
+  allSupportedLanguages: Language[];
+  setSelectedLanguage: Dispatch<SetStateAction<Language | null>>;
+}
+
+const INITIAL_CONTEXT: INITIAL_CONTEXT = {
+  selectedLanguage: null,
+  allSupportedLanguages: [],
+  setSelectedLanguage: () => {}, // Funzione vuota
+};
+
+const LanguageContext = createContext(INITIAL_CONTEXT);
 
 export const LanguageProvider = ({
   children,
 }: {
   children: React.ReactNode;
 }) => {
-  const [selectedLanguage, setSelectedLanguage] = useState<Language>({
-    id: "es",
-    isDefault: true,
-    title: "Español",
-  });
+  const [selectedLanguage, setSelectedLanguage] = useState<Language | null>(
+    null
+  );
   const [allSupportedLanguages, setAllSupportedLanguages] = useState<
     Language[]
   >([]);
@@ -36,6 +47,7 @@ export const LanguageProvider = ({
       setSelectedLanguage(defaultLanguage);
     });
   }, []);
+
   return (
     <LanguageContext.Provider
       value={{ selectedLanguage, setSelectedLanguage, allSupportedLanguages }}
@@ -46,13 +58,9 @@ export const LanguageProvider = ({
 };
 
 export const useLanguage = (): {
-  selectedLanguage?: Language;
-  allSupportedLanguages?: Language[];
-  setSelectedLanguage?: React.Dispatch<SetStateAction<Language | null>>;
+  selectedLanguage: Language | null;
+  allSupportedLanguages: Language[];
+  setSelectedLanguage: React.Dispatch<SetStateAction<Language | null>>;
 } => {
-  const context = useContext(LanguageContext);
-  if (!context) {
-    throw new Error("Cannot use useLanguage outside of the Provider");
-  }
-  return context;
+  return useContext(LanguageContext);
 };
