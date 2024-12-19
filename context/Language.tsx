@@ -14,13 +14,13 @@ export interface Language {
   isDefault: boolean;
 }
 
-interface INITIAL_CONTEXT {
+interface InitialContext {
   selectedLanguage: Language | null;
   allSupportedLanguages: Language[];
   setSelectedLanguage: Dispatch<SetStateAction<Language | null>>;
 }
 
-const INITIAL_CONTEXT: INITIAL_CONTEXT = {
+const INITIAL_CONTEXT: InitialContext = {
   selectedLanguage: null,
   allSupportedLanguages: [],
   setSelectedLanguage: () => {}, // Funzione vuota

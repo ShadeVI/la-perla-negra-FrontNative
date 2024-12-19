@@ -11,7 +11,7 @@ import { FlatList, Pressable, StyleSheet, Text, View } from "react-native";
 ]; */
 
 export default function HomeScreen() {
-  const { theme } = useTheme();
+  const { theme, colorScheme } = useTheme();
   const { allSupportedLanguages, setSelectedLanguage, selectedLanguage } =
     useLanguage();
 
@@ -39,7 +39,8 @@ export default function HomeScreen() {
                 style={[
                   styles.buttonText,
                   selectedLanguage?.id === item.id && {
-                    color: theme?.background,
+                    color:
+                      colorScheme === "dark" ? theme?.text : theme?.background,
                   },
                 ]}
               >
