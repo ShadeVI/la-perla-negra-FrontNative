@@ -3,13 +3,6 @@ import { useLanguage } from "@/context/Language";
 import { useTheme } from "@/context/Theme";
 import { FlatList, Pressable, StyleSheet, Text, View } from "react-native";
 
-//REMPLAZAR ESTE ARRAY CON UNA LLAMADA A LA API
-/* const supportedLanguagesFromAPI = [
-  { id: "es", name: "Español" },
-  { id: "en", name: "English" },
-  { id: "de", name: "Deutsche" },
-]; */
-
 export default function HomeScreen() {
   const { theme, colorScheme } = useTheme();
   const { allSupportedLanguages, setSelectedLanguage, selectedLanguage } =
