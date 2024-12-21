@@ -2,7 +2,7 @@ import Button from "@/components/Button";
 import { Colors } from "@/constants/Colors";
 import { useLanguage } from "@/context/Language";
 import { useTheme } from "@/context/Theme";
-import { FlatList, Pressable, StyleSheet, Text, View } from "react-native";
+import { FlatList, StyleSheet, Text, View } from "react-native";
 
 export default function HomeScreen() {
   const { theme } = useTheme();

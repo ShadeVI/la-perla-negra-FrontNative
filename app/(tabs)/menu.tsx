@@ -1,9 +1,7 @@
 import { Colors } from "@/constants/Colors";
 import { useLanguage } from "@/context/Language";
 import { useTheme } from "@/context/Theme";
-import { client } from "@/lib/sanity/sanity";
-import { Slot } from "expo-router";
-import { useEffect, useState } from "react";
+import { useState } from "react";
 import {
   StyleSheet,
   View,
@@ -217,8 +215,8 @@ export default function TabTwoScreen() {
               <Pressable
                 onPress={() =>
                   router.push({
-                    pathname: `/details/[slug]`,
-                    params: item as any,
+                    pathname: `/details/[id]`,
+                    params: { id: item._id },
                   })
                 }
               >
