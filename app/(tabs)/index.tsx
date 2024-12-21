@@ -1,20 +1,14 @@
+import Button from "@/components/Button";
 import { Colors } from "@/constants/Colors";
 import { useLanguage } from "@/context/Language";
 import { useTheme } from "@/context/Theme";
-import { FlatList, Pressable, StyleSheet, Text, View } from "react-native";
-
-//REMPLAZAR ESTE ARRAY CON UNA LLAMADA A LA API
-/* const supportedLanguagesFromAPI = [
-  { id: "es", name: "Español" },
-  { id: "en", name: "English" },
-  { id: "de", name: "Deutsche" },
-]; */
+import { FlatList, StyleSheet, Text, View } from "react-native";
 
 export default function HomeScreen() {
-  const { theme, colorScheme } = useTheme();
-  const { allSupportedLanguages, setSelectedLanguage, selectedLanguage } =
-    useLanguage();
 
+  const { theme } = useTheme();
+  const { allSupportedLanguages } =
+      useLanguage();
   const styles = createStyles(theme);
 
   return (
@@ -22,33 +16,8 @@ export default function HomeScreen() {
       <Text style={styles.heading}>La Perla Negra</Text>
       <FlatList
         data={allSupportedLanguages}
-        renderItem={({ item }) => (
-          <View key={item.id} style={styles.buttonContainer}>
-            <Pressable
-              style={[
-                styles.button,
-                selectedLanguage?.id === item.id && {
-                  backgroundColor: theme?.tint,
-                },
-              ]}
-              onPress={() => {
-                setSelectedLanguage(item);
-              }}
-            >
-              <Text
-                style={[
-                  styles.buttonText,
-                  selectedLanguage?.id === item.id && {
-                    color:
-                      colorScheme === "dark" ? theme?.text : theme?.background,
-                  },
-                ]}
-              >
-                {item.title}
-              </Text>
-            </Pressable>
-          </View>
-        )}
+        renderItem={({ item }) =>
+        <Button item={item} /> }
         contentContainerStyle={{
           flexDirection: "row",
           gap: 50,
@@ -96,4 +65,4 @@ const createStyles = (theme: typeof Colors.light | undefined = Colors.light) =>
       fontSize: 20,
       textAlign: "center",
     },
-  });
+});

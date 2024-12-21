@@ -2,7 +2,7 @@ import { createContext, useContext, useState } from "react";
 import { Colors } from "@/constants/Colors";
 import { Appearance } from "react-native";
 
-type ColorScheme = "dark" | "light" | undefined | null;
+export type ColorScheme = "dark" | "light" | undefined | null;
 
 export const ThemeContext = createContext({});
 
