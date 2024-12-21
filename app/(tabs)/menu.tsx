@@ -11,7 +11,7 @@ import {
   Image,
 } from "react-native";
 
-import { useRouter } from "expo-router";
+import { Link, useRouter } from "expo-router";
 
 const mockCategories = [
   {
@@ -212,14 +212,7 @@ export default function TabTwoScreen() {
           data={dishes}
           renderItem={({ item }) => {
             return (
-              <Pressable
-                onPress={() =>
-                  router.push({
-                    pathname: `/details/[id]`,
-                    params: { id: item._id },
-                  })
-                }
-              >
+              <Link href={`/details/${item._id}`}>
                 <View style={styles.card}>
                   <Text style={styles.text} key={item._id}>
                     {item.title[selectedLanguage?.id as TitleLanguage] ||
@@ -230,7 +223,7 @@ export default function TabTwoScreen() {
                     style={styles.backgroundImageCard}
                   />
                 </View>
-              </Pressable>
+              </Link>
             );
           }}
           keyExtractor={(item) => item._id}

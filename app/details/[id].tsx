@@ -4,8 +4,8 @@ const Details = () => {
   const params = useLocalSearchParams();
   console.log(params);
   return (
-    <View>
-      <Text>Details</Text>
+    <View style={{ flex: 1, alignItems: "center", justifyContent: "center" }}>
+      <Text style={{ color: "black" }}>{params.id} aaa</Text>
     </View>
   );
 };
