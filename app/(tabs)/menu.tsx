@@ -4,7 +4,16 @@ import { useTheme } from "@/context/Theme";
 import { client } from "@/lib/sanity/sanity";
 import { Slot } from "expo-router";
 import { useEffect, useState } from "react";
-import { StyleSheet, View, Text, FlatList, Pressable } from "react-native";
+import {
+  StyleSheet,
+  View,
+  Text,
+  FlatList,
+  Pressable,
+  Image,
+} from "react-native";
+
+import { useRouter } from "expo-router";
 
 const mockCategories = [
   {
@@ -49,109 +58,91 @@ const mockCategories = [
       _type: "localeString",
     },
     slug: "postres",
-    categoryNumber: 4,
+    categoryNumber: 5,
+  },
+  {
+    _id: "4a205209-012a-44da-8915-928328sk928",
+    title: {
+      es: "Pizzas",
+      en: "Pizzas",
+      de: "Pizzen",
+      _type: "localeString",
+    },
+    slug: "pizza-fresca",
+    categoryNumber: 5,
   },
 ];
 
+type MockDish = (typeof mockeDishes)[0];
 const mockeDishes = [
   {
-    id: "1",
+    _id: "1be64d1c-da84-4f1d-a81e-7fc91a77d2a8",
     title: {
+      es: "Carbonara pizza ES",
+      en: "Carbonara pizza EN",
+      de: "Pizza Carbonara DE",
       _type: "localeString",
-      es: "Prueba 1",
-      en: "Test 1",
-      de: "Test 1",
     },
-  },
-  {
-    id: "2",
-    title: {
+    description: {
+      es: "Pizza artesanala con huevo, panceta y queso",
+      en: "Handmade pizza with egg, bacon and cheese",
+      de: "Handgemachte Pizza mit Ei, Speck und Käse",
       _type: "localeString",
-      es: "Prueba 2",
-      en: "Test 2",
-      de: "Test 2",
     },
-  },
-  {
-    id: "3",
-    title: {
-      _type: "localeString",
-      es: "Prueba 3",
-      en: "Test 3",
-      de: "Test 3",
+    imageUrl:
+      "https://cdn.sanity.io/images/9qxh7wk9/development/284c48aa360daaabd566cbb73ee76156d9a15b3e-1600x1067.jpg",
+    slug: "pizza-carbonara",
+    price: 11.9,
+    category: {
+      slug: "pizza-fresca",
+      categoryNumber: 4,
     },
-  },
-  {
-    id: "4",
-    title: {
-      _type: "localeString",
-      es: "Prueba 4",
-      en: "Test 4",
-      de: "Test 4",
-    },
-  },
-  {
-    id: "5",
-    title: {
-      _type: "localeString",
-      es: "Prueba 5",
-      en: "Test 5",
-      de: "Test 5",
-    },
-  },
-  {
-    id: "6",
-    title: {
-      _type: "localeString",
-      es: "Prueba 6",
-      en: "Test 6",
-      de: "Test 6",
-    },
-  },
-  {
-    id: "7",
-    title: {
-      _type: "localeString",
-      es: "Prueba 7",
-      en: "Test 7",
-      de: "Test 7",
-    },
-  },
-  {
-    id: "8",
-    title: {
-      _type: "localeString",
-      es: "Prueba 8",
-      en: "Test 8",
-      de: "Test 8",
-    },
-  },
-  {
-    id: "9",
-    title: {
-      _type: "localeString",
-      es: "Prueba 9",
-      en: "Test 9",
-      de: "Test 9",
-    },
-  },
-  {
-    id: "10",
-    title: {
-      _type: "localeString",
-      es: "Prueba 10",
-      en: "Test 10",
-      de: "Test 10",
-    },
+    dishNumber: 1,
+    isHighlighted: true,
+    ingredients: [
+      {
+        name: {
+          es: "Huevo",
+          en: "Egg",
+          de: "Ei",
+          _type: "localeString",
+        },
+      },
+      {
+        name: {
+          es: "Panceta",
+          en: "Bacon",
+          de: "Speck",
+          _type: "localeString",
+        },
+      },
+      {
+        name: {
+          es: "Queso",
+          en: "Cheese",
+          de: "Käse",
+          _type: "localeString",
+        },
+      },
+    ],
   },
 ];
+
+const mockedDishesRepeated: MockDish[] = new Array(10)
+  .fill(mockeDishes[0])
+  .map((dish, index) => ({
+    ...dish,
+    _id: `${dish._id}-${index}`,
+    dishNumber: index + 1,
+  }));
 
 type TitleLanguage = keyof (typeof mockCategories)[0]["title"];
 
 export default function TabTwoScreen() {
-  const [dishes, setDishes] = useState(mockeDishes);
+  const [dishes, setDishes] = useState(mockedDishesRepeated);
   const { selectedLanguage } = useLanguage();
   const { theme } = useTheme();
+  const router = useRouter();
 
   const styles = createStyles(theme);
 
@@ -216,37 +207,42 @@ export default function TabTwoScreen() {
         />
       </View>
       {/* DISHES_LIST EXAMPLE */}
-      <FlatList
-        data={dishes}
-        renderItem={({ item }) => {
-          return (
-            <Pressable onPress={() => console.log("pressed", { item })}>
-              <View
-                style={{
-                  padding: 10,
-                  backgroundColor: theme?.background,
-                  minWidth: 100,
-                  width: 120,
-                  maxWidth: 150,
-                  alignItems: "center",
-                  justifyContent: "center",
-                  borderRadius: 10,
-                }}
+      <View style={styles.listContainer}>
+        <FlatList
+          style={{ width: "100%" }}
+          contentContainerStyle={styles.flatList}
+          data={dishes}
+          renderItem={({ item }) => {
+            return (
+              <Pressable
+                onPress={() =>
+                  router.push({
+                    pathname: `/details/[slug]`,
+                    params: item as any,
+                  })
+                }
               >
-                <Text style={{ color: theme?.text, textAlign: "center" }}>
-                  {item.title[selectedLanguage?.id as TitleLanguage] ||
-                    item.title.es}
-                </Text>
-              </View>
-            </Pressable>
-          );
-        }}
-        keyExtractor={(item) => item.id}
-        ListEmptyComponent={
-          <Text style={{ color: theme?.text }}>No dishes found</Text>
-        }
-        numColumns={2}
-      />
+                <View style={styles.card}>
+                  <Text style={styles.text} key={item._id}>
+                    {item.title[selectedLanguage?.id as TitleLanguage] ||
+                      item.title.es}
+                  </Text>
+                  <Image
+                    source={{ uri: item.imageUrl }}
+                    style={styles.backgroundImageCard}
+                  />
+                </View>
+              </Pressable>
+            );
+          }}
+          keyExtractor={(item) => item._id}
+          ListEmptyComponent={
+            <Text style={{ color: theme?.text }}>No dishes found</Text>
+          }
+          numColumns={2}
+          columnWrapperStyle={{ gap: 50 }}
+        />
+      </View>
     </View>
   );
 }
@@ -256,5 +252,39 @@ const createStyles = (theme: typeof Colors.light | undefined = Colors.light) =>
     pageContainer: {
       flex: 1,
       backgroundColor: theme.background,
+    },
+    listContainer: {
+      flex: 1,
+      backgroundColor: theme.background,
+      justifyContent: "center",
+      alignItems: "center",
+    },
+    flatList: {
+      paddingVertical: 50,
+      justifyContent: "flex-start",
+      alignItems: "center",
+      gap: 50,
+    },
+    card: {
+      width: 550,
+      height: 250,
+      borderRadius: 10,
+      backgroundColor: theme?.icon,
+      flex: 1,
+      flexDirection: "row",
+      justifyContent: "space-between",
+      alignItems: "center",
+      overflow: "hidden",
+    },
+    backgroundImageCard: {
+      width: 250,
+      height: "100%",
+      objectFit: "cover",
+    },
+    text: {
+      color: theme?.background,
+      textAlign: "center",
+      marginHorizontal: "auto",
+      fontSize: 26,
     },
   });
