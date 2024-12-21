@@ -14,14 +14,17 @@ export default function TabTwoScreen() {
 
   return (
     <View>
-      <Text>Menu</Text>
+      <Text>Menu Page</Text>
       <FlatList
         data={dishes}
         renderItem={({ item }) => {
-          return <Text key={item._id}>{item.title.es}</Text>;
+          
+          return <Text key={item}>
+          {item}</Text>;
         }}
-        keyExtractor={(item) => item._id}
+        keyExtractor={(item) => item}
         ListEmptyComponent={<Text>No items</Text>}
+        
       />
     </View>
   );

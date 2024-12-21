@@ -2,6 +2,7 @@ import { Colors } from "@/constants/Colors";
 import { Language, useLanguage } from "@/context/Language";
 import { ColorScheme, useTheme } from "@/context/Theme";
 import { Pressable, StyleSheet, Text, View } from "react-native";
+import { useRouter } from 'expo-router';
 
 // TODO: resolve extraStyle typescript to defined like StyleSheet create
 // Used at row 54 and 76
@@ -19,6 +20,7 @@ const Button = ({ item, extraStyles }: ButtonProp) => {
 const { theme, colorScheme } = useTheme();
 const { setSelectedLanguage, selectedLanguage } = useLanguage();
 const styles = createStyles(theme, colorScheme, extraStyles);
+const router = useRouter();
 
 return (
     <View key={item.id} style={styles.buttonContainer}>
@@ -30,7 +32,9 @@ return (
         },
         ]}
         onPress={() => {
-        setSelectedLanguage(item);
+        setSelectedLanguage(item), 
+        router.push('/menu');
+        // console.log(item)
         }}
     >
         <Text
