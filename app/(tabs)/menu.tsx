@@ -1,7 +1,7 @@
 import { Colors } from "@/constants/Colors";
 import { useLanguage } from "@/context/Language";
 import { useTheme } from "@/context/Theme";
-import { useState } from "react";
+import { useEffect, useState } from "react";
 import {
   StyleSheet,
   View,
@@ -12,151 +12,43 @@ import {
 } from "react-native";
 
 import { Link, useRouter } from "expo-router";
+import { Category, fetchCategories } from "@/lib/sanity/httpSanity";
+import { useDishes } from "@/context/Dishes";
+import Animated from "react-native-reanimated";
 
-const mockCategories = [
-  {
-    _id: "4a205209-012a-44da-8915-b9c915265180",
-    title: {
-      es: "Entrantes",
-      en: "Starters",
-      de: "Starters",
-      _type: "localeString",
-    },
-    slug: "entrantes",
-    categoryNumber: 1,
-  },
-  {
-    _id: "4a205209-012a-44da-8915-k286893m283",
-    title: {
-      es: "Primeros",
-      en: "First",
-      de: "Erste",
-      _type: "localeString",
-    },
-    slug: "primeros",
-    categoryNumber: 2,
-  },
-  {
-    _id: "4a205209-012a-44da-8915-9d8d8d8d8d8",
-    title: {
-      es: "Segundos",
-      en: "Seconds",
-      de: "Zweite",
-      _type: "localeString",
-    },
-    slug: "segundos",
-    categoryNumber: 3,
-  },
-  {
-    _id: "4a205209-012a-44da-8915-9d8d88sk928",
-    title: {
-      es: "Postres",
-      en: "Desserts",
-      de: "Nachspeisen",
-      _type: "localeString",
-    },
-    slug: "postres",
-    categoryNumber: 5,
-  },
-  {
-    _id: "4a205209-012a-44da-8915-928328sk928",
-    title: {
-      es: "Pizzas",
-      en: "Pizzas",
-      de: "Pizzen",
-      _type: "localeString",
-    },
-    slug: "pizza-fresca",
-    categoryNumber: 5,
-  },
-];
-
-type MockDish = (typeof mockeDishes)[0];
-const mockeDishes = [
-  {
-    _id: "1be64d1c-da84-4f1d-a81e-7fc91a77d2a8",
-    title: {
-      es: "Carbonara pizza ES",
-      en: "Carbonara pizza EN",
-      de: "Pizza Carbonara DE",
-      _type: "localeString",
-    },
-    description: {
-      es: "Pizza artesanala con huevo, panceta y queso",
-      en: "Handmade pizza with egg, bacon and cheese",
-      de: "Handgemachte Pizza mit Ei, Speck und Käse",
-      _type: "localeString",
-    },
-    imageUrl:
-      "https://cdn.sanity.io/images/9qxh7wk9/development/284c48aa360daaabd566cbb73ee76156d9a15b3e-1600x1067.jpg",
-    slug: "pizza-carbonara",
-    price: 11.9,
-    category: {
-      slug: "pizza-fresca",
-      categoryNumber: 4,
-    },
-    dishNumber: 1,
-    isHighlighted: true,
-    ingredients: [
-      {
-        name: {
-          es: "Huevo",
-          en: "Egg",
-          de: "Ei",
-          _type: "localeString",
-        },
-      },
-      {
-        name: {
-          es: "Panceta",
-          en: "Bacon",
-          de: "Speck",
-          _type: "localeString",
-        },
-      },
-      {
-        name: {
-          es: "Queso",
-          en: "Cheese",
-          de: "Käse",
-          _type: "localeString",
-        },
-      },
-    ],
-  },
-];
-
-const mockedDishesRepeated: MockDish[] = new Array(10)
-  .fill(mockeDishes[0])
-  .map((dish, index) => ({
-    ...dish,
-    _id: `${dish._id}-${index}`,
-    dishNumber: index + 1,
-  }));
-
-type TitleLanguage = keyof (typeof mockCategories)[0]["title"];
-
-export default function TabTwoScreen() {
-  const [dishes, setDishes] = useState(mockedDishesRepeated);
-  const { selectedLanguage } = useLanguage();
+export default function MenuScreen() {
   const { theme } = useTheme();
+  const { selectedLanguage } = useLanguage();
+  const [categories, setCategories] = useState<Category[]>([]);
+  const { dishes } = useDishes();
   const router = useRouter();
+
+  const [selectedCategory, setSelectedCategory] = useState<number | undefined>(
+    undefined
+  );
+  const filteredDishes = [
+    ...dishes.filter((dish) => dish.categoryNumber === selectedCategory),
+  ];
 
   const styles = createStyles(theme);
 
-  /* useEffect(() => {
-    const fetchDishes = async () => {
-      return await client.fetch('*[_type == "dish"]');
-    };
-    fetchDishes().then((res) => setDishes(res));
-  }, []); */
+  useEffect(() => {
+    fetchCategories().then((res) => {
+      setCategories(res.sort((a, b) => a.categoryNumber - b.categoryNumber));
+    });
+  }, []);
+
+  useEffect(() => {
+    if (categories.length > 0) {
+      setSelectedCategory(categories[0].categoryNumber);
+    }
+  }, [categories]);
 
   return (
     <View style={styles.pageContainer}>
       {/*CATEGORIES_HEADER */}
       <View
         style={{
-          backgroundColor: "yellow",
           justifyContent: "center",
           alignItems: "center",
         }}
@@ -166,34 +58,39 @@ export default function TabTwoScreen() {
             width: "100%",
             alignItems: "center",
             justifyContent: "space-around",
-            gap: "20",
           }}
           style={{
-            backgroundColor: "blue",
-            height: 60,
-            padding: 10,
+            backgroundColor: theme?.tint,
+            height: 100,
+            paddingVertical: 20,
+            borderBottomColor: "black",
+            borderBottomWidth: 2,
           }}
-          data={mockCategories}
+          data={categories}
           renderItem={({ item }) => {
             return (
-              <Pressable onPress={() => console.log("pressed", { item })}>
+              <Pressable
+                onPress={() => setSelectedCategory(item.categoryNumber)}
+              >
                 <View
                   style={{
-                    padding: 10,
-                    backgroundColor: "white",
+                    padding: 15,
+                    backgroundColor: theme?.background,
                     minWidth: 100,
-                    width: 120,
-                    maxWidth: 150,
                     alignItems: "center",
                     justifyContent: "center",
                     borderRadius: 10,
                   }}
                 >
                   <Text
-                    style={{ color: "black", textAlign: "center" }}
+                    style={{
+                      color: theme?.text,
+                      textAlign: "center",
+                      fontSize: 20,
+                    }}
                     key={item._id}
                   >
-                    {item.title[selectedLanguage?.id as TitleLanguage] ||
+                    {item.title[selectedLanguage?.id as string] ??
                       item.title.es}
                   </Text>
                 </View>
@@ -209,21 +106,24 @@ export default function TabTwoScreen() {
         <FlatList
           style={{ width: "100%" }}
           contentContainerStyle={styles.flatList}
-          data={dishes}
+          data={filteredDishes}
           renderItem={({ item }) => {
             return (
-              <Link href={`/details/${item._id}`}>
+              <Pressable onPress={() => router.push(`/details/${item._id}`)}>
                 <View style={styles.card}>
                   <Text style={styles.text} key={item._id}>
-                    {item.title[selectedLanguage?.id as TitleLanguage] ||
-                      item.title.es}
+                    {item.title[
+                      selectedLanguage?.id as keyof typeof item.title
+                    ] ?? item.title.es}
                   </Text>
-                  <Image
+
+                  <Animated.Image
                     source={{ uri: item.imageUrl }}
                     style={styles.backgroundImageCard}
+                    sharedTransitionTag={"dishImage"}
                   />
                 </View>
-              </Link>
+              </Pressable>
             );
           }}
           keyExtractor={(item) => item._id}
@@ -251,14 +151,14 @@ const createStyles = (theme: typeof Colors.light | undefined = Colors.light) =>
       alignItems: "center",
     },
     flatList: {
-      paddingVertical: 50,
+      padding: 50,
       justifyContent: "flex-start",
-      alignItems: "center",
+      alignItems: "flex-start",
       gap: 50,
     },
     card: {
       width: 550,
-      height: 250,
+      height: 300,
       borderRadius: 10,
       backgroundColor: theme?.icon,
       flex: 1,
@@ -268,11 +168,12 @@ const createStyles = (theme: typeof Colors.light | undefined = Colors.light) =>
       overflow: "hidden",
     },
     backgroundImageCard: {
-      width: 250,
+      width: "50%",
       height: "100%",
       objectFit: "cover",
     },
     text: {
+      flex: 1,
       color: theme?.background,
       textAlign: "center",
       marginHorizontal: "auto",
