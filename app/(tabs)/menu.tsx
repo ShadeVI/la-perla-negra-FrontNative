@@ -11,10 +11,11 @@ import {
   Image,
 } from "react-native";
 
-import { Link, useRouter } from "expo-router";
+import { useRouter } from "expo-router";
 import { Category, fetchCategories } from "@/lib/sanity/httpSanity";
 import { useDishes } from "@/context/Dishes";
 import Animated from "react-native-reanimated";
+import Constants from "expo-constants";
 
 export default function MenuScreen() {
   const { theme } = useTheme();
@@ -22,13 +23,15 @@ export default function MenuScreen() {
   const [categories, setCategories] = useState<Category[]>([]);
   const { dishes } = useDishes();
   const router = useRouter();
-
+  Constants.platform;
   const [selectedCategory, setSelectedCategory] = useState<number | undefined>(
     undefined
   );
   const filteredDishes = [
     ...dishes.filter((dish) => dish.categoryNumber === selectedCategory),
   ];
+
+  console.log("COMPONENT RENDERED");
 
   const styles = createStyles(theme);
 
@@ -166,6 +169,7 @@ const createStyles = (theme: typeof Colors.light | undefined = Colors.light) =>
       justifyContent: "space-between",
       alignItems: "center",
       overflow: "hidden",
+      elevation: Constants.platform?.android ? 3 : 0,
     },
     backgroundImageCard: {
       width: "50%",

@@ -1,6 +1,6 @@
 import { useDishes } from "@/context/Dishes";
 import { useLocalSearchParams } from "expo-router";
-import { StyleSheet, Text, View } from "react-native";
+import { ScrollView, StyleSheet, Text, View } from "react-native";
 import Animated from "react-native-reanimated";
 
 const Details = () => {
@@ -10,13 +10,43 @@ const Details = () => {
   const detailsDish = dishes.find((dish) => dish._id === params.id);
 
   return (
-    <View style={{ flex: 1, alignItems: "center", justifyContent: "center" }}>
-      <Text style={{ color: "black" }}>{params.id} aaa</Text>
-      <Animated.Image
-        source={{ uri: detailsDish?.imageUrl }}
-        style={{ width: 500, height: 500 }}
-        sharedTransitionTag={"dishImage"}
-      />
+    <View
+      style={{
+        flex: 1,
+        alignItems: "center",
+        justifyContent: "flex-start",
+        width: "100%",
+      }}
+    >
+      <ScrollView style={{ flex: 1, width: "100%" }}>
+        <View style={{ width: "100%" }}>
+          <Animated.Image
+            source={{ uri: detailsDish?.imageUrl }}
+            style={{
+              width: "100%",
+              height: 500,
+              objectFit: "cover",
+              marginHorizontal: "auto",
+            }}
+            sharedTransitionTag={"dishImage"}
+          />
+        </View>
+        <Text>HEHEHEHEHHEHE</Text>
+        <Text>HEHEHEHEHHEHE</Text>
+        <Text>HEHEHEHEHHEHE</Text>
+        <Text>HEHEHEHEHHEHE</Text>
+        <Text>HEHEHEHEHHEHE</Text>
+        <Text>HEHEHEHEHHEHE</Text>
+        <Text>HEHEHEHEHHEHE</Text>
+        <Text>HEHEHEHEHHEHE</Text>
+        <Text>HEHEHEHEHHEHE</Text>
+        <Text>HEHEHEHEHHEHE</Text>
+        <Text>HEHEHEHEHHEHE</Text>
+        <Text>HEHEHEHEHHEHE</Text>
+        <Text>HEHEHEHEHHEHE</Text>
+        <Text>HEHEHEHEHHEHE</Text>
+        <Text>HEHEHEHEHHEHE</Text>
+      </ScrollView>
     </View>
   );
 };
