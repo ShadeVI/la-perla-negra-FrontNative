@@ -1,6 +1,7 @@
 import { Colors } from "@/constants/Colors";
 import { useTheme } from "@/context/Theme";
-import { StyleProp, StyleSheet, StyleSheetProperties } from "react-native";
+import { StyleProp, StyleSheet } from "react-native";
+import { Dimensions } from "react-native";
 
 
 export function lineHeight(fontSize: number) {
@@ -15,3 +16,5 @@ export function createStyles(callback: (theme?:
   const { theme } = useTheme()
   return StyleSheet.create(callback(theme))
 }
+
+export const isMobile = Dimensions.get("screen").width < 1000;

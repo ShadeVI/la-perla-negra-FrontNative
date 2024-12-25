@@ -1,25 +1,32 @@
 import { Colors } from "@/constants/Colors";
 import { useLanguage } from "@/context/Language";
-import { useTheme } from "@/context/Theme";
+import { ColorScheme, useTheme } from "@/context/Theme";
 import { useEffect, useMemo, useState } from "react";
-import { StyleSheet, View, Text, FlatList, Pressable } from "react-native";
+import {
+  StyleSheet,
+  View,
+  Text,
+  FlatList,
+  Pressable,
+  ActivityIndicator,
+} from "react-native";
 
-import { useRouter } from "expo-router";
+import { Link } from "expo-router";
 import { Category, fetchCategories } from "@/lib/sanity/httpSanity";
 import { useDishes } from "@/context/Dishes";
 import Animated from "react-native-reanimated";
 import Constants from "expo-constants";
+import { isMobile } from "@/utils/utils";
 
-const CARD_WIDTH = 550;
-const CARD_HEIGHT = 300;
+const CARD_WIDTH = isMobile ? 320 : 550;
+const CARD_HEIGHT = isMobile ? 200 : 300;
 
 export default function MenuScreen() {
-  const { theme } = useTheme();
+  const { theme, colorScheme } = useTheme();
   const { selectedLanguage } = useLanguage();
   const { dishes } = useDishes();
-  const router = useRouter();
 
-  const [categories, setCategories] = useState<Category[]>([]);
+  const [categories, setCategories] = useState<Category[] | undefined>();
   const [selectedCategory, setSelectedCategory] = useState<
     number | undefined
   >();
@@ -28,9 +35,7 @@ export default function MenuScreen() {
     return dishes.filter((dish) => dish.categoryNumber === selectedCategory);
   }, [dishes, selectedCategory]);
 
-  const styles = createStyles(theme);
-
-  console.log("REDNER");
+  const styles = createStyles(theme, colorScheme);
 
   useEffect(() => {
     fetchCategories().then((res) => {
@@ -39,6 +44,14 @@ export default function MenuScreen() {
       setSelectedCategory(res[0]?.categoryNumber);
     });
   }, []);
+
+  if (!categories) {
+    return (
+      <View style={{ flex: 1, justifyContent: "center", alignItems: "center" }}>
+        <ActivityIndicator size="large" color={theme?.icon} />
+      </View>
+    );
+  }
 
   return (
     <View style={styles.pageContainer}>
@@ -49,9 +62,13 @@ export default function MenuScreen() {
           style={styles.categoriesList}
           data={categories}
           renderItem={({ item }) => (
-            <Pressable onPress={() => setSelectedCategory(item.categoryNumber)}>
+            <Pressable
+              key={item._id}
+              onPress={() => setSelectedCategory(item.categoryNumber)}
+              style={({ pressed }) => [{ opacity: pressed ? 0.8 : 1 }]}
+            >
               <View style={styles.categoryButton}>
-                <Text style={styles.categoryText} key={item._id}>
+                <Text style={styles.categoryText}>
                   {item.title[selectedLanguage?.id as string] ?? item.title.es}
                 </Text>
               </View>
@@ -68,24 +85,26 @@ export default function MenuScreen() {
           contentContainerStyle={styles.flatListContainer}
           data={filteredDishes}
           renderItem={({ item }) => (
-            <Pressable
-              onPress={() =>
-                router.push(`/details/${item._id}` as "/details/:id")
-              }
+            <Link
+              key={item._id}
+              href={`/details/${item._id}` as "/details/:id"}
             >
               <View style={styles.card}>
-                <Text style={styles.text} key={item._id}>
-                  {item.title[
-                    selectedLanguage?.id as keyof typeof item.title
-                  ] ?? item.title.es}
-                </Text>
+                <View style={styles.textContainer}>
+                  <Text style={styles.number}>{item.dishNumber}</Text>
+                  <Text style={styles.title}>
+                    {item.title[
+                      selectedLanguage?.id as keyof typeof item.title
+                    ] ?? item.title.es}
+                  </Text>
+                </View>
                 <Animated.Image
                   source={{ uri: item.imageUrl }}
-                  style={styles.backgroundImageCard}
+                  style={styles.image}
                   sharedTransitionTag={"dishImage"}
                 />
               </View>
-            </Pressable>
+            </Link>
           )}
           keyExtractor={(item) => item._id}
           ListEmptyComponent={
@@ -99,27 +118,28 @@ export default function MenuScreen() {
   );
 }
 
-const createStyles = (theme = Colors.light) =>
+const createStyles = (theme = Colors.light, colorScheme: ColorScheme) =>
   StyleSheet.create({
     pageContainer: {
       flex: 1,
       backgroundColor: theme.background,
     },
     categoriesWrapper: {
+      height: 100,
       justifyContent: "center",
       alignItems: "center",
     },
     categoriesList: {
       backgroundColor: theme?.tint,
-      height: 100,
       paddingVertical: 20,
       borderBottomColor: "black",
       borderBottomWidth: 2,
     },
     categoriesContainer: {
-      width: "100%",
       alignItems: "center",
       justifyContent: "space-around",
+      paddingHorizontal: 15,
+      gap: isMobile ? 15 : 25,
     },
     categoryButton: {
       padding: 15,
@@ -128,17 +148,23 @@ const createStyles = (theme = Colors.light) =>
       alignItems: "center",
       justifyContent: "center",
       borderRadius: 10,
+      boxShadow: `0px 0px 10px 0px ${
+        colorScheme === "dark"
+          ? "rgba(0, 0, 0, 0.75)"
+          : "rgba(148, 148, 148, 0.55)"
+      }`,
     },
     categoryText: {
       color: theme?.text,
       textAlign: "center",
-      fontSize: 20,
+      fontSize: isMobile ? 16 : 20,
     },
     listContainer: {
       flex: 1,
       backgroundColor: theme.background,
       justifyContent: "center",
       alignItems: "center",
+      margin: "auto",
     },
     flatList: {
       width: "100%",
@@ -160,17 +186,29 @@ const createStyles = (theme = Colors.light) =>
       alignItems: "center",
       overflow: "hidden",
       elevation: Constants.platform?.android ? 3 : 0,
+      boxShadow: `0px 0px 10px 0px ${
+        colorScheme === "dark" ? "rgba(145, 145, 145, 0.5)" : "rgba(0,0,0,0.5)"
+      }`,
     },
-    backgroundImageCard: {
-      width: "50%",
+    image: {
+      width: "60%",
       height: "100%",
       objectFit: "cover",
     },
-    text: {
+    textContainer: {
       flex: 1,
+      justifyContent: "center",
+      alignItems: "center",
+      gap: 15,
+    },
+    number: {
+      textAlign: "center",
+      fontSize: 30,
+      fontWeight: "bold",
+    },
+    title: {
       color: theme?.background,
       textAlign: "center",
-      marginHorizontal: "auto",
       fontSize: 26,
     },
   });
