@@ -1,6 +1,3 @@
-import { Colors } from "@/constants/Colors";
-import { useLanguage } from "@/context/Language";
-import { ColorScheme, useTheme } from "@/context/Theme";
 import { useEffect, useMemo, useState } from "react";
 import {
   StyleSheet,
@@ -10,13 +7,17 @@ import {
   Pressable,
   ActivityIndicator,
 } from "react-native";
-
 import { Link } from "expo-router";
-import { Category, fetchCategories } from "@/lib/sanity/httpSanity";
-import { useDishes } from "@/context/Dishes";
-import Animated from "react-native-reanimated";
 import Constants from "expo-constants";
-import { isMobile } from "@/utils/utils";
+import { LinearGradient } from "expo-linear-gradient";
+import Ionicons from "@expo/vector-icons/Ionicons";
+import Animated from "react-native-reanimated";
+import { Colors } from "@/constants/Colors";
+import { useLanguage } from "@/context/Language";
+import { useDishes } from "@/context/Dishes";
+import { ColorScheme, useTheme } from "@/context/Theme";
+import { Category, fetchCategories } from "@/lib/sanity/httpSanity";
+import { isMobile, lineHeight } from "@/utils/utils";
 
 const CARD_WIDTH = isMobile ? 320 : 550;
 const CARD_HEIGHT = isMobile ? 200 : 300;
@@ -90,6 +91,29 @@ export default function MenuScreen() {
               href={`/details/${item._id}` as "/details/:id"}
             >
               <View style={styles.card}>
+                <Animated.Image
+                  source={{ uri: item.imageUrl }}
+                  style={styles.image}
+                  sharedTransitionTag={"dishImage"}
+                />
+                <LinearGradient
+                  colors={[
+                    "transparent",
+                    colorScheme === "light"
+                      ? "rgba(115, 115, 115, 0.6)"
+                      : "rgba(150, 150, 150, 0.6)",
+                  ]}
+                  start={{ x: 1, y: 0 }}
+                  style={styles.overlay}
+                />
+                {item.isHighlighted && (
+                  <Ionicons
+                    style={styles.highlighted}
+                    name="star-sharp"
+                    size={30}
+                    color={theme?.tint}
+                  />
+                )}
                 <View style={styles.textContainer}>
                   <Text style={styles.number}>{item.dishNumber}</Text>
                   <Text style={styles.title}>
@@ -98,11 +122,6 @@ export default function MenuScreen() {
                     ] ?? item.title.es}
                   </Text>
                 </View>
-                <Animated.Image
-                  source={{ uri: item.imageUrl }}
-                  style={styles.image}
-                  sharedTransitionTag={"dishImage"}
-                />
               </View>
             </Link>
           )}
@@ -180,35 +199,54 @@ const createStyles = (theme = Colors.light, colorScheme: ColorScheme) =>
       height: CARD_HEIGHT,
       borderRadius: 10,
       backgroundColor: theme?.icon,
-      flex: 1,
-      flexDirection: "row",
-      justifyContent: "space-between",
-      alignItems: "center",
       overflow: "hidden",
       elevation: Constants.platform?.android ? 3 : 0,
       boxShadow: `0px 0px 10px 0px ${
-        colorScheme === "dark" ? "rgba(145, 145, 145, 0.5)" : "rgba(0,0,0,0.5)"
+        colorScheme === "dark"
+          ? "rgba(145, 145, 145, 0.5)"
+          : "rgba(0, 0, 0, 0.5)"
       }`,
+      position: "relative",
+    },
+    highlighted: {
+      position: "absolute",
+      right: 25,
+      top: 25,
+      padding: 5,
+      borderRadius: 100,
+      backgroundColor: "white",
+    },
+    overlay: {
+      position: "absolute",
+      width: "100%",
+      height: "100%",
     },
     image: {
-      width: "60%",
+      width: "100%",
       height: "100%",
       objectFit: "cover",
     },
     textContainer: {
       flex: 1,
-      justifyContent: "center",
-      alignItems: "center",
-      gap: 15,
+      justifyContent: "space-around",
+      width: "50%",
+      height: 0.6 * CARD_HEIGHT,
+      position: "absolute",
+      bottom: 25,
+      left: 25,
     },
     number: {
-      textAlign: "center",
-      fontSize: 30,
-      fontWeight: "bold",
+      textAlign: "left",
+      fontSize: 35,
+      fontWeight: "900",
+      color: theme?.background,
     },
     title: {
       color: theme?.background,
-      textAlign: "center",
-      fontSize: 26,
+      textAlign: "left",
+      fontSize: 30,
+      fontWeight: "500",
+      letterSpacing: 2,
+      lineHeight: lineHeight(20),
     },
   });
