@@ -6,6 +6,8 @@ import {
   FlatList,
   Pressable,
   ActivityIndicator,
+  Dimensions,
+  useWindowDimensions,
 } from "react-native";
 import { Link } from "expo-router";
 import Constants from "expo-constants";
@@ -17,10 +19,10 @@ import { useLanguage } from "@/context/Language";
 import { useDishes } from "@/context/Dishes";
 import { ColorScheme, useTheme } from "@/context/Theme";
 import { Category, fetchCategories } from "@/lib/sanity/httpSanity";
-import { isMobile, lineHeight } from "@/utils/utils";
+import { lineHeight } from "@/utils/utils";
 
-const CARD_WIDTH = isMobile ? 320 : 550;
-const CARD_HEIGHT = isMobile ? 200 : 300;
+const CARD_WIDTH = Dimensions.get("screen").width < 1000 ? 320 : 550;
+const CARD_HEIGHT = Dimensions.get("screen").width < 1000 ? 200 : 300;
 
 export default function MenuScreen() {
   const { theme, colorScheme } = useTheme();
@@ -158,7 +160,7 @@ const createStyles = (theme = Colors.light, colorScheme: ColorScheme) =>
       alignItems: "center",
       justifyContent: "space-around",
       paddingHorizontal: 15,
-      gap: isMobile ? 15 : 25,
+      gap: Dimensions.get("screen").width < 1000 ? 15 : 25,
     },
     categoryButton: {
       padding: 15,
@@ -176,7 +178,7 @@ const createStyles = (theme = Colors.light, colorScheme: ColorScheme) =>
     categoryText: {
       color: theme?.text,
       textAlign: "center",
-      fontSize: isMobile ? 16 : 20,
+      fontSize: Dimensions.get("screen").width < 1000 ? 16 : 20,
     },
     listContainer: {
       flex: 1,

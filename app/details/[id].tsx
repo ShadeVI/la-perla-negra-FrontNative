@@ -39,11 +39,13 @@ const Details = () => {
       <View style={styles.content}>
         <View style={styles.contentLeft}>
           <Text style={styles.title}>
-            {detailsDish?.dishNumber} -{" "}
-            {detailsDish?.title[selectedLanguage?.id ?? "es"]}
+            {detailsDish.dishNumber} -{" "}
+            {detailsDish.title[selectedLanguage?.id ?? "es"] ||
+              detailsDish.title.es}
           </Text>
           <Text style={styles.description}>
-            {detailsDish?.description[selectedLanguage?.id ?? "es"]}
+            {detailsDish.description[selectedLanguage?.id ?? "es"] ||
+              detailsDish.description.es}
           </Text>
         </View>
         <View style={styles.contentRight}>
@@ -51,10 +53,12 @@ const Details = () => {
           <View style={styles.ingredientsContainer}>
             {detailsDish?.ingredients?.length > 0
               ? detailsDish?.ingredients.map((ingredient) => {
+                  console.log(ingredient.name[selectedLanguage?.id || "es"]);
                   return (
                     <View key={ingredient._id} style={styles.badge}>
                       <Text style={styles.ingredientName}>
-                        {ingredient.name[selectedLanguage?.id || "es"]}
+                        {ingredient.name[selectedLanguage?.id || "es"] ||
+                          ingredient.name.es}
                       </Text>
                     </View>
                   );
@@ -77,7 +81,9 @@ const createStyles = (theme = Colors.light, colorScheme: ColorScheme) =>
     },
     imageContainer: {
       width: "100%",
-      boxShadow: "0 2px 10px 1px rgba(255,255,255, 0.5)",
+      boxShadow: `0 2px 10px 1px ${
+        colorScheme === "dark" ? "rgba(255,255,255, 0.5)" : "rgba(0,0,0, 0.5)"
+      }`,
     },
     image: {
       width: "100%",
@@ -117,11 +123,12 @@ const createStyles = (theme = Colors.light, colorScheme: ColorScheme) =>
       rowGap: 15,
       justifyContent: "center",
       alignItems: "center",
+      marginHorizontal: 50,
     },
     badge: {
       padding: 12,
       borderRadius: 20,
-      backgroundColor: "white",
+      backgroundColor: colorScheme === "dark" ? theme.text : theme.tint,
       flexShrink: 1,
       justifyContent: "center",
       alignItems: "center",
@@ -129,6 +136,7 @@ const createStyles = (theme = Colors.light, colorScheme: ColorScheme) =>
     ingredientName: {
       textAlign: "center",
       fontSize: 18,
+      color: theme.background,
     },
     ingredientsTitle: {
       color: theme?.text,
