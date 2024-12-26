@@ -5,10 +5,8 @@ import { useTheme } from "@/context/Theme";
 import { FlatList, StyleSheet, Text, View } from "react-native";
 
 export default function HomeScreen() {
-
   const { theme } = useTheme();
-  const { allSupportedLanguages } =
-      useLanguage();
+  const { allSupportedLanguages } = useLanguage();
   const styles = createStyles(theme);
 
   return (
@@ -16,8 +14,7 @@ export default function HomeScreen() {
       <Text style={styles.heading}>La Perla Negra</Text>
       <FlatList
         data={allSupportedLanguages}
-        renderItem={({ item }) =>
-        <Button item={item} /> }
+        renderItem={({ item }) => <Button item={item} />}
         contentContainerStyle={{
           flexDirection: "row",
           gap: 50,
@@ -65,4 +62,4 @@ const createStyles = (theme: typeof Colors.light | undefined = Colors.light) =>
       fontSize: 20,
       textAlign: "center",
     },
-});
+  });
