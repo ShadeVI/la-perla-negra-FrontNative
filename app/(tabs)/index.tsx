@@ -1,23 +1,31 @@
 import Button from "@/components/Button";
 import { Colors } from "@/constants/Colors";
-import { useLanguage } from "@/context/Language";
+import { Language, useLanguage } from "@/context/Language";
 import { useTheme } from "@/context/Theme";
+import { useRouter } from "expo-router";
 import { FlatList, StyleSheet, Text, View } from "react-native";
 
 export default function HomeScreen() {
 
   const { theme } = useTheme();
-  const { allSupportedLanguages } =
-      useLanguage();
+  const { allSupportedLanguages, setSelectedLanguage } = useLanguage();
+  const router = useRouter()
+  
   const styles = createStyles(theme);
+
+  function handleOnPress(item: Language) {
+    setSelectedLanguage(item);
+    router.push("/menu");
+  }
 
   return (
     <View style={styles.container}>
       <Text style={styles.heading}>La Perla Negra</Text>
       <FlatList
         data={allSupportedLanguages}
-        renderItem={({ item }) =>
-        <Button item={item} /> }
+        renderItem={({ item }) => (
+        <Button item={item} handleOnPress={() => handleOnPress(item)}/> 
+      )}
         contentContainerStyle={{
           flexDirection: "row",
           gap: 50,
