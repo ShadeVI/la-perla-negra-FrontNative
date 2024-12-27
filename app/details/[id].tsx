@@ -53,7 +53,6 @@ const Details = () => {
           <View style={styles.ingredientsContainer}>
             {detailsDish?.ingredients?.length > 0
               ? detailsDish?.ingredients.map((ingredient) => {
-                  console.log(ingredient.name[selectedLanguage?.id || "es"]);
                   return (
                     <View key={ingredient._id} style={styles.badge}>
                       <Text style={styles.ingredientName}>
