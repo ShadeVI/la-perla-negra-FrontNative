@@ -9,7 +9,6 @@ import {
 } from "react-native";
 import { Link } from "expo-router";
 import Constants from "expo-constants";
-import * as Device from "expo-device";
 import { LinearGradient } from "expo-linear-gradient";
 import Ionicons from "@expo/vector-icons/Ionicons";
 import Animated from "react-native-reanimated";
@@ -18,7 +17,7 @@ import { useLanguage } from "@/context/Language";
 import { useDishes } from "@/context/Dishes";
 import { ColorScheme, useTheme } from "@/context/Theme";
 import { Category, fetchCategories } from "@/lib/sanity/httpSanity";
-import { lineHeight } from "@/utils/utils";
+import { checkIfTablet, lineHeight } from "@/utils/utils";
 
 export default function MenuScreen() {
   const { theme, colorScheme } = useTheme();
@@ -46,12 +45,7 @@ export default function MenuScreen() {
   }, []);
 
   useEffect(() => {
-    const checkIfTablet = async () => {
-      const deviceType = await Device.getDeviceTypeAsync();
-      setIsTablet(deviceType === Device.DeviceType.TABLET);
-    };
-
-    checkIfTablet();
+    checkIfTablet().then((isTablet) => isTablet && setIsTablet(true));
   }, []);
 
   if (!categories) {
