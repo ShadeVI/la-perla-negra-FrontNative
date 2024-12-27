@@ -1,3 +1,4 @@
+import LoadingIndicator from "@/components/LoadingIndicator";
 import { useEffect, useMemo, useState } from "react";
 import {
   StyleSheet,
@@ -5,7 +6,6 @@ import {
   Text,
   FlatList,
   Pressable,
-  ActivityIndicator,
 } from "react-native";
 import { Link } from "expo-router";
 import Constants from "expo-constants";
@@ -19,6 +19,7 @@ import { ColorScheme, useTheme } from "@/context/Theme";
 import { Category, fetchCategories } from "@/lib/sanity/httpSanity";
 import { isMobile, lineHeight } from "@/utils/utils";
 
+
 const CARD_WIDTH = isMobile ? 320 : 550;
 const CARD_HEIGHT = isMobile ? 200 : 300;
 
@@ -27,30 +28,53 @@ export default function MenuScreen() {
   const { selectedLanguage } = useLanguage();
   const { dishes } = useDishes();
 
-  const [categories, setCategories] = useState<Category[] | undefined>();
+  const [categories, setCategories] = useState<Category[]>();
   const [selectedCategory, setSelectedCategory] = useState<
     number | undefined
   >();
+
+  // AVERE UNO STATO PER SAPERE SE STIAMO FACENDO LA CHIAMATA ALLA API E ANCORA NON ABBIAMO RICEVUTO RISPOSTA
+  // ---> useState con un boolean per capire se stiamo in fetch o no
+
+  const [isLoading, setIsLoading] = useState<boolean>(true)
 
   const filteredDishes = useMemo(() => {
     return dishes.filter((dish) => dish.categoryNumber === selectedCategory);
   }, [dishes, selectedCategory]);
 
   const styles = createStyles(theme, colorScheme);
-
+  
+  // ho impostato "useCdn: true" in "lib/sanity.ts" per utilizzare la cache e chiamare la API direttamente.
+  // ricordati di rimetterlo in false.
   useEffect(() => {
-    fetchCategories().then((res) => {
-      if (res.length === 0) return;
+    fetchCategories()
+      .then((res) => {
+        setCategories(res.sort((a, b) => a.categoryNumber - b.categoryNumber));
+        setSelectedCategory(res[0]?.categoryNumber);
+      })
+      .catch((err) => console.log(err))
+      .finally(() => setIsLoading(false));
+
+    /* const asyncFunction = async () => {
+      const res = await fetchCategories()
       setCategories(res.sort((a, b) => a.categoryNumber - b.categoryNumber));
       setSelectedCategory(res[0]?.categoryNumber);
-    });
+    }
+
+    try {
+      asyncFunction()
+    } catch (error) {
+      console.log(error)
+    }
+
+    setIsLoading(false) */
+
+
   }, []);
 
-  if (!categories) {
+  if (isLoading) {
     return (
-      <View style={{ flex: 1, justifyContent: "center", alignItems: "center" }}>
-        <ActivityIndicator size="large" color={theme?.icon} />
-      </View>
+     <LoadingIndicator />
     );
   }
 
@@ -62,6 +86,7 @@ export default function MenuScreen() {
           contentContainerStyle={styles.categoriesContainer}
           style={styles.categoriesList}
           data={categories}
+          ListEmptyComponent={() => (<Text>Questo si renderizza quando non ci sono elementi nell'array categories</Text>)}
           renderItem={({ item }) => (
             <Pressable
               key={item._id}
