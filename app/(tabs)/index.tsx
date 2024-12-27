@@ -6,7 +6,6 @@ import { useRouter } from "expo-router";
 import { FlatList, StyleSheet, Text, View } from "react-native";
 
 export default function HomeScreen() {
-
   const { theme } = useTheme();
   const { allSupportedLanguages, setSelectedLanguage } = useLanguage();
   const router = useRouter()
@@ -73,4 +72,4 @@ const createStyles = (theme: typeof Colors.light | undefined = Colors.light) =>
       fontSize: 20,
       textAlign: "center",
     },
-});
+  });

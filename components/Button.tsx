@@ -76,7 +76,8 @@ const createStyles = (
       width: "100%",
       height: "100%",
       padding: 15,
-      backgroundColor: colorScheme === "dark" ? theme.text : theme.icon,
+      backgroundColor:
+        colorScheme === "dark" ? theme.text : theme.tabIconDefault,
       borderRadius: 10,
       alignItems: "center",
       justifyContent: "center",

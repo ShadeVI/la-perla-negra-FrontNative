@@ -14,16 +14,16 @@ export interface Language {
   isDefault: boolean;
 }
 
-interface InitialContext {
+interface LanguageContext {
   selectedLanguage: Language | null;
   allSupportedLanguages: Language[];
   setSelectedLanguage: Dispatch<SetStateAction<Language | null>>;
 }
 
-const INITIAL_CONTEXT: InitialContext = {
+const INITIAL_CONTEXT: LanguageContext = {
   selectedLanguage: null,
   allSupportedLanguages: [],
-  setSelectedLanguage: () => {}, // Funzione vuota
+  setSelectedLanguage: () => {},
 };
 
 const LanguageContext = createContext(INITIAL_CONTEXT);
@@ -57,10 +57,6 @@ export const LanguageProvider = ({
   );
 };
 
-export const useLanguage = (): {
-  selectedLanguage: Language | null;
-  allSupportedLanguages: Language[];
-  setSelectedLanguage: React.Dispatch<SetStateAction<Language | null>>;
-} => {
+export const useLanguage = (): LanguageContext => {
   return useContext(LanguageContext);
 };
