@@ -45,7 +45,7 @@ export default function MenuScreen() {
   }, []);
 
   useEffect(() => {
-    checkIfTablet().then((isTablet) => isTablet && setIsTablet(true));
+    checkIfTablet().then((isTablet) => setIsTablet(isTablet));
   }, []);
 
   if (!categories) {
@@ -92,15 +92,7 @@ export default function MenuScreen() {
               key={item._id}
               href={`/details/${item._id}` as "/details/:id"}
             >
-              <View
-                style={[
-                  styles.card,
-                  {
-                    width: isTablet ? 550 : 320,
-                    height: isTablet ? 300 : 200,
-                  },
-                ]}
-              >
+              <View style={styles.card}>
                 <Animated.Image
                   source={{ uri: item.imageUrl }}
                   style={styles.image}
@@ -226,6 +218,8 @@ const createStyles = (
           : "rgba(0, 0, 0, 0.5)"
       }`,
       position: "relative",
+      width: isTablet ? 550 : 320,
+      height: isTablet ? 300 : 200,
     },
     highlighted: {
       position: "absolute",
