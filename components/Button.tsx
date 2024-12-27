@@ -1,41 +1,52 @@
 import { Colors } from "@/constants/Colors";
 import { Language, useLanguage } from "@/context/Language";
 import { ColorScheme, useTheme } from "@/context/Theme";
-import { Pressable, StyleSheet, Text, View } from "react-native";
+import {
+  Pressable,
+  StyleProp,
+  StyleSheet,
+  Text,
+  View,
+  ViewStyle,
+  TextStyle,
+} from "react-native";
+import { useRouter } from "expo-router";
+import { PressableProps } from "react-native-gesture-handler";
 
-// TODO: resolve extraStyle typescript to defined like StyleSheet create
-// Used at row 54 and 76
 interface ExtraStyles {
-  color?: string;
-  background?: string;
+  viewContainer?: StyleProp<ViewStyle>;
+  pressableContainer?: StyleProp<PressableProps>;
+  text?: StyleProp<TextStyle>;
 }
 
-interface ButtonProp {
+interface ButtonProps {
   item: Language;
   extraStyles?: ExtraStyles;
+  handleOnPress: () => void;
 }
 
-const Button = ({ item, extraStyles }: ButtonProp) => {
+const Button = ({ item, extraStyles, handleOnPress }: ButtonProps) => {
   const { theme, colorScheme } = useTheme();
-  const { setSelectedLanguage, selectedLanguage } = useLanguage();
-  const styles = createStyles(theme, colorScheme, extraStyles);
+  const { selectedLanguage } = useLanguage();
+  const styles = createStyles(theme, colorScheme);
 
   return (
-    <View key={item.id} style={styles.buttonContainer}>
+    <View
+      key={item.id}
+      style={[styles.buttonContainer, extraStyles?.viewContainer]}
+    >
       <Pressable
         style={[
-          styles.button,
+          styles.button, extraStyles?.pressableContainer, 
           selectedLanguage?.id === item.id && {
-            backgroundColor: colorScheme === "dark" ? theme?.tint : theme?.text,
+            backgroundColor: theme?.tint,
           },
         ]}
-        onPress={() => {
-          setSelectedLanguage(item);
-        }}
+        onPress={handleOnPress}
       >
         <Text
           style={[
-            styles.buttonText,
+            styles.buttonText, extraStyles?.text,
             selectedLanguage?.id === item.id && {
               color: colorScheme === "dark" ? theme?.text : theme?.background,
             },
