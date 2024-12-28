@@ -1,3 +1,4 @@
+import LoadingIndicator from "@/components/LoadingIndicator";
 import { useEffect, useMemo, useState } from "react";
 import {
   StyleSheet,
@@ -5,7 +6,6 @@ import {
   Text,
   FlatList,
   Pressable,
-  ActivityIndicator,
 } from "react-native";
 import { Link } from "expo-router";
 import Constants from "expo-constants";
@@ -25,10 +25,12 @@ export default function MenuScreen() {
   const { dishes } = useDishes();
   const [isTablet, setIsTablet] = useState(false);
 
-  const [categories, setCategories] = useState<Category[] | undefined>();
+  const [categories, setCategories] = useState<Category[]>();
   const [selectedCategory, setSelectedCategory] = useState<
     number | undefined
   >();
+
+  const [isLoading, setIsLoading] = useState<boolean>(true)
 
   const filteredDishes = useMemo(() => {
     return dishes.filter((dish) => dish.categoryNumber === selectedCategory);
@@ -37,22 +39,22 @@ export default function MenuScreen() {
   const styles = createStyles(theme, colorScheme, isTablet);
 
   useEffect(() => {
-    fetchCategories().then((res) => {
-      if (res.length === 0) return;
-      setCategories(res.sort((a, b) => a.categoryNumber - b.categoryNumber));
-      setSelectedCategory(res[0]?.categoryNumber);
-    });
+    fetchCategories()
+      .then((res) => {
+        setCategories(res.sort((a, b) => a.categoryNumber - b.categoryNumber));
+        setSelectedCategory(res[0]?.categoryNumber);
+      })
+      .catch((err) => console.log(err))
+      .finally(() => setIsLoading(false));
   }, []);
 
   useEffect(() => {
     checkIfTablet().then((isTablet) => setIsTablet(isTablet));
   }, []);
 
-  if (!categories) {
+  if (isLoading) {
     return (
-      <View style={{ flex: 1, justifyContent: "center", alignItems: "center" }}>
-        <ActivityIndicator size="large" color={theme?.icon} />
-      </View>
+     <LoadingIndicator size={"large"} color={theme?.tint}  />
     );
   }
 
@@ -64,6 +66,7 @@ export default function MenuScreen() {
           contentContainerStyle={styles.categoriesContainer}
           style={styles.categoriesList}
           data={categories}
+          ListEmptyComponent={() => (<Text>Questo si renderizza quando non ci sono elementi nell'array categories</Text>)}
           renderItem={({ item }) => (
             <Pressable
               key={item._id}
