@@ -17,16 +17,13 @@ import { useLanguage } from "@/context/Language";
 import { useDishes } from "@/context/Dishes";
 import { ColorScheme, useTheme } from "@/context/Theme";
 import { Category, fetchCategories } from "@/lib/sanity/httpSanity";
-import { isMobile, lineHeight } from "@/utils/utils";
-
-
-const CARD_WIDTH = isMobile ? 320 : 550;
-const CARD_HEIGHT = isMobile ? 200 : 300;
+import { checkIfTablet, lineHeight } from "@/utils/utils";
 
 export default function MenuScreen() {
   const { theme, colorScheme } = useTheme();
   const { selectedLanguage } = useLanguage();
   const { dishes } = useDishes();
+  const [isTablet, setIsTablet] = useState(false);
 
   const [categories, setCategories] = useState<Category[]>();
   const [selectedCategory, setSelectedCategory] = useState<
@@ -39,8 +36,8 @@ export default function MenuScreen() {
     return dishes.filter((dish) => dish.categoryNumber === selectedCategory);
   }, [dishes, selectedCategory]);
 
-  const styles = createStyles(theme, colorScheme);
-  
+  const styles = createStyles(theme, colorScheme, isTablet);
+
   useEffect(() => {
     fetchCategories()
       .then((res) => {
@@ -49,6 +46,10 @@ export default function MenuScreen() {
       })
       .catch((err) => console.log(err))
       .finally(() => setIsLoading(false));
+  }, []);
+
+  useEffect(() => {
+    checkIfTablet().then((isTablet) => setIsTablet(isTablet));
   }, []);
 
   if (isLoading) {
@@ -118,7 +119,14 @@ export default function MenuScreen() {
                     color={theme?.tint}
                   />
                 )}
-                <View style={styles.textContainer}>
+                <View
+                  style={[
+                    styles.textContainer,
+                    {
+                      height: 0.6 * (isTablet ? 300 : 200),
+                    },
+                  ]}
+                >
                   <Text style={styles.number}>{item.dishNumber}</Text>
                   <Text style={styles.title}>
                     {item.title[
@@ -141,7 +149,11 @@ export default function MenuScreen() {
   );
 }
 
-const createStyles = (theme = Colors.light, colorScheme: ColorScheme) =>
+const createStyles = (
+  theme = Colors.light,
+  colorScheme: ColorScheme,
+  isTablet: boolean
+) =>
   StyleSheet.create({
     pageContainer: {
       flex: 1,
@@ -156,13 +168,13 @@ const createStyles = (theme = Colors.light, colorScheme: ColorScheme) =>
       backgroundColor: theme?.tint,
       paddingVertical: 20,
       borderBottomColor: "black",
-      borderBottomWidth: 2,
+      borderBottomWidth: StyleSheet.hairlineWidth,
     },
     categoriesContainer: {
       alignItems: "center",
       justifyContent: "space-around",
       paddingHorizontal: 15,
-      gap: isMobile ? 15 : 25,
+      gap: isTablet ? 25 : 15,
     },
     categoryButton: {
       padding: 15,
@@ -180,7 +192,7 @@ const createStyles = (theme = Colors.light, colorScheme: ColorScheme) =>
     categoryText: {
       color: theme?.text,
       textAlign: "center",
-      fontSize: isMobile ? 16 : 20,
+      fontSize: isTablet ? 20 : 16,
     },
     listContainer: {
       flex: 1,
@@ -199,8 +211,6 @@ const createStyles = (theme = Colors.light, colorScheme: ColorScheme) =>
       gap: 50,
     },
     card: {
-      width: CARD_WIDTH,
-      height: CARD_HEIGHT,
       borderRadius: 10,
       backgroundColor: theme?.icon,
       overflow: "hidden",
@@ -211,6 +221,8 @@ const createStyles = (theme = Colors.light, colorScheme: ColorScheme) =>
           : "rgba(0, 0, 0, 0.5)"
       }`,
       position: "relative",
+      width: isTablet ? 550 : 320,
+      height: isTablet ? 300 : 200,
     },
     highlighted: {
       position: "absolute",
@@ -234,23 +246,22 @@ const createStyles = (theme = Colors.light, colorScheme: ColorScheme) =>
       flex: 1,
       justifyContent: "space-around",
       width: "50%",
-      height: 0.6 * CARD_HEIGHT,
       position: "absolute",
       bottom: 25,
       left: 25,
     },
     number: {
       textAlign: "left",
-      fontSize: 35,
+      fontSize: isTablet ? 35 : 25,
       fontWeight: "900",
       color: theme?.background,
     },
     title: {
       color: theme?.background,
       textAlign: "left",
-      fontSize: 30,
+      fontSize: isTablet ? 30 : 20,
       fontWeight: "500",
       letterSpacing: 2,
-      lineHeight: lineHeight(20),
+      lineHeight: isTablet ? lineHeight(20) : lineHeight(12),
     },
   });
