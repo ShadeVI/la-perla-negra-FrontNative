@@ -1,23 +1,50 @@
 import {
-    StyleSheet,
-    View,
-    ActivityIndicator,
-  } from "react-native";
+  StyleSheet,
+  View,
+  ActivityIndicator,
+  StyleProp,
+  ViewStyle,
+  ActivityIndicatorProps,
+} from "react-native";
 import { Colors } from "@/constants/Colors";
 import { ColorScheme, useTheme } from "@/context/Theme";
 
-export default function LoadingIndicator() {
+interface ExtraStyles {
+  indicatorContainer?: StyleProp<ViewStyle>;
+  activityIndicator?: StyleProp<ViewStyle>;
+}
+interface LoadingIndicatorProps extends ActivityIndicatorProps {
+  extraStyles?: ExtraStyles;
+}
 
-    const { theme, colorScheme } = useTheme();
-    const styles = createStyles(theme, colorScheme);
-
-    <View style={{ flex: 1, justifyContent: "center", alignItems: "center" }}>
-        <ActivityIndicator size="large" color={theme?.icon} />
+const LoadingIndicator = ({
+  size,
+  extraStyles,
+  color,
+}: LoadingIndicatorProps) => {
+  const { theme, colorScheme } = useTheme();
+  const styles = createStyles(theme, colorScheme);
+  return (
+    <View style={[styles.loadingContainer, extraStyles?.indicatorContainer]}>
+      <ActivityIndicator
+        size={size}
+        color={color}
+        style={[extraStyles?.activityIndicator]}
+      />
     </View>
-
+  );
 };
+export default LoadingIndicator;
 
-const createStyles = (theme = Colors.light, colorScheme: ColorScheme) => 
-    StyleSheet.create({
-
-    })
+const createStyles = (
+  theme = Colors.light,
+  colorScheme: ColorScheme,
+  extraStyles?: ExtraStyles
+) =>
+  StyleSheet.create({
+    loadingContainer: {
+      flex: 1,
+      justifyContent: "center",
+      alignItems: "center",
+    },
+  });

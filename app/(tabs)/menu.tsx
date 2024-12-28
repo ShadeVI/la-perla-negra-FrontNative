@@ -33,9 +33,6 @@ export default function MenuScreen() {
     number | undefined
   >();
 
-  // AVERE UNO STATO PER SAPERE SE STIAMO FACENDO LA CHIAMATA ALLA API E ANCORA NON ABBIAMO RICEVUTO RISPOSTA
-  // ---> useState con un boolean per capire se stiamo in fetch o no
-
   const [isLoading, setIsLoading] = useState<boolean>(true)
 
   const filteredDishes = useMemo(() => {
@@ -44,8 +41,6 @@ export default function MenuScreen() {
 
   const styles = createStyles(theme, colorScheme);
   
-  // ho impostato "useCdn: true" in "lib/sanity.ts" per utilizzare la cache e chiamare la API direttamente.
-  // ricordati di rimetterlo in false.
   useEffect(() => {
     fetchCategories()
       .then((res) => {
@@ -54,27 +49,11 @@ export default function MenuScreen() {
       })
       .catch((err) => console.log(err))
       .finally(() => setIsLoading(false));
-
-    /* const asyncFunction = async () => {
-      const res = await fetchCategories()
-      setCategories(res.sort((a, b) => a.categoryNumber - b.categoryNumber));
-      setSelectedCategory(res[0]?.categoryNumber);
-    }
-
-    try {
-      asyncFunction()
-    } catch (error) {
-      console.log(error)
-    }
-
-    setIsLoading(false) */
-
-
   }, []);
 
   if (isLoading) {
     return (
-     <LoadingIndicator />
+     <LoadingIndicator size={"large"} color={theme?.tint}  />
     );
   }
 
