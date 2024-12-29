@@ -1,11 +1,11 @@
-import LoadingIndicator from "@/components/LoadingIndicator";
+
+import CategoriesHeader from "@/components/CategoriesHeader";
 import { useEffect, useMemo, useState } from "react";
 import {
   StyleSheet,
   View,
   Text,
   FlatList,
-  Pressable,
 } from "react-native";
 import { Link } from "expo-router";
 import Constants from "expo-constants";
@@ -16,7 +16,6 @@ import { Colors } from "@/constants/Colors";
 import { useLanguage } from "@/context/Language";
 import { useDishes } from "@/context/Dishes";
 import { ColorScheme, useTheme } from "@/context/Theme";
-import { Category, fetchCategories } from "@/lib/sanity/httpSanity";
 import { checkIfTablet, lineHeight } from "@/utils/utils";
 
 export default function MenuScreen() {
@@ -24,73 +23,40 @@ export default function MenuScreen() {
   const { selectedLanguage } = useLanguage();
   const { dishes } = useDishes();
   const [isTablet, setIsTablet] = useState(false);
+  
 
-  const [categories, setCategories] = useState<Category[]>();
   const [selectedCategory, setSelectedCategory] = useState<
-    number | undefined
-  >();
-
-  const [isLoading, setIsLoading] = useState<boolean>(true)
+    number | undefined>();
 
   const filteredDishes = useMemo(() => {
     return dishes.filter((dish) => dish.categoryNumber === selectedCategory);
   }, [dishes, selectedCategory]);
 
-  const styles = createStyles(theme, colorScheme, isTablet);
 
-  useEffect(() => {
-    fetchCategories()
-      .then((res) => {
-        setCategories(res.sort((a, b) => a.categoryNumber - b.categoryNumber));
-        setSelectedCategory(res[0]?.categoryNumber);
-      })
-      .catch((err) => console.log(err))
-      .finally(() => setIsLoading(false));
-  }, []);
-
-  useEffect(() => {
-    checkIfTablet().then((isTablet) => setIsTablet(isTablet));
-  }, []);
-
-  if (isLoading) {
-    return (
-     <LoadingIndicator size={"large"} color={theme?.tint}  />
-    );
+  const onPressHandlerSelectedCategory = (categoryId: number) => {
+    setSelectedCategory(categoryId)
   }
+
+  const setDefaultCategory = (categoryId: number) => {
+    setSelectedCategory(categoryId)
+  }
+
+  const styles = createStyles(theme, colorScheme, isTablet);
 
   return (
     <View style={styles.pageContainer}>
-      {/*CATEGORIES_HEADER */}
-      <View style={styles.categoriesWrapper}>
-        <FlatList
-          contentContainerStyle={styles.categoriesContainer}
-          style={styles.categoriesList}
-          data={categories}
-          ListEmptyComponent={() => (<Text>Questo si renderizza quando non ci sono elementi nell'array categories</Text>)}
-          renderItem={({ item }) => (
-            <Pressable
-              key={item._id}
-              onPress={() => setSelectedCategory(item.categoryNumber)}
-              style={({ pressed }) => [{ opacity: pressed ? 0.8 : 1 }]}
-            >
-              <View style={styles.categoryButton}>
-                <Text style={styles.categoryText}>
-                  {item.title[selectedLanguage?.id as string] ?? item.title.es}
-                </Text>
-              </View>
-            </Pressable>
-          )}
-          keyExtractor={(item) => item._id}
-          horizontal
-        />
-      </View>
-      {/* DISHES_LIST */}
+ 
+      
+      <CategoriesHeader setDefaultCategory={setDefaultCategory} onPressHandler={onPressHandlerSelectedCategory} />
+
+
       <View style={styles.listContainer}>
         <FlatList
           style={styles.flatList}
           contentContainerStyle={styles.flatListContainer}
           data={filteredDishes}
           renderItem={({ item }) => (
+ 
             <Link
               key={item._id}
               href={`/details/${item._id}` as "/details/:id"}
@@ -158,41 +124,6 @@ const createStyles = (
     pageContainer: {
       flex: 1,
       backgroundColor: theme.background,
-    },
-    categoriesWrapper: {
-      height: 100,
-      justifyContent: "center",
-      alignItems: "center",
-    },
-    categoriesList: {
-      backgroundColor: theme?.tint,
-      paddingVertical: 20,
-      borderBottomColor: "black",
-      borderBottomWidth: StyleSheet.hairlineWidth,
-    },
-    categoriesContainer: {
-      alignItems: "center",
-      justifyContent: "space-around",
-      paddingHorizontal: 15,
-      gap: isTablet ? 25 : 15,
-    },
-    categoryButton: {
-      padding: 15,
-      backgroundColor: theme?.background,
-      minWidth: 100,
-      alignItems: "center",
-      justifyContent: "center",
-      borderRadius: 10,
-      boxShadow: `0px 0px 10px 0px ${
-        colorScheme === "dark"
-          ? "rgba(0, 0, 0, 0.75)"
-          : "rgba(148, 148, 148, 0.55)"
-      }`,
-    },
-    categoryText: {
-      color: theme?.text,
-      textAlign: "center",
-      fontSize: isTablet ? 20 : 16,
     },
     listContainer: {
       flex: 1,
