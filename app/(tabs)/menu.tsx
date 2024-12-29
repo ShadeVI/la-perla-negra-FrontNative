@@ -1,12 +1,6 @@
-
 import CategoriesHeader from "@/components/CategoriesHeader";
 import { useEffect, useMemo, useState } from "react";
-import {
-  StyleSheet,
-  View,
-  Text,
-  FlatList,
-} from "react-native";
+import { StyleSheet, View, Text, FlatList } from "react-native";
 import { Link } from "expo-router";
 import Constants from "expo-constants";
 import { LinearGradient } from "expo-linear-gradient";
@@ -16,39 +10,39 @@ import { Colors } from "@/constants/Colors";
 import { useLanguage } from "@/context/Language";
 import { useDishes } from "@/context/Dishes";
 import { ColorScheme, useTheme } from "@/context/Theme";
-import { checkIfTablet, lineHeight } from "@/utils/utils";
+import { useIsTablet } from "@/hooks/useResponsive";
+import { lineHeight } from "@/utils/utils";
 
 export default function MenuScreen() {
   const { theme, colorScheme } = useTheme();
   const { selectedLanguage } = useLanguage();
   const { dishes } = useDishes();
-  const [isTablet, setIsTablet] = useState(false);
-  
+  const { isTablet } = useIsTablet();
 
   const [selectedCategory, setSelectedCategory] = useState<
-    number | undefined>();
+    number | undefined
+  >();
 
   const filteredDishes = useMemo(() => {
     return dishes.filter((dish) => dish.categoryNumber === selectedCategory);
   }, [dishes, selectedCategory]);
 
-
   const onPressHandlerSelectedCategory = (categoryId: number) => {
-    setSelectedCategory(categoryId)
-  }
+    setSelectedCategory(categoryId);
+  };
 
   const setDefaultCategory = (categoryId: number) => {
-    setSelectedCategory(categoryId)
-  }
+    setSelectedCategory(categoryId);
+  };
 
   const styles = createStyles(theme, colorScheme, isTablet);
 
   return (
     <View style={styles.pageContainer}>
- 
-      
-      <CategoriesHeader setDefaultCategory={setDefaultCategory} onPressHandler={onPressHandlerSelectedCategory} />
-
+      <CategoriesHeader
+        setDefaultCategory={setDefaultCategory}
+        onPressHandler={onPressHandlerSelectedCategory}
+      />
 
       <View style={styles.listContainer}>
         <FlatList
@@ -56,7 +50,6 @@ export default function MenuScreen() {
           contentContainerStyle={styles.flatListContainer}
           data={filteredDishes}
           renderItem={({ item }) => (
- 
             <Link
               key={item._id}
               href={`/details/${item._id}` as "/details/:id"}
