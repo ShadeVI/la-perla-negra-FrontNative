@@ -13,9 +13,9 @@ import {
   TextStyle,
 } from "react-native";
 import { Category, fetchCategories } from "@/lib/sanity/httpSanity";
-import { checkIfTablet, lineHeight } from "@/utils/utils";
 import { PressableProps } from "react-native-gesture-handler";
 import { useLanguage } from "@/context/Language";
+import { useIsTablet } from "@/hooks/useResponsive";
 
 interface ExtraStyles {
   viewContainer?: StyleProp<ViewStyle>;
@@ -35,7 +35,7 @@ const CategoriesHeader = ({
 }: CategoriesHeaderProps) => {
   const { theme, colorScheme } = useTheme();
   const { selectedLanguage } = useLanguage();
-  const [isTablet, setIsTablet] = useState(false);
+  const { isTablet } = useIsTablet();
   const styles = createStyles(theme, colorScheme, isTablet, extraStyles);
   const [categories, setCategories] = useState<Category[]>();
   const [isLoading, setIsLoading] = useState<boolean>(true);
@@ -49,10 +49,6 @@ const CategoriesHeader = ({
       })
       .catch((err) => console.log(err))
       .finally(() => setIsLoading(false));
-  }, []);
-
-  useEffect(() => {
-    checkIfTablet().then((isTablet) => setIsTablet(isTablet));
   }, []);
 
   if (isLoading) {
