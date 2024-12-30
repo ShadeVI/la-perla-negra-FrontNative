@@ -18,7 +18,7 @@ export const Colors = {
   },
   dark: {
     text: "#f5f5f5",          // Bianco tenue per contrasto su sfondi scuri
-    background: "#1e1e1e",   // Grigio scuro, elegante e rilassante
+    background: "#262626",   // Grigio scuro, elegante e rilassante
     gray: "#2d2c2c",
     tint: "#ff7043",         // Arancione caldo per un tocco di energia
     icon: "#ff8c00",         // Arancione vivace, richiama spezie e calore
