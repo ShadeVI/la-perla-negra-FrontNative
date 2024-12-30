@@ -1,7 +1,5 @@
-import LoadingIndicator from "@/components/LoadingIndicator";
 import { Colors } from "@/constants/Colors";
 import { ColorScheme, useTheme } from "@/context/Theme";
-import { useEffect, useMemo, useState } from "react";
 import {
   Pressable,
   ViewStyle,
@@ -12,48 +10,39 @@ import {
   StyleSheet,
   TextStyle,
 } from "react-native";
-import { Category, fetchCategories } from "@/lib/sanity/httpSanity";
 import { PressableProps } from "react-native-gesture-handler";
 import { useLanguage } from "@/context/Language";
-import { useIsTablet } from "@/hooks/useResponsive";
-
+import { useDevice } from "@/hooks/useResponsive";
+import { Category } from "@/lib/sanity/httpSanity";
 interface ExtraStyles {
   viewContainer?: StyleProp<ViewStyle>;
   pressableContainer?: StyleProp<PressableProps>;
   text?: StyleProp<TextStyle>;
 }
 interface CategoriesHeaderProps {
-  setDefaultCategory?: (categoryId: number) => void;
+  selectedCategory: number | undefined;
+  categories: Category[];
   onPressHandler: (categoryId: number) => void;
   extraStyles?: ExtraStyles;
 }
 
 const CategoriesHeader = ({
-  setDefaultCategory,
+  selectedCategory,
+  categories,
   onPressHandler,
   extraStyles,
 }: CategoriesHeaderProps) => {
   const { theme, colorScheme } = useTheme();
   const { selectedLanguage } = useLanguage();
-  const { isTablet } = useIsTablet();
-  const styles = createStyles(theme, colorScheme, isTablet, extraStyles);
-  const [categories, setCategories] = useState<Category[]>();
-  const [isLoading, setIsLoading] = useState<boolean>(true);
+  const { isTablet } = useDevice();
 
-  useEffect(() => {
-    fetchCategories()
-      .then((res) => {
-        setCategories(res.sort((a, b) => a.categoryNumber - b.categoryNumber));
-        typeof setDefaultCategory === "function" &&
-          setDefaultCategory(res[0]?.categoryNumber);
-      })
-      .catch((err) => console.log(err))
-      .finally(() => setIsLoading(false));
-  }, []);
-
-  if (isLoading) {
-    return <LoadingIndicator size={"large"} color={theme?.tint} />;
-  }
+  const styles = createStyles(
+    theme,
+    colorScheme,
+    isTablet,
+    selectedCategory,
+    extraStyles
+  );
 
   return (
     <View style={[styles.categoriesWrapper, extraStyles?.viewContainer]}>
@@ -61,22 +50,30 @@ const CategoriesHeader = ({
         contentContainerStyle={styles.categoriesContainer}
         style={styles.categoriesList}
         data={categories}
-        ListEmptyComponent={() => (
-          <Text>
-            Questo si renderizza quando non ci sono elementi nell'array
-            categories
-          </Text>
-        )}
+        ListEmptyComponent={() => <Text>No categories found</Text>}
         renderItem={({ item }) => (
           <Pressable
             key={item._id}
             onPress={() => onPressHandler(item.categoryNumber)}
             style={({ pressed }) => [{ opacity: pressed ? 0.8 : 1 }]}
           >
-            <View style={styles.categoryButton}>
-              <Text style={styles.categoryText}>
+            <View style={[styles.categoryButton]}>
+              <Text
+                style={[
+                  styles.categoryText,
+                  selectedCategory === item.categoryNumber && {
+                    fontWeight: "bold",
+                  },
+                ]}
+              >
                 {item.title[selectedLanguage?.id as string] ?? item.title.es}
               </Text>
+              <View
+                style={[
+                  styles.underline,
+                  selectedCategory === item.categoryNumber && { bottom: 20 },
+                ]}
+              />
             </View>
           </Pressable>
         )}
@@ -93,19 +90,25 @@ const createStyles = (
   theme: typeof Colors.light | undefined = Colors.light,
   colorScheme: ColorScheme,
   isTablet: boolean,
+  selectedCategory: number | undefined,
   extraStyles?: ExtraStyles
 ) =>
   StyleSheet.create({
     categoriesWrapper: {
-      height: 100,
+      height: isTablet ? 100 : 80,
       justifyContent: "center",
       alignItems: "center",
+      zIndex: 10,
+      backgroundColor: theme?.gray,
     },
     categoriesList: {
-      backgroundColor: theme?.tint,
-      paddingVertical: 20,
-      borderBottomColor: "black",
+      borderBottomColor: theme?.text,
       borderBottomWidth: StyleSheet.hairlineWidth,
+      boxShadow: `0px 0px 10px 0px ${
+        colorScheme === "dark"
+          ? "rgba(148, 148, 148, 0.55)"
+          : "rgba(0, 0, 0, 0.75)"
+      }`,
     },
     categoriesContainer: {
       alignItems: "center",
@@ -114,21 +117,31 @@ const createStyles = (
       gap: isTablet ? 25 : 15,
     },
     categoryButton: {
-      padding: 15,
-      backgroundColor: theme?.background,
+      position: "relative",
+      height: "100%",
+      paddingHorizontal: 5,
+      paddingBottom: isTablet ? 15 : 10,
+      marginHorizontal: 10,
       minWidth: 100,
       alignItems: "center",
       justifyContent: "center",
-      borderRadius: 10,
-      boxShadow: `0px 0px 10px 0px ${
-        colorScheme === "dark"
-          ? "rgba(0, 0, 0, 0.75)"
-          : "rgba(148, 148, 148, 0.55)"
-      }`,
+      borderBottomWidth: 0,
+      borderBottomColor: theme?.text,
     },
     categoryText: {
       color: theme?.text,
       textAlign: "center",
       fontSize: isTablet ? 20 : 16,
+    },
+    underline: {
+      position: "absolute",
+      borderRadius: 5,
+      height: 5,
+      width: "100%",
+      marginHorizontal: 5,
+      bottom: -20,
+      right: 0,
+      left: 0,
+      backgroundColor: theme?.text,
     },
   });

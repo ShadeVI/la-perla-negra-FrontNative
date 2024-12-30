@@ -10,18 +10,22 @@ import { Colors } from "@/constants/Colors";
 import { useLanguage } from "@/context/Language";
 import { useDishes } from "@/context/Dishes";
 import { ColorScheme, useTheme } from "@/context/Theme";
-import { useIsTablet } from "@/hooks/useResponsive";
+import { useDevice } from "@/hooks/useResponsive";
 import { lineHeight } from "@/utils/utils";
+import { Category, fetchCategories } from "@/lib/sanity/httpSanity";
+import LoadingIndicator from "@/components/LoadingIndicator";
 
 export default function MenuScreen() {
   const { theme, colorScheme } = useTheme();
   const { selectedLanguage } = useLanguage();
   const { dishes } = useDishes();
-  const { isTablet } = useIsTablet();
+  const { isTablet } = useDevice();
 
   const [selectedCategory, setSelectedCategory] = useState<
     number | undefined
   >();
+  const [categories, setCategories] = useState<Category[]>();
+  const [isLoading, setIsLoading] = useState<boolean>(true);
 
   const filteredDishes = useMemo(() => {
     return dishes.filter((dish) => dish.categoryNumber === selectedCategory);
@@ -35,75 +39,89 @@ export default function MenuScreen() {
     setSelectedCategory(categoryId);
   };
 
+  useEffect(() => {
+    fetchCategories()
+      .then((res) => {
+        setCategories(res.sort((a, b) => a.categoryNumber - b.categoryNumber));
+        setDefaultCategory(res[0]?.categoryNumber);
+      })
+      .catch((err) => console.log(err))
+      .finally(() => setIsLoading(false));
+  }, []);
+
   const styles = createStyles(theme, colorScheme, isTablet);
+
+  if (isLoading) {
+    return (
+      <View style={styles.pageContainer}>
+        <LoadingIndicator size={"large"} color={theme?.tint} />
+      </View>
+    );
+  }
+
+  if (!categories) {
+    return (
+      <View style={styles.pageContainer}>
+        <Text>No categories found</Text>
+      </View>
+    );
+  }
 
   return (
     <View style={styles.pageContainer}>
       <CategoriesHeader
-        setDefaultCategory={setDefaultCategory}
+        selectedCategory={selectedCategory}
+        categories={categories}
         onPressHandler={onPressHandlerSelectedCategory}
       />
 
-      <View style={styles.listContainer}>
-        <FlatList
-          style={styles.flatList}
-          contentContainerStyle={styles.flatListContainer}
-          data={filteredDishes}
-          renderItem={({ item }) => (
-            <Link
-              key={item._id}
-              href={`/details/${item._id}` as "/details/:id"}
-            >
-              <View style={styles.card}>
-                <Animated.Image
-                  source={{ uri: item.imageUrl }}
-                  style={styles.image}
-                  sharedTransitionTag={"dishImage"}
+      <FlatList
+        contentContainerStyle={styles.flatListContainer}
+        data={filteredDishes}
+        renderItem={({ item }) => (
+          <Link key={item._id} href={`/details/${item._id}` as "/details/:id"}>
+            <View style={styles.card}>
+              <Animated.Image
+                source={{ uri: item.imageUrl }}
+                style={styles.image}
+                sharedTransitionTag={"dishImage"}
+              />
+              <LinearGradient
+                colors={[
+                  "transparent",
+                  colorScheme === "light"
+                    ? "rgba(115, 115, 115, 0.6)"
+                    : "rgba(150, 150, 150, 0.6)",
+                ]}
+                start={{ x: 1, y: 0 }}
+                style={styles.overlay}
+              />
+              {item.isHighlighted && (
+                <Ionicons
+                  style={styles.highlighted}
+                  name="star-sharp"
+                  size={30}
+                  color={theme?.tint}
                 />
-                <LinearGradient
-                  colors={[
-                    "transparent",
-                    colorScheme === "light"
-                      ? "rgba(115, 115, 115, 0.6)"
-                      : "rgba(150, 150, 150, 0.6)",
-                  ]}
-                  start={{ x: 1, y: 0 }}
-                  style={styles.overlay}
-                />
-                {item.isHighlighted && (
-                  <Ionicons
-                    style={styles.highlighted}
-                    name="star-sharp"
-                    size={30}
-                    color={theme?.tint}
-                  />
-                )}
-                <View
-                  style={[
-                    styles.textContainer,
-                    {
-                      height: 0.6 * (isTablet ? 300 : 200),
-                    },
-                  ]}
-                >
-                  <Text style={styles.number}>{item.dishNumber}</Text>
-                  <Text style={styles.title}>
-                    {item.title[
-                      selectedLanguage?.id as keyof typeof item.title
-                    ] ?? item.title.es}
-                  </Text>
-                </View>
+              )}
+              <View style={styles.textContainer}>
+                <Text style={styles.number}>{item.dishNumber}</Text>
+                <Text style={styles.title}>
+                  {item.title[
+                    selectedLanguage?.id as keyof typeof item.title
+                  ] ?? item.title.es}
+                </Text>
               </View>
-            </Link>
-          )}
-          keyExtractor={(item) => item._id}
-          ListEmptyComponent={
-            <Text style={{ color: theme?.text }}>No dishes found</Text>
-          }
-          numColumns={2}
-          columnWrapperStyle={{ gap: 50 }}
-        />
-      </View>
+            </View>
+          </Link>
+        )}
+        keyExtractor={(item) => item._id}
+        ListEmptyComponent={
+          <Text style={{ color: theme?.text }}>No dishes found</Text>
+        }
+        numColumns={2}
+        columnWrapperStyle={{ gap: 50 }}
+      />
     </View>
   );
 }
@@ -118,21 +136,9 @@ const createStyles = (
       flex: 1,
       backgroundColor: theme.background,
     },
-    listContainer: {
-      flex: 1,
-      backgroundColor: theme.background,
-      justifyContent: "center",
-      alignItems: "center",
-      margin: "auto",
-    },
-    flatList: {
-      width: "100%",
-    },
     flatListContainer: {
+      marginHorizontal: "auto",
       padding: 50,
-      justifyContent: "flex-start",
-      alignItems: "flex-start",
-      gap: 50,
     },
     card: {
       borderRadius: 10,
@@ -169,10 +175,12 @@ const createStyles = (
     textContainer: {
       flex: 1,
       justifyContent: "space-around",
-      width: "50%",
+      alignItems: "flex-start",
+      width: "80%",
       position: "absolute",
       bottom: 25,
       left: 25,
+      gap: 10,
     },
     number: {
       textAlign: "left",
