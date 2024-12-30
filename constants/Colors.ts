@@ -10,6 +10,7 @@ export const Colors = {
   light: {
     text: "#4b2e2e",          // Marrone caldo e profondo, elegante e leggibile
     background: "#fff8f0",   // Beige chiaro, richiama la luce naturale e l'accoglienza
+    gray: "#d1c9c6",
     tint: "#d84315",         // Arancione bruciato, caldo e invitante
     icon: "#e64a19",         // Arancione profondo, per evidenziare elementi
     tabIconDefault: "#9e9e9e", // Grigio tenue per icone inattive
@@ -18,6 +19,7 @@ export const Colors = {
   dark: {
     text: "#f5f5f5",          // Bianco tenue per contrasto su sfondi scuri
     background: "#1e1e1e",   // Grigio scuro, elegante e rilassante
+    gray: "#2d2c2c",
     tint: "#ff7043",         // Arancione caldo per un tocco di energia
     icon: "#ff8c00",         // Arancione vivace, richiama spezie e calore
     tabIconDefault: "#757575", // Grigio medio per icone inattive
