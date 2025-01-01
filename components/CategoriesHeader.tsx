@@ -50,8 +50,8 @@ const CategoriesHeader = ({
         renderItem={({ item }) => (
           <CategoryItem
             item={item}
-            isSelected={selectedCategory === item.categoryNumber}
-            onPress={() => onPressHandler(item.categoryNumber)}
+            isSelected={selectedCategory === item.identifierNumber}
+            onPress={() => onPressHandler(item.identifierNumber)}
             languageId={selectedLanguage?.id}
           />
         )}

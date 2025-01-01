@@ -39,7 +39,7 @@ const Details = () => {
       <View style={styles.content}>
         <View style={styles.contentLeft}>
           <Text style={styles.title}>
-            {detailsDish.dishNumber} -{" "}
+            {detailsDish.identifierNumber} -{" "}
             {detailsDish.title[selectedLanguage?.id ?? "es"] ||
               detailsDish.title.es}
           </Text>

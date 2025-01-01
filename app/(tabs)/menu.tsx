@@ -42,8 +42,10 @@ export default function MenuScreen() {
   useEffect(() => {
     fetchCategories()
       .then((res) => {
-        setCategories(res.sort((a, b) => a.categoryNumber - b.categoryNumber));
-        setDefaultCategory(res[0]?.categoryNumber);
+        setCategories(
+          res.sort((a, b) => a.identifierNumber - b.identifierNumber)
+        );
+        setDefaultCategory(res[0]?.identifierNumber);
       })
       .catch((err) => console.log(err))
       .finally(() => setIsLoading(false));
@@ -105,7 +107,7 @@ export default function MenuScreen() {
                 />
               )}
               <View style={styles.textContainer}>
-                <Text style={styles.number}>{item.dishNumber}</Text>
+                <Text style={styles.number}>{item.identifierNumber}</Text>
                 <Text style={styles.title}>
                   {item.title[
                     selectedLanguage?.id as keyof typeof item.title

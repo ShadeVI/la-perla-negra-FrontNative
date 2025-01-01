@@ -10,7 +10,7 @@ const QUERY_CATEGORIES = `*[_type == 'category']{
   _id,
   title,
   "slug": slug.current,
-  categoryNumber,
+  identifierNumber,
 }`
 
 const QUERY_DISHES = `*[_type == 'dish']{
@@ -18,11 +18,11 @@ const QUERY_DISHES = `*[_type == 'dish']{
   title,
   "imageUrl": image.asset -> url,
   "slug": slug.current,
-  dishNumber,
+  identifierNumber,
   isHighlighted,
   description,
   price,
-  "categoryNumber": category -> categoryNumber,
+  "categoryNumber": category -> identifierNumber,
   ingredients[]->{
     name,
     _id
@@ -42,7 +42,7 @@ export interface Category {
   _id: string,
   title: CategoryTitle,
   slug: string,
-  categoryNumber: number
+  identifierNumber: number
 }
 
 export const fetchCategories = async (): Promise<Category[]> => {
@@ -60,7 +60,7 @@ export interface Dish {
   price: number;
   slug: string;
   imageUrl: string;
-  dishNumber: number;
+  identifierNumber: number;
   isHighlighted: boolean;
   categoryNumber: number;
   ingredients: {

@@ -20,7 +20,7 @@ const Layout = () => {
     <View style={{ flex: 1, alignItems: "center", justifyContent: "center" }}>
       <Stack.Screen
         options={{
-          headerTitle: `${detailsDish.dishNumber} - ${
+          headerTitle: `${detailsDish.identifierNumber} - ${
             detailsDish.title[selectedLanguage?.id ?? "es"]
           }`,
           headerTitleAlign: "center",
