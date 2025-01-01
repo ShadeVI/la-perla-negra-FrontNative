@@ -1,3 +1,4 @@
+import { PortableTextBlock, PortableTextTypeComponent } from "@portabletext/react"
 import { client } from "./sanity"
 
 const QUERY_SUPPORTED_LANGUAGES = `*[_type == 'supportedLanguages']{
@@ -13,7 +14,9 @@ const QUERY_CATEGORIES = `*[_type == 'category']{
   identifierNumber,
 }`
 
-const QUERY_DISHES = `*[_type == 'dish']{
+const QUERY_DISHES = `*[_type in ['dish', 'drink', 'wine', 'cocktail', 'beer', 'coffee']]{
+...,
+_type,
   _id,
   title,
   "imageUrl": image.asset -> url,
@@ -51,12 +54,34 @@ export const fetchCategories = async (): Promise<Category[]> => {
 
 export interface Dish {
   _id: string;
+  _type: string;
   title: {
     [key: string]: string;
   };
   description: {
     [key: string]: string;
   };
+  price: number;
+  slug: string;
+  imageUrl: string;
+  identifierNumber: number;
+  isHighlighted: boolean;
+  categoryNumber: number;
+  ingredients: {
+    name: {
+      [key: string]: string;
+    };
+    _id: string;
+  }[];
+}
+
+export interface Wine {
+  _id: string;
+  _type: string;
+  title: {
+    [key: string]: string;
+  };
+  description: { [key: string]: PortableTextBlock[] };
   price: number;
   slug: string;
   imageUrl: string;

@@ -4,6 +4,10 @@ import { useDishes } from "@/context/Dishes";
 import { useLanguage } from "@/context/Language";
 import { Ionicons } from "@expo/vector-icons";
 import { useTheme } from "@/context/Theme";
+import {
+  SafeAreaView,
+  useSafeAreaInsets,
+} from "react-native-safe-area-context";
 
 const Layout = () => {
   const params = useLocalSearchParams();
@@ -17,7 +21,9 @@ const Layout = () => {
     return <Text>Not found.</Text>;
   }
   return (
-    <View style={{ flex: 1, alignItems: "center", justifyContent: "center" }}>
+    <SafeAreaView
+      style={{ flex: 1, marginTop: 0, borderColor: "red", borderWidth: 2 }}
+    >
       <Stack.Screen
         options={{
           headerTitle: `${detailsDish.identifierNumber} - ${
@@ -32,10 +38,11 @@ const Layout = () => {
               </View>
             ) : null,
           headerTintColor: theme?.text,
+          headerTransparent: true,
         }}
       />
       <Slot />
-    </View>
+    </SafeAreaView>
   );
 };
 export default Layout;

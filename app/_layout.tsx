@@ -29,18 +29,18 @@ export default function RootLayout() {
   }
 
   return (
-    <ThemeProvider initialColorScheme={Appearance.getColorScheme()}>
-      <LanguageProvider>
-        <DishesProvider>
-          <SafeAreaProvider>
+    <SafeAreaProvider>
+      <ThemeProvider initialColorScheme={Appearance.getColorScheme()}>
+        <LanguageProvider>
+          <DishesProvider>
             <StatusBar style="auto" />
             <Stack>
               <Stack.Screen name="(tabs)" options={{ headerShown: false }} />
               <Stack.Screen name="+not-found" />
             </Stack>
-          </SafeAreaProvider>
-        </DishesProvider>
-      </LanguageProvider>
-    </ThemeProvider>
+          </DishesProvider>
+        </LanguageProvider>
+      </ThemeProvider>
+    </SafeAreaProvider>
   );
 }
