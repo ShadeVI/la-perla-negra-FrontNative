@@ -156,14 +156,20 @@ const createStyles = (
     },
     imageVerticalContainer: {
       borderRadius: 10,
-      aspectRatio: 1,
+      width: 200,
+      height: 500,
       marginHorizontal: "auto",
+      overflow: "hidden",
+      /* boxShadow: `0 0 10px 0 ${
+        colorScheme === "dark"
+          ? "rgba(255, 255, 255, 0.1)"
+          : "rgba(0, 0, 0, 0.5)"
+      }`, */
     },
     imageVertical: {
       width: "100%",
       height: "100%",
       objectFit: "contain",
-      borderRadius: 10,
     },
     title: {
       fontSize: 30,

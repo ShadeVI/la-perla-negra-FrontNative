@@ -13,6 +13,7 @@ import {
   Cocktail,
   Coffee,
   GenericSimpleDescriptionDrink,
+  SanityDocumentTypes,
 } from "@/lib/sanity/httpSanity";
 import { useLocalSearchParams } from "expo-router";
 import { ScrollView, StyleSheet, Text, View } from "react-native";
@@ -35,14 +36,14 @@ const Details = () => {
   const renderer = (item: Dish | Wine | Drink | Beer | Cocktail) => {
     if (!item) return <Text>No data found.</Text>;
     switch (item._type) {
-      case "dish":
+      case SanityDocumentTypes.DISH:
         return <DetailDish details={item as Dish} />;
-      case "wine":
+      case SanityDocumentTypes.WINE:
         return <DetailWine details={item as Wine} />;
-      case "drink":
-      case "beer":
-      case "cocktail":
-      case "coffee":
+      case SanityDocumentTypes.BEER:
+      case SanityDocumentTypes.DRINK:
+      case SanityDocumentTypes.COCKTAIL:
+      case SanityDocumentTypes.COFFEE:
         return (
           <DetailGenericDrink details={item as GenericSimpleDescriptionDrink} />
         );

@@ -1,4 +1,4 @@
-import { PortableTextBlock, PortableTextTypeComponent } from "@portabletext/react"
+import { PortableTextBlock } from "@portabletext/react"
 import { client } from "./sanity"
 
 const QUERY_SUPPORTED_LANGUAGES = `*[_type == 'supportedLanguages']{
@@ -52,9 +52,22 @@ export const fetchCategories = async (): Promise<Category[]> => {
   return await client.fetch(QUERY_CATEGORIES)
 }
 
+
+
+export enum SanityDocumentTypes {
+  DISH = 'dish',
+  DRINK = 'drink',
+  WINE = 'wine',
+  COCKTAIL = 'cocktail',
+  BEER = 'beer',
+  COFFEE = 'coffee'
+}
+
+export type SanityAllowedDocumentTypes = SanityDocumentTypes.DISH | SanityDocumentTypes.DRINK | SanityDocumentTypes.WINE | SanityDocumentTypes.COCKTAIL | SanityDocumentTypes.BEER | SanityDocumentTypes.COFFEE
+
 interface BaseData {
   _id: string;
-  _type: string;
+  _type: SanityAllowedDocumentTypes;
   title: {
     [key: string]: string;
   };

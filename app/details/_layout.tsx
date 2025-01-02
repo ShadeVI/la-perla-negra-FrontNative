@@ -18,7 +18,7 @@ const Layout = () => {
     return <Text>Not found.</Text>;
   }
   return (
-    <SafeAreaView style={{ flex: 1, marginTop: 50 }}>
+    <SafeAreaView style={{ flex: 1 }}>
       <Stack.Screen
         options={{
           headerTitle: `${detailsDish.identifierNumber} - ${
