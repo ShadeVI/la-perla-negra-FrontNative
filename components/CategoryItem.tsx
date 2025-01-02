@@ -77,7 +77,6 @@ const createStyles = (
       height: 5,
       width: "50%",
       marginHorizontal: "auto",
-      left: "25%",
       backgroundColor: theme?.text,
     },
   });

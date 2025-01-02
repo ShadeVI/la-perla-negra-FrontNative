@@ -1,4 +1,4 @@
-import { DishesProvider } from "@/context/Dishes";
+import { DataProvider } from "@/context/Data";
 import { LanguageProvider } from "@/context/Language";
 import { ThemeProvider } from "@/context/Theme";
 import { useFonts } from "expo-font";
@@ -29,18 +29,18 @@ export default function RootLayout() {
   }
 
   return (
-    <SafeAreaProvider>
-      <ThemeProvider initialColorScheme={Appearance.getColorScheme()}>
-        <LanguageProvider>
-          <DishesProvider>
-            <StatusBar style="auto" />
+    <ThemeProvider initialColorScheme={Appearance.getColorScheme()}>
+      <LanguageProvider>
+        <DataProvider>
+          <StatusBar style="auto" />
+          <SafeAreaProvider>
             <Stack>
               <Stack.Screen name="(tabs)" options={{ headerShown: false }} />
               <Stack.Screen name="+not-found" />
             </Stack>
-          </DishesProvider>
-        </LanguageProvider>
-      </ThemeProvider>
-    </SafeAreaProvider>
+          </SafeAreaProvider>
+        </DataProvider>
+      </LanguageProvider>
+    </ThemeProvider>
   );
 }

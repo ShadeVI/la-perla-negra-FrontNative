@@ -30,8 +30,6 @@ export const DetailWine = ({ details }: DetailWineProps) => {
     <SafeAreaView
       style={{
         flex: 1,
-        borderColor: "red",
-        borderWidth: 2,
         paddingVertical: 60,
       }}
     >
@@ -151,22 +149,21 @@ const createStyles = (
       flex: 1,
       paddingHorizontal: 30,
       paddingBottom: 20,
-      borderWidth: 2,
-      borderColor: "blue",
     },
     contentRight: {
       flex: 1,
       paddingHorizontal: 30,
     },
     imageVerticalContainer: {
-      padding: 50,
-      height: 500,
+      borderRadius: 10,
+      aspectRatio: 1,
+      marginHorizontal: "auto",
     },
     imageVertical: {
       width: "100%",
       height: "100%",
       objectFit: "contain",
-      marginHorizontal: "auto",
+      borderRadius: 10,
     },
     title: {
       fontSize: 30,
@@ -187,6 +184,7 @@ const createStyles = (
       textAlign: "center",
       textDecorationLine: "underline",
       marginTop: 50,
+      marginBottom: 30,
     },
     badge: {
       padding: 12,

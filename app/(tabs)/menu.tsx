@@ -8,7 +8,7 @@ import Ionicons from "@expo/vector-icons/Ionicons";
 import Animated from "react-native-reanimated";
 import { Colors } from "@/constants/Colors";
 import { useLanguage } from "@/context/Language";
-import { useDishes } from "@/context/Dishes";
+import { useData } from "@/context/Data";
 import { ColorScheme, useTheme } from "@/context/Theme";
 import { useDevice } from "@/hooks/useResponsive";
 import { lineHeight } from "@/utils/utils";
@@ -18,7 +18,7 @@ import LoadingIndicator from "@/components/LoadingIndicator";
 export default function MenuScreen() {
   const { theme, colorScheme } = useTheme();
   const { selectedLanguage } = useLanguage();
-  const { dishes } = useDishes();
+  const { data } = useData();
   const { isTablet } = useDevice();
 
   const [selectedCategory, setSelectedCategory] = useState<
@@ -28,8 +28,8 @@ export default function MenuScreen() {
   const [isLoading, setIsLoading] = useState<boolean>(true);
 
   const filteredDishes = useMemo(() => {
-    return dishes.filter((dish) => dish.categoryNumber === selectedCategory);
-  }, [dishes, selectedCategory]);
+    return data.filter((dish) => dish.categoryNumber === selectedCategory);
+  }, [data, selectedCategory]);
 
   const onPressHandlerSelectedCategory = (categoryId: number) => {
     setSelectedCategory(categoryId);
@@ -86,7 +86,6 @@ export default function MenuScreen() {
               <Animated.Image
                 source={{ uri: item.imageUrl }}
                 style={styles.image}
-                sharedTransitionTag={"dishImage"}
               />
               <LinearGradient
                 colors={[
@@ -119,7 +118,7 @@ export default function MenuScreen() {
         )}
         keyExtractor={(item) => item._id}
         ListEmptyComponent={
-          <Text style={{ color: theme?.text }}>No dishes found</Text>
+          <Text style={{ color: theme?.text }}>No data found</Text>
         }
         numColumns={2}
         columnWrapperStyle={{ gap: 50 }}
@@ -141,6 +140,7 @@ const createStyles = (
     flatListContainer: {
       marginHorizontal: "auto",
       padding: 50,
+      gap: 50,
     },
     card: {
       borderRadius: 10,

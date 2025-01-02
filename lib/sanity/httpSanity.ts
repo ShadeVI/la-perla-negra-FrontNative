@@ -52,7 +52,7 @@ export const fetchCategories = async (): Promise<Category[]> => {
   return await client.fetch(QUERY_CATEGORIES)
 }
 
-export interface Dish {
+interface BaseData {
   _id: string;
   _type: string;
   title: {
@@ -75,27 +75,34 @@ export interface Dish {
   }[];
 }
 
-export interface Wine {
-  _id: string;
-  _type: string;
-  title: {
-    [key: string]: string;
-  };
-  description: { [key: string]: PortableTextBlock[] };
-  price: number;
-  slug: string;
-  imageUrl: string;
-  identifierNumber: number;
-  isHighlighted: boolean;
-  categoryNumber: number;
-  ingredients: {
-    name: {
-      [key: string]: string;
-    };
-    _id: string;
-  }[];
+export interface Dish extends BaseData {
 }
 
-export const fetchDishes = async (): Promise<Dish[]> => {
+export interface Wine extends Omit<BaseData, 'description'> {
+  description: { [key: string]: PortableTextBlock[] };
+  isAlchohol: boolean;
+}
+
+export interface Drink extends BaseData {
+  isAlchohol: boolean;
+}
+
+export interface Cocktail extends BaseData {
+  isAlchohol: boolean;
+}
+
+export interface Beer extends BaseData {
+  isAlchohol: boolean;
+}
+
+export interface Coffee extends BaseData {
+  isAlchohol: boolean;
+}
+
+export type GenericSimpleDescriptionDrink = Drink | Beer | Cocktail | Coffee
+
+export type ReturnData = (Dish | Wine | GenericSimpleDescriptionDrink)[]
+
+export const fetchData = async (): Promise<ReturnData> => {
   return await client.fetch(QUERY_DISHES)
 }

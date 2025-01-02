@@ -2,16 +2,16 @@ import React from "react";
 import { Colors } from "@/constants/Colors";
 import { useLanguage } from "@/context/Language";
 import { ColorScheme, useTheme } from "@/context/Theme";
-import { Dish } from "@/lib/sanity/httpSanity";
+import { GenericSimpleDescriptionDrink } from "@/lib/sanity/httpSanity";
 import { StyleSheet, Text, useWindowDimensions, View } from "react-native";
 import Animated, { Easing, FadeIn, FadeInUp } from "react-native-reanimated";
 import { SafeAreaView } from "react-native-safe-area-context";
 
-interface DetailDishProps {
-  details: Dish;
+interface DetailGenericDrinkProps {
+  details: GenericSimpleDescriptionDrink;
 }
 
-const DetailDish = ({ details }: DetailDishProps) => {
+const DetailGenericDrink = ({ details }: DetailGenericDrinkProps) => {
   const { height } = useWindowDimensions();
   const { selectedLanguage } = useLanguage();
   const { theme, colorScheme } = useTheme();
@@ -35,10 +35,12 @@ const DetailDish = ({ details }: DetailDishProps) => {
             {details.identifierNumber} -{" "}
             {details.title[selectedLanguage?.id ?? "es"] || details.title.es}
           </Text>
-          <Text style={styles.description}>
-            {details.description[selectedLanguage?.id ?? "es"] ||
-              details.description.es}
-          </Text>
+          {details?.description && (
+            <Text style={styles.description}>
+              {details.description[selectedLanguage?.id ?? "es"] ||
+                details.description.es}
+            </Text>
+          )}
         </View>
         <View style={styles.contentRight}>
           <Text style={styles.ingredientsTitle}>Ingredientes</Text>
@@ -66,7 +68,7 @@ const DetailDish = ({ details }: DetailDishProps) => {
   );
 };
 
-export default DetailDish;
+export default DetailGenericDrink;
 
 const createStyles = (theme = Colors.light, colorScheme: ColorScheme) =>
   StyleSheet.create({

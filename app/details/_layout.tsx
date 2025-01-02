@@ -1,36 +1,31 @@
 import { Slot, Stack, useLocalSearchParams } from "expo-router";
 import { View, Text } from "react-native";
-import { useDishes } from "@/context/Dishes";
+import { useData } from "@/context/Data";
 import { useLanguage } from "@/context/Language";
 import { Ionicons } from "@expo/vector-icons";
 import { useTheme } from "@/context/Theme";
-import {
-  SafeAreaView,
-  useSafeAreaInsets,
-} from "react-native-safe-area-context";
+import { SafeAreaView } from "react-native-safe-area-context";
 
 const Layout = () => {
   const params = useLocalSearchParams();
-  const { dishes } = useDishes();
+  const { data } = useData();
   const { selectedLanguage } = useLanguage();
   const { theme } = useTheme();
 
-  const detailsDish = dishes.find((dish) => dish._id === params.id);
+  const detailsDish = data.find((item) => item._id === params.id);
 
   if (!detailsDish) {
     return <Text>Not found.</Text>;
   }
   return (
-    <SafeAreaView
-      style={{ flex: 1, marginTop: 0, borderColor: "red", borderWidth: 2 }}
-    >
+    <SafeAreaView style={{ flex: 1, marginTop: 50 }}>
       <Stack.Screen
         options={{
           headerTitle: `${detailsDish.identifierNumber} - ${
             detailsDish.title[selectedLanguage?.id ?? "es"]
           }`,
           headerTitleAlign: "center",
-          headerStyle: { backgroundColor: theme?.background },
+          headerStyle: { backgroundColor: theme?.gray },
           headerRight: () =>
             detailsDish.isHighlighted ? (
               <View>
