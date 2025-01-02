@@ -26,7 +26,8 @@ const QUERY_DISHES = `*[_type == 'dish']{
   ingredients[]->{
     name,
     _id
-  }
+  },
+  isVisible,
 }`
 
 export interface CategoryTitle {
@@ -69,6 +70,7 @@ export interface Dish {
     };
     _id: string;
   }[];
+  isVisible: boolean;
 }
 
 export const fetchDishes = async (): Promise<Dish[]> => {

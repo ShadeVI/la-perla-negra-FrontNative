@@ -19,9 +19,10 @@ export const DishesProvider: React.FC<{ children: ReactNode }> = ({
   const [dishes, setDishes] = useState<Dish[]>([]);
 
   useEffect(() => {
-    fetchDishes().then((res) => setDishes(res));
+    fetchDishes().then((res) => 
+      setDishes(res));
   }, []);
-
+ 
   return (
     <DishesContext.Provider value={{ dishes }}>
       {children}
