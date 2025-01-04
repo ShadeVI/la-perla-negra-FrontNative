@@ -1,3 +1,4 @@
+import { PortableTextBlock } from "@portabletext/react"
 import { client } from "./sanity"
 
 const QUERY_SUPPORTED_LANGUAGES = `*[_type == 'supportedLanguages']{
@@ -13,7 +14,9 @@ const QUERY_CATEGORIES = `*[_type == 'category']{
   identifierNumber,
 }`
 
-const QUERY_DISHES = `*[_type == 'dish']{
+const QUERY_DISHES = `*[_type in ['dish', 'drink', 'wine', 'cocktail', 'beer', 'coffee']]{
+...,
+_type,
   _id,
   title,
   "imageUrl": image.asset -> url,
@@ -50,8 +53,22 @@ export const fetchCategories = async (): Promise<Category[]> => {
   return await client.fetch(QUERY_CATEGORIES)
 }
 
-export interface Dish {
+
+
+export enum SanityDocumentTypes {
+  DISH = 'dish',
+  DRINK = 'drink',
+  WINE = 'wine',
+  COCKTAIL = 'cocktail',
+  BEER = 'beer',
+  COFFEE = 'coffee'
+}
+
+export type SanityAllowedDocumentTypes = SanityDocumentTypes.DISH | SanityDocumentTypes.DRINK | SanityDocumentTypes.WINE | SanityDocumentTypes.COCKTAIL | SanityDocumentTypes.BEER | SanityDocumentTypes.COFFEE
+
+interface BaseData {
   _id: string;
+  _type: SanityAllowedDocumentTypes;
   title: {
     [key: string]: string;
   };
@@ -73,6 +90,34 @@ export interface Dish {
   isVisible: boolean;
 }
 
-export const fetchDishes = async (): Promise<Dish[]> => {
+export interface Dish extends BaseData {
+}
+
+export interface Wine extends Omit<BaseData, 'description'> {
+  description: { [key: string]: PortableTextBlock[] };
+  isAlchohol: boolean;
+}
+
+export interface Drink extends BaseData {
+  isAlchohol: boolean;
+}
+
+export interface Cocktail extends BaseData {
+  isAlchohol: boolean;
+}
+
+export interface Beer extends BaseData {
+  isAlchohol: boolean;
+}
+
+export interface Coffee extends BaseData {
+  isAlchohol: boolean;
+}
+
+export type GenericSimpleDescriptionDrink = Drink | Beer | Cocktail | Coffee
+
+export type ReturnData = (Dish | Wine | GenericSimpleDescriptionDrink)[]
+
+export const fetchData = async (): Promise<ReturnData> => {
   return await client.fetch(QUERY_DISHES)
 }
