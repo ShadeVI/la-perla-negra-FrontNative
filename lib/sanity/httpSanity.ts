@@ -29,7 +29,8 @@ _type,
   ingredients[]->{
     name,
     _id
-  }
+  },
+  isVisible,
 }`
 
 export interface CategoryTitle {
@@ -86,6 +87,7 @@ interface BaseData {
     };
     _id: string;
   }[];
+  isVisible: boolean;
 }
 
 export interface Dish extends BaseData {
