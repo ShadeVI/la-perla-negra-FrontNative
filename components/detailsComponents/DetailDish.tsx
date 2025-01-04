@@ -30,7 +30,7 @@ const DetailDish = ({ details }: DetailDishProps) => {
         />
       </Animated.View>
       <View style={styles.content}>
-        <View style={styles.contentLeft}>
+        <View style={styles.contentLeft}> 
           <Text style={styles.title}>
             {details.identifierNumber} -{" "}
             {details.title[selectedLanguage?.id ?? "es"] || details.title.es}
@@ -39,6 +39,12 @@ const DetailDish = ({ details }: DetailDishProps) => {
             {details.description[selectedLanguage?.id ?? "es"] ||
               details.description.es}
           </Text>
+          {/* Aggiunto price */}
+          <Text style={styles.price}>
+          €&nbsp;
+            {details.price}
+          </Text>
+
         </View>
         <View style={styles.contentRight}>
           <Text style={styles.ingredientsTitle}>Ingredientes</Text>
@@ -102,6 +108,12 @@ const createStyles = (theme = Colors.light, colorScheme: ColorScheme) =>
       color: theme?.text,
     },
     description: {
+      textAlign: "justify",
+      fontSize: 25,
+      marginTop: 20,
+      color: theme?.text,
+    },
+    price: {
       textAlign: "justify",
       fontSize: 25,
       marginTop: 20,
