@@ -19,16 +19,19 @@ const DetailGenericDrink = ({ details }: DetailGenericDrinkProps) => {
   const styles = createStyles(theme, colorScheme);
 
   return (
-    <SafeAreaView style={{ flex: 1 }}>
-      <Animated.View
-        entering={FadeInUp.duration(700).delay(100).easing(Easing.ease)}
-        style={[styles.imageContainer, { height: height - 250 }]}
-      >
-        <Animated.Image
-          source={{ uri: details?.imageUrl }}
-          style={styles.image}
-        />
-      </Animated.View>
+    <SafeAreaView style={{ flex: 1, paddingVertical: 60 }}>
+      {details?.imageUrl && (
+        <Animated.View
+          entering={FadeInUp.duration(700).delay(100).easing(Easing.ease)}
+          style={[styles.imageContainer, { height: height - 250 }]}
+        >
+          <Animated.Image
+            source={{ uri: details?.imageUrl }}
+            style={styles.image}
+          />
+        </Animated.View>
+      )}
+
       <View style={styles.content}>
         <View style={styles.contentLeft}>
           <Text style={styles.title}>

@@ -144,6 +144,7 @@ const createStyles = (
       flexDirection: "row",
       justifyContent: "space-between",
       alignItems: "flex-start",
+      marginTop: 50,
     },
     contentLeft: {
       flex: 1,

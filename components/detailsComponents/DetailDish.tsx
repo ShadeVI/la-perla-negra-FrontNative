@@ -19,7 +19,7 @@ const DetailDish = ({ details }: DetailDishProps) => {
   const styles = createStyles(theme, colorScheme);
 
   return (
-    <SafeAreaView style={{ flex: 1 }}>
+    <SafeAreaView style={{ flex: 1, paddingVertical: 60 }}>
       <Animated.View
         entering={FadeInUp.duration(700).delay(100).easing(Easing.ease)}
         style={[styles.imageContainer, { height: height - 250 }]}
