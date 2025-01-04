@@ -19,9 +19,14 @@ export const DishesProvider: React.FC<{ children: ReactNode }> = ({
   const [dishes, setDishes] = useState<Dish[]>([]);
 
   useEffect(() => {
-    fetchDishes().then((res) => setDishes(res));
+    fetchDishes().then((res) => {
+      const filteredRes = res.filter((dish) => {
+        return dish.isVisible
+      })
+      setDishes(filteredRes)
+    })
   }, []);
-
+ 
   return (
     <DishesContext.Provider value={{ dishes }}>
       {children}
