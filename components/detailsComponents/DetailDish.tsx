@@ -6,6 +6,7 @@ import { Dish } from "@/lib/sanity/httpSanity";
 import { StyleSheet, Text, useWindowDimensions, View } from "react-native";
 import Animated, { Easing, FadeIn, FadeInUp } from "react-native-reanimated";
 import { SafeAreaView } from "react-native-safe-area-context";
+import { CURRENCIES, currenciesConverter } from "@/utils/utils"
 
 interface DetailDishProps {
   details: Dish;
@@ -45,8 +46,13 @@ const DetailDish = ({ details }: DetailDishProps) => {
             {/* {details.price} */}
 
             {/* toFixed(). Questo metodo restituisce una stringa rappresentante il numero con un numero fisso di cifre decimali. */}
-            {/* Il valore restituito è una stringa, quindi se vuoi lavorare con il valore numerico, dovrai convertirlo nuovamente in numero utilizzando parseFloat() o Number(), se necessario. */}
-            {parseFloat(details.price).toFixed(2)}
+            {/* €&nbsp; */}
+            {/* Versione per esempio */}
+            {currenciesConverter(details.price, CURRENCIES.EURO)}
+            
+            {/* Versione Deploy */}
+            {/* {currenciesConverter(details.price)} */}
+
           </Text>
 
         </View>
