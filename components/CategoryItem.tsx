@@ -16,7 +16,6 @@ interface CategoryItemProps {
   languageId: string | undefined;
 }
 
-// Separate CategoryItem component
 export const CategoryItem = ({
   item,
   isSelected,

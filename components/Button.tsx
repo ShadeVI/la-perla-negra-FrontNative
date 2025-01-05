@@ -13,20 +13,11 @@ import {
 import { useRouter } from "expo-router";
 import { PressableProps } from "react-native-gesture-handler";
 
-
-// viewContainer, pressableContainer e text, possono avere proprietà diverse, quindi si usa l'interfaccia StyleProp per avere l'autocompletato delle props che aiuta quando si passa da un componente all'altro e sapere già cosa sono quelle cose.
-// ViewStyle, PressableProps e TextStyle sono interfacce che vengono da react-native, rispettivamente specifici per i componenti View, Pressable e Text.
 interface ExtraStyles {
   viewContainer?: StyleProp<ViewStyle>;
   pressableContainer?: StyleProp<PressableProps>;
   text?: StyleProp<TextStyle>;
 }
-// StyleProp è una interfacce che viene da react-native, che permette di definire un tipo di stile per un componente.abs
-// è un tipo generico che può essere di qualsiasi tipo, in questo caso di ViewStyle o TextStyle.
-// Ogni componente ha un tipo di stile diverso, quindi bisogna specificare il tipo di stile che si vuole utilizzare.
-// StyleProp<ViewStyle> è un tipo di stile per un componente View, mentre StyleProp<TextStyle> è un tipo di stile per un componente Text.
-
-
 interface ButtonProps {
   item: Language;
   extraStyles?: ExtraStyles;

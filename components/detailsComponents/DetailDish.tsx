@@ -41,20 +41,8 @@ const DetailDish = ({ details }: DetailDishProps) => {
               details.description.es}
           </Text>
           <Text style={styles.price}>
-            {/* Vecchia soluzione */}
-            {/* €&nbsp; */}
-            {/* {details.price} */}
-
-            {/* toFixed(). Questo metodo restituisce una stringa rappresentante il numero con un numero fisso di cifre decimali. */}
-            {/* €&nbsp; */}
-            {/* Versione per esempio */}
-            {currenciesConverter(details.price, CURRENCIES.EURO)}
-            
-            {/* Versione Deploy */}
-            {/* {currenciesConverter(details.price)} */}
-
+            {currenciesConverter(details.price)}
           </Text>
-
         </View>
         <View style={styles.contentRight}>
           <Text style={styles.ingredientsTitle}>Ingredientes</Text>
