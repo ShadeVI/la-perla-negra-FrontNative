@@ -39,10 +39,14 @@ const DetailDish = ({ details }: DetailDishProps) => {
             {details.description[selectedLanguage?.id ?? "es"] ||
               details.description.es}
           </Text>
-          {/* Aggiunto price */}
           <Text style={styles.price}>
-          €&nbsp;
-            {details.price}
+            {/* Vecchia soluzione */}
+            {/* €&nbsp; */}
+            {/* {details.price} */}
+
+            {/* toFixed(). Questo metodo restituisce una stringa rappresentante il numero con un numero fisso di cifre decimali. */}
+            {/* Il valore restituito è una stringa, quindi se vuoi lavorare con il valore numerico, dovrai convertirlo nuovamente in numero utilizzando parseFloat() o Number(), se necessario. */}
+            {parseFloat(details.price).toFixed(2)}
           </Text>
 
         </View>
