@@ -3,7 +3,9 @@ import { useLanguage } from "@/context/Language";
 import { ColorScheme, useTheme } from "@/context/Theme";
 import { useDevice } from "@/hooks/useResponsive";
 import { Wine } from "@/lib/sanity/httpSanity";
+import { lineHeight } from "@/utils/utils";
 import { PortableText } from "@portabletext/react-native";
+import { Link } from "expo-router";
 import {
   Image,
   StyleSheet,
@@ -33,7 +35,7 @@ export const DetailWine = ({ details }: DetailWineProps) => {
         paddingVertical: 60,
       }}
     >
-      {/* {details?.imageUrl && (
+      {details?.imageUrl && (
         <Animated.View
           entering={FadeInUp.duration(700).delay(100).easing(Easing.ease)}
           style={[styles.imageContainer, { height: height - 250 }]}
@@ -41,10 +43,9 @@ export const DetailWine = ({ details }: DetailWineProps) => {
           <Animated.Image
             source={{ uri: details?.imageUrl }}
             style={styles.image}
-            sharedTransitionTag={"dishImage"}
           />
         </Animated.View>
-      )} */}
+      )}
       <View style={styles.content}>
         <View style={styles.contentLeft}>
           <Text style={styles.title}>
@@ -55,10 +56,58 @@ export const DetailWine = ({ details }: DetailWineProps) => {
             value={details?.description[selectedLanguage?.id ?? "es"] || []}
             components={{
               block: {
+                h1: ({ children }) => {
+                  return (
+                    <Text
+                      style={{
+                        fontSize: 26,
+                        lineHeight: lineHeight(22),
+                        paddingVertical: 5,
+                        color: theme?.text,
+                      }}
+                    >
+                      {children}
+                    </Text>
+                  );
+                },
+                h2: ({ children }) => {
+                  return (
+                    <Text
+                      style={{
+                        fontSize: 24,
+
+                        lineHeight: lineHeight(22),
+                        paddingVertical: 5,
+                        color: theme?.text,
+                      }}
+                    >
+                      {children}
+                    </Text>
+                  );
+                },
+                h3: ({ children }) => {
+                  return (
+                    <Text
+                      style={{
+                        fontSize: 23,
+                        lineHeight: lineHeight(20),
+                        paddingVertical: 5,
+                        color: theme?.text,
+                      }}
+                    >
+                      {children}
+                    </Text>
+                  );
+                },
                 h4: ({ children }) => {
                   return (
                     <Text
-                      style={{ fontSize: 22, padding: 20, color: theme?.text }}
+                      style={{
+                        fontSize: 22,
+                        lineHeight: lineHeight(20),
+                        paddingVertical: 5,
+                        color: theme?.text,
+                      }}
                     >
                       {children}
                     </Text>
@@ -67,7 +116,26 @@ export const DetailWine = ({ details }: DetailWineProps) => {
                 h5: ({ children }) => {
                   return (
                     <Text
-                      style={{ fontSize: 26, padding: 20, color: theme?.text }}
+                      style={{
+                        fontSize: 21,
+                        lineHeight: lineHeight(20),
+                        paddingVertical: 5,
+                        color: theme?.text,
+                      }}
+                    >
+                      {children}
+                    </Text>
+                  );
+                },
+                h6: ({ children }) => {
+                  return (
+                    <Text
+                      style={{
+                        fontSize: 20,
+                        lineHeight: lineHeight(19),
+                        paddingVertical: 5,
+                        color: theme?.text,
+                      }}
                     >
                       {children}
                     </Text>
@@ -75,8 +143,165 @@ export const DetailWine = ({ details }: DetailWineProps) => {
                 },
                 normal: ({ children }) => {
                   return (
-                    <Text style={{ padding: 20, color: theme?.text }}>
+                    <Text
+                      style={{
+                        fontSize: 18,
+                        lineHeight: lineHeight(16),
+                        paddingVertical: 5,
+                        color: theme?.text,
+                      }}
+                    >
                       {children}
+                    </Text>
+                  );
+                },
+              },
+              marks: {
+                code: ({ children }) => {
+                  return (
+                    <Text
+                      style={{
+                        fontSize: 18,
+                        lineHeight: lineHeight(16),
+                        paddingVertical: 5,
+                        paddingHorizontal: 3,
+                        color: theme?.text,
+                        backgroundColor:
+                          colorScheme === "dark" ? "#666666" : "#d3d3d3",
+                      }}
+                    >
+                      {children}
+                    </Text>
+                  );
+                },
+                strong: ({ children }) => {
+                  return (
+                    <Text
+                      style={{
+                        fontSize: 18,
+                        lineHeight: lineHeight(16),
+                        paddingVertical: 5,
+                        fontWeight: "bold",
+                        color: theme?.text,
+                      }}
+                    >
+                      {children}
+                    </Text>
+                  );
+                },
+                em: ({ children }) => {
+                  return (
+                    <Text
+                      style={{
+                        fontSize: 18,
+                        lineHeight: lineHeight(16),
+                        paddingVertical: 5,
+                        fontStyle: "italic",
+                        color: theme?.text,
+                      }}
+                    >
+                      {children}
+                    </Text>
+                  );
+                },
+                underline: ({ children }) => {
+                  return (
+                    <Text
+                      style={{
+                        fontSize: 18,
+                        paddingVertical: 5,
+                        lineHeight: lineHeight(16),
+                        textDecorationLine: "underline",
+                        color: theme?.text,
+                      }}
+                    >
+                      {children}
+                    </Text>
+                  );
+                },
+                link: ({ children, value }) => {
+                  return (
+                    <Link
+                      href={value.href}
+                      style={{
+                        fontSize: 18,
+                        paddingVertical: 5,
+                        lineHeight: lineHeight(16),
+                        color: theme?.text,
+                      }}
+                    >
+                      {children}
+                    </Link>
+                  );
+                },
+                "strike-through": ({ children }) => {
+                  return (
+                    <Text
+                      style={{
+                        fontSize: 18,
+                        paddingVertical: 5,
+                        lineHeight: lineHeight(16),
+                        textDecorationLine: "line-through",
+                        color: theme?.text,
+                      }}
+                    >
+                      {children}
+                    </Text>
+                  );
+                },
+              },
+              list: {
+                bullet: ({ children }) => {
+                  return (
+                    <View
+                      style={{
+                        paddingVertical: 5,
+                      }}
+                    >
+                      {children}
+                    </View>
+                  );
+                },
+                number: ({ children }) => {
+                  return (
+                    <View
+                      style={{
+                        paddingVertical: 5,
+                      }}
+                    >
+                      {children}
+                    </View>
+                  );
+                },
+              },
+              listItem: {
+                bullet: ({ children, value }) => {
+                  return (
+                    <Text
+                      style={{
+                        fontSize: 18,
+                        paddingVertical: 5,
+                        lineHeight: lineHeight(16),
+                        color: theme?.text,
+                        marginLeft: value.level ? value.level * 10 : 0,
+                      }}
+                    >
+                      {value.level === 1 ? "•" : value.level === 2 ? "◦" : "▪"}{" "}
+                      {children}
+                    </Text>
+                  );
+                },
+                number: ({ children, index }) => {
+                  return (
+                    <Text
+                      style={{
+                        fontSize: 18,
+                        paddingVertical: 5,
+                        lineHeight: lineHeight(16),
+                        color: theme?.text,
+                      }}
+                    >
+                      {index + 1}. {children}
                     </Text>
                   );
                 },
@@ -90,7 +315,7 @@ export const DetailWine = ({ details }: DetailWineProps) => {
             style={[styles.imageVerticalContainer, { height: height - 150 }]}
           >
             <Image
-              source={{ uri: details?.imageUrl }}
+              source={{ uri: details?.verticalImageUrl }}
               style={styles.imageVertical}
             />
           </View>
