@@ -20,6 +20,7 @@ _type,
   _id,
   title,
   "imageUrl": image.asset -> url,
+  "verticalImageUrl": verticalImage.asset -> url,
   "slug": slug.current,
   identifierNumber,
   isHighlighted,
@@ -96,6 +97,7 @@ export interface Dish extends BaseData {
 export interface Wine extends Omit<BaseData, 'description'> {
   description: { [key: string]: PortableTextBlock[] };
   isAlchohol: boolean;
+  verticalImageUrl: string;
 }
 
 export interface Drink extends BaseData {

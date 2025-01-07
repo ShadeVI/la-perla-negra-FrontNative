@@ -1,4 +1,4 @@
-import React from "react";
+import React, { useEffect, useRef } from "react";
 import { Colors } from "@/constants/Colors";
 import { ColorScheme, useTheme } from "@/context/Theme";
 import {
@@ -9,6 +9,7 @@ import {
   FlatList,
   StyleSheet,
   TextStyle,
+  useWindowDimensions,
 } from "react-native";
 import { useLanguage } from "@/context/Language";
 import { useDevice } from "@/hooks/useResponsive";
@@ -37,21 +38,30 @@ const CategoriesHeader = ({
   const { theme, colorScheme } = useTheme();
   const { selectedLanguage } = useLanguage();
   const { isTablet } = useDevice();
+  const { width } = useWindowDimensions();
+  const scrollRef = useRef<FlatList>(null);
 
   const styles = createStyles(theme, colorScheme, isTablet, extraStyles);
 
   return (
     <View style={[styles.categoriesWrapper, extraStyles?.viewContainer]}>
       <FlatList
+        ref={scrollRef}
         contentContainerStyle={styles.categoriesContainer}
         style={styles.categoriesList}
         data={categories}
         ListEmptyComponent={() => <Text>No categories found</Text>}
-        renderItem={({ item }) => (
+        renderItem={({ item, index }) => (
           <CategoryItem
             item={item}
             isSelected={selectedCategory === item.identifierNumber}
-            onPress={() => onPressHandler(item.identifierNumber)}
+            onPress={() => {
+              scrollRef.current?.scrollToIndex({
+                index: index - 3 < 0 ? 0 : index - 2,
+                animated: true,
+              });
+              onPressHandler(item.identifierNumber);
+            }}
             languageId={selectedLanguage?.id}
           />
         )}
