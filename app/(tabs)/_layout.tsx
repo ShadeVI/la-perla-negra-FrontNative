@@ -44,6 +44,15 @@ export default function TabLayout() {
             ),
           }}
         />
+        <Tabs.Screen
+          name="order"
+          options={{
+            title: "Order",
+            tabBarIcon: ({ color }) => (
+              <IconSymbol size={28} name="list.number.ar" color={color} />
+            ),
+          }}
+        />
       </Tabs>
     </SafeAreaView>
   );

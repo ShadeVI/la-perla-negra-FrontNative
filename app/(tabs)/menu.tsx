@@ -28,7 +28,9 @@ export default function MenuScreen() {
   const [isLoading, setIsLoading] = useState<boolean>(true);
 
   const filteredDishes = useMemo(() => {
-    return data.filter((dish) => dish.categoryNumber === selectedCategory);
+    return data
+      .filter((dish) => dish.categoryNumber === selectedCategory)
+      .sort((a, b) => a.identifierNumber - b.identifierNumber);
   }, [data, selectedCategory]);
 
   const onPressHandlerSelectedCategory = (categoryId: number) => {
@@ -92,7 +94,7 @@ export default function MenuScreen() {
                   "transparent",
                   colorScheme === "light"
                     ? "rgba(115, 115, 115, 0.6)"
-                    : "rgba(150, 150, 150, 0.6)",
+                    : "rgba(150, 150, 150, 0.9)",
                 ]}
                 start={{ x: 1, y: 0 }}
                 style={styles.overlay}

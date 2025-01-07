@@ -38,7 +38,7 @@ export const DetailWine = ({ details }: DetailWineProps) => {
       {details?.imageUrl && (
         <Animated.View
           entering={FadeInUp.duration(700).delay(100).easing(Easing.ease)}
-          style={[styles.imageContainer, { height: height - 250 }]}
+          style={[styles.imageContainer, { height: height - 150 }]}
         >
           <Animated.Image
             source={{ uri: details?.imageUrl }}
