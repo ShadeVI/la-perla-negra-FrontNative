@@ -6,6 +6,7 @@ import { Dish } from "@/lib/sanity/httpSanity";
 import { StyleSheet, Text, useWindowDimensions, View } from "react-native";
 import Animated, { Easing, FadeIn, FadeInUp } from "react-native-reanimated";
 import { SafeAreaView } from "react-native-safe-area-context";
+import { CURRENCIES, currenciesConverter } from "@/utils/utils"
 
 interface DetailDishProps {
   details: Dish;
@@ -30,7 +31,7 @@ const DetailDish = ({ details }: DetailDishProps) => {
         />
       </Animated.View>
       <View style={styles.content}>
-        <View style={styles.contentLeft}>
+        <View style={styles.contentLeft}> 
           <Text style={styles.title}>
             {details.identifierNumber} -{" "}
             {details.title[selectedLanguage?.id ?? "es"] || details.title.es}
@@ -38,6 +39,9 @@ const DetailDish = ({ details }: DetailDishProps) => {
           <Text style={styles.description}>
             {details.description[selectedLanguage?.id ?? "es"] ||
               details.description.es}
+          </Text>
+          <Text style={styles.price}>
+            {currenciesConverter(details.price)}
           </Text>
         </View>
         <View style={styles.contentRight}>
@@ -102,6 +106,12 @@ const createStyles = (theme = Colors.light, colorScheme: ColorScheme) =>
       color: theme?.text,
     },
     description: {
+      textAlign: "justify",
+      fontSize: 25,
+      marginTop: 20,
+      color: theme?.text,
+    },
+    price: {
       textAlign: "justify",
       fontSize: 25,
       marginTop: 20,
