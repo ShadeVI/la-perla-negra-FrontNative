@@ -11,5 +11,8 @@ export function currenciesConverter(value: number , currency?: CURRENCIES){
   if ( currency === CURRENCIES.POUNDS ) {
     return `£ ${valueToDoubleDecimal}`
   }
-  return `€ ${valueToDoubleDecimal}`
+  if ( currency === CURRENCIES.EURO ) {
+    return `€ ${valueToDoubleDecimal}`
+  }
+  return `${valueToDoubleDecimal}`
 }

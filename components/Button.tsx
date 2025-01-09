@@ -10,12 +10,10 @@ import {
   ViewStyle,
   TextStyle,
 } from "react-native";
-import { useRouter } from "expo-router";
-import { PressableProps } from "react-native-gesture-handler";
 
 interface ExtraStyles {
   viewContainer?: StyleProp<ViewStyle>;
-  pressableContainer?: StyleProp<PressableProps>;
+  pressableContainer?: StyleProp<ViewStyle>;
   text?: StyleProp<TextStyle>;
 }
 interface ButtonProps {
