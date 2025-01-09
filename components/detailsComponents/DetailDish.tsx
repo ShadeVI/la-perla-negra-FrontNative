@@ -3,9 +3,16 @@ import { Colors } from "@/constants/Colors";
 import { useLanguage } from "@/context/Language";
 import { ColorScheme, useTheme } from "@/context/Theme";
 import { Dish } from "@/lib/sanity/httpSanity";
-import { StyleSheet, Text, useWindowDimensions, View } from "react-native";
+import {
+  Pressable,
+  StyleSheet,
+  Text,
+  useWindowDimensions,
+  View,
+} from "react-native";
 import Animated, { Easing, FadeIn, FadeInUp } from "react-native-reanimated";
 import { SafeAreaView } from "react-native-safe-area-context";
+import { ORDER_REDUCER_TYPES, useOrder } from "@/context/Order";
 
 interface DetailDishProps {
   details: Dish;
@@ -15,6 +22,7 @@ const DetailDish = ({ details }: DetailDishProps) => {
   const { height } = useWindowDimensions();
   const { selectedLanguage } = useLanguage();
   const { theme, colorScheme } = useTheme();
+  const { dispatch } = useOrder();
 
   const styles = createStyles(theme, colorScheme);
 
@@ -41,6 +49,15 @@ const DetailDish = ({ details }: DetailDishProps) => {
           </Text>
         </View>
         <View style={styles.contentRight}>
+          <View style={styles.orderContainer}>
+            <Pressable
+              onPress={() =>
+                dispatch({ payload: details, type: ORDER_REDUCER_TYPES.ADD })
+              }
+            >
+              <Text style={{ color: theme?.text, fontSize: 20 }}>ADD</Text>
+            </Pressable>
+          </View>
           <Text style={styles.ingredientsTitle}>Ingredientes</Text>
           <View style={styles.ingredientsContainer}>
             {details?.ingredients?.length > 0
@@ -135,5 +152,8 @@ const createStyles = (theme = Colors.light, colorScheme: ColorScheme) =>
       textAlign: "center",
       textDecorationLine: "underline",
       marginBottom: 20,
+    },
+    orderContainer: {
+      flex: 1,
     },
   });

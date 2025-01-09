@@ -1,4 +1,4 @@
-import { fetchData, ReturnData } from "@/lib/sanity/httpSanity";
+import { fetchData, SanityReturnData } from "@/lib/sanity/httpSanity";
 import React, {
   createContext,
   useState,
@@ -8,7 +8,7 @@ import React, {
 } from "react";
 
 interface DataContextProps {
-  data: ReturnData;
+  data: SanityReturnData[];
 }
 
 const DataContext = createContext<DataContextProps | undefined>(undefined);
@@ -16,7 +16,7 @@ const DataContext = createContext<DataContextProps | undefined>(undefined);
 export const DataProvider: React.FC<{ children: ReactNode }> = ({
   children,
 }) => {
-  const [data, setData] = useState<ReturnData>([]);
+  const [data, setData] = useState<SanityReturnData[]>([]);
 
   useEffect(() => {
     fetchData().then((res) => setData(res));

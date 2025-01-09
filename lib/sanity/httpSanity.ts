@@ -118,8 +118,8 @@ export interface Coffee extends BaseData {
 
 export type GenericSimpleDescriptionDrink = Drink | Beer | Cocktail | Coffee
 
-export type ReturnData = (Dish | Wine | GenericSimpleDescriptionDrink)[]
+export type SanityReturnData = (Dish | Wine | GenericSimpleDescriptionDrink)
 
-export const fetchData = async (): Promise<ReturnData> => {
+export const fetchData = async (): Promise<SanityReturnData[]> => {
   return await client.fetch(QUERY_DISHES)
 }

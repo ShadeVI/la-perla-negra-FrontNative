@@ -4,6 +4,16 @@ import { Appearance } from "react-native";
 
 export type ColorScheme = "dark" | "light" | undefined | null;
 
+export type Theme = {
+  text: string;
+  background: string;
+  gray: string;
+  tint: string;
+  icon: string;
+  tabIconDefault: string;
+  tabIconSelected: string;
+};
+
 export const ThemeContext = createContext({});
 
 export const ThemeProvider = ({
@@ -14,7 +24,7 @@ export const ThemeProvider = ({
   initialColorScheme: ColorScheme;
 }) => {
   const [colorScheme, setColorScheme] = useState(initialColorScheme);
-  const theme = colorScheme ? Colors[colorScheme] : Colors.light;
+  const theme: Theme = colorScheme ? Colors[colorScheme] : Colors.light;
 
   Appearance.addChangeListener(({ colorScheme }) =>
     setColorScheme(colorScheme ?? null)
@@ -28,7 +38,7 @@ export const ThemeProvider = ({
 };
 
 export const useTheme = (): {
-  theme?: typeof Colors.light;
+  theme?: Theme;
   colorScheme?: ColorScheme;
   setColorScheme?: React.Dispatch<React.SetStateAction<ColorScheme>>;
 } => useContext(ThemeContext);
