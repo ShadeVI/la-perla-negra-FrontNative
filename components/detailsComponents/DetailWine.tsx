@@ -1,6 +1,7 @@
 import { Colors } from "@/constants/Colors";
 import { createPortableTextConfig } from "@/constants/PortableText";
 import { useLanguage } from "@/context/Language";
+import { ORDER_REDUCER_TYPES, useOrder } from "@/context/Order";
 import { ColorScheme, useTheme } from "@/context/Theme";
 import { useDevice } from "@/hooks/useResponsive";
 import { Wine } from "@/lib/sanity/httpSanity";
@@ -9,6 +10,7 @@ import { PortableText } from "@portabletext/react-native";
 import { Link } from "expo-router";
 import {
   Image,
+  Pressable,
   StyleSheet,
   Text,
   useWindowDimensions,
@@ -26,6 +28,7 @@ export const DetailWine = ({ details }: DetailWineProps) => {
   const { selectedLanguage } = useLanguage();
   const { theme, colorScheme } = useTheme();
   const { isTablet } = useDevice();
+  const { dispatch } = useOrder();
 
   const styles = createStyles(theme, colorScheme, isTablet);
 
@@ -70,6 +73,19 @@ export const DetailWine = ({ details }: DetailWineProps) => {
               source={{ uri: details?.verticalImageUrl }}
               style={styles.imageVertical}
             />
+          </View>
+          <View>
+            <Pressable
+              android_ripple={{ color: theme?.text }}
+              style={styles.orderButton}
+              onPress={() =>
+                dispatch({ payload: details, type: ORDER_REDUCER_TYPES.ADD })
+              }
+            >
+              <Text style={{ color: theme?.text, fontSize: 20 }}>
+                ADD TO YOUR ORDER LIST
+              </Text>
+            </Pressable>
           </View>
           <Text style={styles.ingredientsTitle}>Ingredientes</Text>
           <View style={styles.ingredientsContainer}>
@@ -182,6 +198,17 @@ const createStyles = (
       textAlign: "center",
       fontSize: 18,
       color: theme.background,
+    },
+    orderButton: {
+      minWidth: 100,
+      justifyContent: "center",
+      alignItems: "center",
+      marginBottom: 50,
+      padding: 20,
+      borderRadius: 10,
+      borderWidth: 1,
+      borderColor: theme.text,
+      marginHorizontal: "auto",
     },
   });
 
