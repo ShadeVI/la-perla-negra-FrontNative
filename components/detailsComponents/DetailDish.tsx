@@ -49,13 +49,17 @@ const DetailDish = ({ details }: DetailDishProps) => {
           </Text>
         </View>
         <View style={styles.contentRight}>
-          <View style={styles.orderContainer}>
+          <View>
             <Pressable
+              android_ripple={{ color: theme?.text }}
+              style={styles.orderButton}
               onPress={() =>
                 dispatch({ payload: details, type: ORDER_REDUCER_TYPES.ADD })
               }
             >
-              <Text style={{ color: theme?.text, fontSize: 20 }}>ADD</Text>
+              <Text style={{ color: theme?.text, fontSize: 20 }}>
+                ADD TO YOUR ORDER LIST
+              </Text>
             </Pressable>
           </View>
           <Text style={styles.ingredientsTitle}>Ingredientes</Text>
@@ -153,7 +157,15 @@ const createStyles = (theme = Colors.light, colorScheme: ColorScheme) =>
       textDecorationLine: "underline",
       marginBottom: 20,
     },
-    orderContainer: {
-      flex: 1,
+    orderButton: {
+      minWidth: 100,
+      justifyContent: "center",
+      alignItems: "center",
+      marginBottom: 50,
+      padding: 20,
+      borderRadius: 10,
+      borderWidth: 1,
+      borderColor: theme.text,
+      marginHorizontal: "auto",
     },
   });
