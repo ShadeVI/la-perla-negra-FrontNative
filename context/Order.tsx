@@ -52,7 +52,9 @@ function orderReducer(
     case ORDER_REDUCER_TYPES.ADD:
       return [...state, payload];
     case ORDER_REDUCER_TYPES.REMOVE:
-      return state;
+      const positionElementToRemove = state.indexOf(payload);
+      const newOrderState = state.toSpliced(positionElementToRemove, 1);
+      return newOrderState;
     default:
       return state;
   }
