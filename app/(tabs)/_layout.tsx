@@ -47,7 +47,7 @@ export default function TabLayout() {
         <Tabs.Screen
           name="order"
           options={{
-            title: "Order",
+            title: "Your Memo",
             tabBarIcon: ({ color }) => (
               <IconSymbol size={28} name="list.number.ar" color={color} />
             ),

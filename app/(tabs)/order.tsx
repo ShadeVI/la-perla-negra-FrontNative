@@ -37,7 +37,7 @@ const order = () => {
           marginBottom: 50,
         }}
       >
-        Your Order:
+        Your Memo:
       </Text>
       <ScrollView
         contentContainerStyle={{
@@ -57,35 +57,11 @@ const order = () => {
                 flexDirection: "row",
                 width: "100%",
                 marginHorizontal: "auto",
-                gap: 10,
+                gap: 20,
                 justifyContent: "space-between",
                 alignItems: "center",
               }}
             >
-              <View
-                style={{
-                  flex: 1,
-                  flexDirection: "row",
-                  marginHorizontal: "auto",
-                  gap: 10,
-                  justifyContent: "flex-start",
-                  alignItems: "center",
-                }}
-              >
-                <Text
-                  style={{
-                    color: theme?.text,
-                    fontSize: 30,
-                    fontWeight: "bold",
-                  }}
-                >
-                  {content.sum}
-                </Text>
-                <Text style={{ color: theme?.text, fontSize: 26 }}>x</Text>
-                <Text style={{ color: theme?.text, fontSize: 30 }}>
-                  {content.data.title[selectedLanguage?.id ?? "es"]}
-                </Text>
-              </View>
               <Pressable
                 android_ripple={{ color: theme?.text }}
                 style={{
@@ -106,7 +82,7 @@ const order = () => {
                 <Text
                   style={{
                     color: theme?.text,
-                    fontSize: 20,
+                    fontSize: 22,
                     textAlign: "center",
                   }}
                 >
@@ -122,6 +98,7 @@ const order = () => {
                   borderRadius: 10,
                   backgroundColor: theme?.gray,
                   minWidth: 120,
+                  marginRight: 50,
                 }}
                 onPress={() =>
                   dispatch({
@@ -133,13 +110,53 @@ const order = () => {
                 <Text
                   style={{
                     color: theme?.text,
-                    fontSize: 20,
+                    fontSize: 22,
                     textAlign: "center",
                   }}
                 >
                   +1
                 </Text>
               </Pressable>
+              <View
+                style={{
+                  flex: 1,
+                  flexDirection: "row",
+                  marginHorizontal: "auto",
+                  gap: 15,
+                  justifyContent: "flex-start",
+                  alignItems: "center",
+                }}
+              >
+                <Text
+                  style={{
+                    color: theme?.text,
+                    fontSize: 30,
+                    fontWeight: "bold",
+                  }}
+                >
+                  {content.sum}
+                </Text>
+                <Text
+                  style={{
+                    color: theme?.text,
+                    fontSize: 22,
+                  }}
+                >
+                  x
+                </Text>
+                <Text
+                  style={{
+                    color: theme?.text,
+                    fontSize: 26,
+                    fontStyle: "italic",
+                  }}
+                >
+                  (N.{content.data.identifierNumber})
+                </Text>
+                <Text style={{ color: theme?.text, fontSize: 26 }}>
+                  {content.data.title[selectedLanguage?.id ?? "es"]}
+                </Text>
+              </View>
             </View>
           );
         })}
