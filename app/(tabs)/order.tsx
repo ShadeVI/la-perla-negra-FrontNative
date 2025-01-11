@@ -32,8 +32,8 @@ const order = () => {
       <Text
         style={{
           color: theme?.text,
-          fontSize: 32,
-          marginTop: 100,
+          fontSize: 40,
+          marginTop: 50,
           marginBottom: 50,
         }}
       >
@@ -41,13 +41,11 @@ const order = () => {
       </Text>
       <ScrollView
         contentContainerStyle={{
-          flex: 1,
-          justifyContent: "flex-start",
-          alignItems: "center",
+          paddingBottom: 50,
           gap: 15,
         }}
         style={{
-          maxWidth: "60%",
+          paddingHorizontal: "5%",
         }}
       >
         {Object.entries(groupedOrdersByName).map((elem) => {
@@ -77,44 +75,19 @@ const order = () => {
                 <Text
                   style={{
                     color: theme?.text,
-                    fontSize: 26,
+                    fontSize: 30,
                     fontWeight: "bold",
                   }}
                 >
                   {content.sum}
                 </Text>
-                <Text style={{ color: theme?.text, fontSize: 18 }}>x</Text>
-                <Text style={{ color: theme?.text, fontSize: 20 }}>
+                <Text style={{ color: theme?.text, fontSize: 26 }}>x</Text>
+                <Text style={{ color: theme?.text, fontSize: 30 }}>
                   {content.data.title[selectedLanguage?.id ?? "es"]}
                 </Text>
               </View>
               <Pressable
-                style={{
-                  padding: 12,
-                  borderWidth: 1,
-                  borderColor: theme?.text,
-                  borderRadius: 10,
-                  backgroundColor: theme?.gray,
-                  minWidth: 120,
-                }}
-                onPress={() =>
-                  dispatch({
-                    payload: content.data,
-                    type: ORDER_REDUCER_TYPES.ADD,
-                  })
-                }
-              >
-                <Text
-                  style={{
-                    color: theme?.text,
-                    fontSize: 20,
-                    textAlign: "center",
-                  }}
-                >
-                  Add
-                </Text>
-              </Pressable>
-              <Pressable
+                android_ripple={{ color: theme?.text }}
                 style={{
                   padding: 12,
                   borderWidth: 1,
@@ -137,7 +110,34 @@ const order = () => {
                     textAlign: "center",
                   }}
                 >
-                  Remove
+                  -1
+                </Text>
+              </Pressable>
+              <Pressable
+                android_ripple={{ color: theme?.text }}
+                style={{
+                  padding: 12,
+                  borderWidth: 1,
+                  borderColor: theme?.text,
+                  borderRadius: 10,
+                  backgroundColor: theme?.gray,
+                  minWidth: 120,
+                }}
+                onPress={() =>
+                  dispatch({
+                    payload: content.data,
+                    type: ORDER_REDUCER_TYPES.ADD,
+                  })
+                }
+              >
+                <Text
+                  style={{
+                    color: theme?.text,
+                    fontSize: 20,
+                    textAlign: "center",
+                  }}
+                >
+                  +1
                 </Text>
               </Pressable>
             </View>
