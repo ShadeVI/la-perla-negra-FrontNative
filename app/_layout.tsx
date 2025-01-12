@@ -1,5 +1,6 @@
 import { DataProvider } from "@/context/Data";
 import { LanguageProvider } from "@/context/Language";
+import { OrderProvider } from "@/context/Order";
 import { ThemeProvider } from "@/context/Theme";
 import { useFonts } from "expo-font";
 import { Stack } from "expo-router";
@@ -34,10 +35,12 @@ export default function RootLayout() {
         <DataProvider>
           <StatusBar style="auto" />
           <SafeAreaProvider>
-            <Stack>
-              <Stack.Screen name="(tabs)" options={{ headerShown: false }} />
-              <Stack.Screen name="+not-found" />
-            </Stack>
+            <OrderProvider>
+              <Stack>
+                <Stack.Screen name="(tabs)" options={{ headerShown: false }} />
+                <Stack.Screen name="+not-found" />
+              </Stack>
+            </OrderProvider>
           </SafeAreaProvider>
         </DataProvider>
       </LanguageProvider>

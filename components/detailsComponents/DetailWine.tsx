@@ -1,5 +1,7 @@
 import { Colors } from "@/constants/Colors";
+import { createPortableTextConfig } from "@/constants/PortableText";
 import { useLanguage } from "@/context/Language";
+import { ORDER_REDUCER_TYPES, useOrder } from "@/context/Order";
 import { ColorScheme, useTheme } from "@/context/Theme";
 import { useDevice } from "@/hooks/useResponsive";
 import { Wine } from "@/lib/sanity/httpSanity";
@@ -8,6 +10,7 @@ import { PortableText } from "@portabletext/react-native";
 import { Link } from "expo-router";
 import {
   Image,
+  Pressable,
   StyleSheet,
   Text,
   useWindowDimensions,
@@ -25,6 +28,7 @@ export const DetailWine = ({ details }: DetailWineProps) => {
   const { selectedLanguage } = useLanguage();
   const { theme, colorScheme } = useTheme();
   const { isTablet } = useDevice();
+  const { dispatch } = useOrder();
 
   const styles = createStyles(theme, colorScheme, isTablet);
 
@@ -38,7 +42,7 @@ export const DetailWine = ({ details }: DetailWineProps) => {
       {details?.imageUrl && (
         <Animated.View
           entering={FadeInUp.duration(700).delay(100).easing(Easing.ease)}
-          style={[styles.imageContainer, { height: height - 250 }]}
+          style={[styles.imageContainer, { height: height - 150 }]}
         >
           <Animated.Image
             source={{ uri: details?.imageUrl }}
@@ -54,259 +58,10 @@ export const DetailWine = ({ details }: DetailWineProps) => {
           </Text>
           <PortableText
             value={details?.description[selectedLanguage?.id ?? "es"] || []}
-            components={{
-              block: {
-                h1: ({ children }) => {
-                  return (
-                    <Text
-                      style={{
-                        fontSize: 26,
-                        lineHeight: lineHeight(22),
-                        paddingVertical: 5,
-                        color: theme?.text,
-                      }}
-                    >
-                      {children}
-                    </Text>
-                  );
-                },
-                h2: ({ children }) => {
-                  return (
-                    <Text
-                      style={{
-                        fontSize: 24,
-
-                        lineHeight: lineHeight(22),
-                        paddingVertical: 5,
-                        color: theme?.text,
-                      }}
-                    >
-                      {children}
-                    </Text>
-                  );
-                },
-                h3: ({ children }) => {
-                  return (
-                    <Text
-                      style={{
-                        fontSize: 23,
-                        lineHeight: lineHeight(20),
-                        paddingVertical: 5,
-                        color: theme?.text,
-                      }}
-                    >
-                      {children}
-                    </Text>
-                  );
-                },
-                h4: ({ children }) => {
-                  return (
-                    <Text
-                      style={{
-                        fontSize: 22,
-                        lineHeight: lineHeight(20),
-                        paddingVertical: 5,
-                        color: theme?.text,
-                      }}
-                    >
-                      {children}
-                    </Text>
-                  );
-                },
-                h5: ({ children }) => {
-                  return (
-                    <Text
-                      style={{
-                        fontSize: 21,
-                        lineHeight: lineHeight(20),
-                        paddingVertical: 5,
-                        color: theme?.text,
-                      }}
-                    >
-                      {children}
-                    </Text>
-                  );
-                },
-                h6: ({ children }) => {
-                  return (
-                    <Text
-                      style={{
-                        fontSize: 20,
-                        lineHeight: lineHeight(19),
-                        paddingVertical: 5,
-                        color: theme?.text,
-                      }}
-                    >
-                      {children}
-                    </Text>
-                  );
-                },
-                normal: ({ children }) => {
-                  return (
-                    <Text
-                      style={{
-                        fontSize: 18,
-                        lineHeight: lineHeight(16),
-                        paddingVertical: 5,
-                        color: theme?.text,
-                      }}
-                    >
-                      {children}
-                    </Text>
-                  );
-                },
-              },
-              marks: {
-                code: ({ children }) => {
-                  return (
-                    <Text
-                      style={{
-                        fontSize: 18,
-                        lineHeight: lineHeight(16),
-                        paddingVertical: 5,
-                        paddingHorizontal: 3,
-                        color: theme?.text,
-                        backgroundColor:
-                          colorScheme === "dark" ? "#666666" : "#d3d3d3",
-                      }}
-                    >
-                      {children}
-                    </Text>
-                  );
-                },
-                strong: ({ children }) => {
-                  return (
-                    <Text
-                      style={{
-                        fontSize: 18,
-                        lineHeight: lineHeight(16),
-                        paddingVertical: 5,
-                        fontWeight: "bold",
-                        color: theme?.text,
-                      }}
-                    >
-                      {children}
-                    </Text>
-                  );
-                },
-                em: ({ children }) => {
-                  return (
-                    <Text
-                      style={{
-                        fontSize: 18,
-                        lineHeight: lineHeight(16),
-                        paddingVertical: 5,
-                        fontStyle: "italic",
-                        color: theme?.text,
-                      }}
-                    >
-                      {children}
-                    </Text>
-                  );
-                },
-                underline: ({ children }) => {
-                  return (
-                    <Text
-                      style={{
-                        fontSize: 18,
-                        paddingVertical: 5,
-                        lineHeight: lineHeight(16),
-                        textDecorationLine: "underline",
-                        color: theme?.text,
-                      }}
-                    >
-                      {children}
-                    </Text>
-                  );
-                },
-                link: ({ children, value }) => {
-                  return (
-                    <Link
-                      href={value.href}
-                      style={{
-                        fontSize: 18,
-                        paddingVertical: 5,
-                        lineHeight: lineHeight(16),
-                        color: theme?.text,
-                      }}
-                    >
-                      {children}
-                    </Link>
-                  );
-                },
-                "strike-through": ({ children }) => {
-                  return (
-                    <Text
-                      style={{
-                        fontSize: 18,
-                        paddingVertical: 5,
-                        lineHeight: lineHeight(16),
-                        textDecorationLine: "line-through",
-                        color: theme?.text,
-                      }}
-                    >
-                      {children}
-                    </Text>
-                  );
-                },
-              },
-              list: {
-                bullet: ({ children }) => {
-                  return (
-                    <View
-                      style={{
-                        paddingVertical: 5,
-                      }}
-                    >
-                      {children}
-                    </View>
-                  );
-                },
-                number: ({ children }) => {
-                  return (
-                    <View
-                      style={{
-                        paddingVertical: 5,
-                      }}
-                    >
-                      {children}
-                    </View>
-                  );
-                },
-              },
-              listItem: {
-                bullet: ({ children, value }) => {
-                  return (
-                    <Text
-                      style={{
-                        fontSize: 18,
-                        paddingVertical: 5,
-                        lineHeight: lineHeight(16),
-                        color: theme?.text,
-                        marginLeft: value.level ? value.level * 10 : 0,
-                      }}
-                    >
-                      {value.level === 1 ? "•" : value.level === 2 ? "◦" : "▪"}{" "}
-                      {children}
-                    </Text>
-                  );
-                },
-                number: ({ children, index }) => {
-                  return (
-                    <Text
-                      style={{
-                        fontSize: 18,
-                        paddingVertical: 5,
-                        lineHeight: lineHeight(16),
-                        color: theme?.text,
-                      }}
-                    >
-                      {index + 1}. {children}
-                    </Text>
-                  );
-                },
-              },
-            }}
+            components={createPortableTextConfig({
+              theme: theme,
+              colorScheme: colorScheme,
+            })}
             onMissingComponent={false}
           />
         </View>
@@ -318,6 +73,19 @@ export const DetailWine = ({ details }: DetailWineProps) => {
               source={{ uri: details?.verticalImageUrl }}
               style={styles.imageVertical}
             />
+          </View>
+          <View>
+            <Pressable
+              android_ripple={{ color: theme?.text }}
+              style={styles.orderButton}
+              onPress={() =>
+                dispatch({ payload: details, type: ORDER_REDUCER_TYPES.ADD })
+              }
+            >
+              <Text style={{ color: theme?.text, fontSize: 20 }}>
+                ADD TO YOUR ORDER LIST
+              </Text>
+            </Pressable>
           </View>
           <Text style={styles.ingredientsTitle}>Ingredientes</Text>
           <View style={styles.ingredientsContainer}>
@@ -430,6 +198,17 @@ const createStyles = (
       textAlign: "center",
       fontSize: 18,
       color: theme.background,
+    },
+    orderButton: {
+      minWidth: 100,
+      justifyContent: "center",
+      alignItems: "center",
+      marginBottom: 50,
+      padding: 20,
+      borderRadius: 10,
+      borderWidth: 1,
+      borderColor: theme.text,
+      marginHorizontal: "auto",
     },
   });
 

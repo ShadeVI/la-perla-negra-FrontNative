@@ -3,9 +3,16 @@ import { Colors } from "@/constants/Colors";
 import { useLanguage } from "@/context/Language";
 import { ColorScheme, useTheme } from "@/context/Theme";
 import { GenericSimpleDescriptionDrink } from "@/lib/sanity/httpSanity";
-import { StyleSheet, Text, useWindowDimensions, View } from "react-native";
+import {
+  Pressable,
+  StyleSheet,
+  Text,
+  useWindowDimensions,
+  View,
+} from "react-native";
 import Animated, { Easing, FadeIn, FadeInUp } from "react-native-reanimated";
 import { SafeAreaView } from "react-native-safe-area-context";
+import { ORDER_REDUCER_TYPES, useOrder } from "@/context/Order";
 
 interface DetailGenericDrinkProps {
   details: GenericSimpleDescriptionDrink;
@@ -15,6 +22,7 @@ const DetailGenericDrink = ({ details }: DetailGenericDrinkProps) => {
   const { height } = useWindowDimensions();
   const { selectedLanguage } = useLanguage();
   const { theme, colorScheme } = useTheme();
+  const { dispatch } = useOrder();
 
   const styles = createStyles(theme, colorScheme);
 
@@ -23,7 +31,12 @@ const DetailGenericDrink = ({ details }: DetailGenericDrinkProps) => {
       {details?.imageUrl && (
         <Animated.View
           entering={FadeInUp.duration(700).delay(100).easing(Easing.ease)}
-          style={[styles.imageContainer, { height: height - 250 }]}
+          style={[
+            styles.imageContainer,
+            {
+              height: height - 150,
+            },
+          ]}
         >
           <Animated.Image
             source={{ uri: details?.imageUrl }}
@@ -46,6 +59,17 @@ const DetailGenericDrink = ({ details }: DetailGenericDrinkProps) => {
           )}
         </View>
         <View style={styles.contentRight}>
+          <Pressable
+            android_ripple={{ color: theme?.text }}
+            style={styles.orderButton}
+            onPress={() =>
+              dispatch({ payload: details, type: ORDER_REDUCER_TYPES.ADD })
+            }
+          >
+            <Text style={{ color: theme?.text, fontSize: 20 }}>
+              ADD TO YOUR ORDER LIST
+            </Text>
+          </Pressable>
           <Text style={styles.ingredientsTitle}>Ingredientes</Text>
           <View style={styles.ingredientsContainer}>
             {details?.ingredients?.length > 0
@@ -140,5 +164,16 @@ const createStyles = (theme = Colors.light, colorScheme: ColorScheme) =>
       textAlign: "center",
       textDecorationLine: "underline",
       marginBottom: 20,
+    },
+    orderButton: {
+      minWidth: 100,
+      justifyContent: "center",
+      alignItems: "center",
+      marginBottom: 50,
+      padding: 20,
+      borderRadius: 10,
+      borderWidth: 1,
+      borderColor: theme.text,
+      marginHorizontal: "auto",
     },
   });
