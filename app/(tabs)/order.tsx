@@ -2,43 +2,59 @@ import { Colors } from "@/constants/Colors";
 import { useLanguage } from "@/context/Language";
 import { ORDER_REDUCER_TYPES, useOrder } from "@/context/Order";
 import { ColorScheme, useTheme } from "@/context/Theme";
-import { SanityReturnData } from "@/lib/sanity/httpSanity";
 import { Pressable, ScrollView, StyleSheet, Text, View } from "react-native";
 
 const order = () => {
   const { selectedLanguage } = useLanguage();
-  const { orders, dispatch } = useOrder();
+  const { order, dispatch } = useOrder();
   const { theme, colorScheme } = useTheme();
-
-  const groupedOrdersByName = orders.reduce((acc, currElem) => {
-    if (acc[currElem._id]) {
-      acc[currElem._id] = {
-        ...acc[currElem._id],
-        sum: (acc[currElem._id].sum += 1),
-      };
-    } else {
-      acc[currElem._id] = {
-        data: currElem,
-        sum: 1,
-      };
-    }
-    return acc;
-  }, {} as { [key: string]: { sum: number; data: SanityReturnData } });
 
   const styles = createStyles(theme, colorScheme);
 
   return (
     <View style={styles.container}>
-      <Text
+      <View
         style={{
-          color: theme?.text,
-          fontSize: 40,
-          marginTop: 50,
-          marginBottom: 50,
+          flexDirection: "row",
+          alignItems: "center",
+          paddingHorizontal: 50,
         }}
       >
-        Your Memo:
-      </Text>
+        <Text
+          style={{
+            flexGrow: 1,
+            textAlign: "center",
+            color: theme?.text,
+            fontSize: 40,
+            marginTop: 50,
+            marginBottom: 50,
+          }}
+        >
+          Your Memo:
+        </Text>
+        <Pressable
+          android_ripple={{ color: theme?.text }}
+          style={{
+            padding: 12,
+            borderWidth: 1,
+            borderColor: theme?.text,
+            borderRadius: 10,
+            backgroundColor: theme?.gray,
+          }}
+          onPress={() =>
+            dispatch({ payload: null, type: ORDER_REDUCER_TYPES.RESET })
+          }
+        >
+          <Text
+            style={{
+              color: theme?.text,
+              fontSize: 20,
+            }}
+          >
+            Reset memo
+          </Text>
+        </Pressable>
+      </View>
       <ScrollView
         contentContainerStyle={{
           paddingBottom: 50,
@@ -48,7 +64,7 @@ const order = () => {
           paddingHorizontal: "5%",
         }}
       >
-        {Object.entries(groupedOrdersByName).map((elem) => {
+        {Object.entries(order).map((elem) => {
           const [id, content] = elem;
           return (
             <View
@@ -69,7 +85,7 @@ const order = () => {
                   borderWidth: 1,
                   borderColor: theme?.text,
                   borderRadius: 10,
-                  backgroundColor: theme?.gray,
+                  backgroundColor: content.sum === 1 ? "#8a1919" : theme?.gray,
                   minWidth: 120,
                 }}
                 onPress={() =>
@@ -86,7 +102,7 @@ const order = () => {
                     textAlign: "center",
                   }}
                 >
-                  -1
+                  {content.sum === 1 ? "Remove" : "-1"}
                 </Text>
               </Pressable>
               <Pressable
