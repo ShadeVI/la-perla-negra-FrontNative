@@ -11,12 +11,10 @@ import {
 } from "@/lib/sanity/httpSanity";
 import LoadingIndicator from "@/components/LoadingIndicator";
 import MenuCard from "@/components/MenuCard";
-import { useLanguage } from "@/context/Language";
 
 export default function MenuScreen() {
   const { theme } = useTheme();
   const { data } = useData();
-  const { selectedLanguage } = useLanguage();
   const [selectedCategory, setSelectedCategory] = useState<
     number | undefined
   >();
@@ -78,7 +76,12 @@ export default function MenuScreen() {
         <FlatList
           contentContainerStyle={styles.flatListContainer}
           data={filteredDishes}
-          renderItem={({ item }) => <MenuCard item={item} />}
+          renderItem={({ item }) => (
+            <MenuCard
+              item={item}
+              isSmall={item._type === SanityDocumentTypes.DRINK}
+            />
+          )}
           keyExtractor={(item) => item._id}
           ListEmptyComponent={
             <Text

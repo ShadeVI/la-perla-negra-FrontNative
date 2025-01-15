@@ -42,7 +42,6 @@ const DetailGenericDrink = ({ details }: DetailGenericDrinkProps) => {
       <View style={styles.content}>
         <View style={styles.contentLeft}>
           <Text style={styles.title}>
-            {details.identifierNumber} -{" "}
             {details.title[selectedLanguage?.id ?? "es"] || details.title.es}
           </Text>
           {details?.description && (

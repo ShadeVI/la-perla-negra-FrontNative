@@ -6,6 +6,7 @@ import {
   StyleSheet,
   Text,
   TextStyle,
+  View,
   ViewStyle,
 } from "react-native";
 
@@ -26,13 +27,15 @@ const GenericPressableButtton = ({
   const styles = createStyles(theme, colorScheme);
 
   return (
-    <Pressable
-      android_ripple={{ color: theme?.background }}
-      style={[styles.orderButton, containerExtraStyles]}
-      onPress={onPress}
-    >
-      <Text style={[styles.text, textExtraStyles]}>{text}</Text>
-    </Pressable>
+    <View style={styles.orderButton}>
+      <Pressable
+        android_ripple={{ color: theme?.text }}
+        style={[{ padding: 20 }, containerExtraStyles]}
+        onPress={onPress}
+      >
+        <Text style={[styles.text, textExtraStyles]}>{text}</Text>
+      </Pressable>
+    </View>
   );
 };
 
@@ -45,11 +48,11 @@ const createStyles = (theme = Colors.light, colorScheme: ColorScheme) =>
       justifyContent: "center",
       alignItems: "center",
       marginBottom: 50,
-      padding: 20,
       borderRadius: 10,
       borderWidth: 1,
       borderColor: theme.text,
       marginHorizontal: "auto",
+      overflow: "hidden",
     },
     text: { color: theme?.text, fontSize: 20 },
   });

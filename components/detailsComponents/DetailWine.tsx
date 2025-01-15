@@ -50,7 +50,6 @@ export const DetailWine = ({ details }: DetailWineProps) => {
       <View style={styles.content}>
         <View style={styles.contentLeft}>
           <Text style={styles.title}>
-            {details.identifierNumber} -{" "}
             {details.title[selectedLanguage?.id ?? "es"] || details.title.es}
           </Text>
           <PortableText

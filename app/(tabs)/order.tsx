@@ -6,7 +6,7 @@ import {
   useOrder,
 } from "@/context/Order";
 import { ColorScheme, useTheme } from "@/context/Theme";
-import { SanityReturnData } from "@/lib/sanity/httpSanity";
+import { SanityDocumentTypes, SanityReturnData } from "@/lib/sanity/httpSanity";
 import { Pressable, ScrollView, StyleSheet, Text, View } from "react-native";
 
 const order = () => {
@@ -204,9 +204,10 @@ const order = () => {
                       fontStyle: "italic",
                     }}
                   >
-                    {`(N.${content.data.identifierNumber})`
-                      .padStart(8)
-                      .padEnd(10)}
+                    {content.data._type === SanityDocumentTypes.DISH &&
+                      `(N.${content.data.identifierNumber})`
+                        .padStart(8)
+                        .padEnd(10)}
                   </Text>
                   <Text style={{ color: theme?.text, fontSize: 26 }}>
                     {content.data.title[selectedLanguage?.id ?? "es"]}
