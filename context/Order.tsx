@@ -11,8 +11,12 @@ interface OrderProviderProps {
   children: React.ReactNode;
 }
 
+export interface OrderContextState {
+  [key: string]: { data: SanityReturnData; sum: number };
+}
+
 interface ContextValue {
-  order: { [key: string]: { data: SanityReturnData; sum: number } };
+  order: OrderContextState;
   dispatch: React.Dispatch<{
     payload: SanityReturnData | null;
     type: ORDER_REDUCER_TYPES;
@@ -45,7 +49,7 @@ export const useOrder = () => {
 };
 
 function orderReducer(
-  state: { [key: string]: { data: SanityReturnData; sum: number } },
+  state: OrderContextState,
   action: { payload: SanityReturnData | null; type: ORDER_REDUCER_TYPES }
 ) {
   const { payload, type } = action;
@@ -56,10 +60,7 @@ function orderReducer(
     case ORDER_REDUCER_TYPES.ADD:
       const newOrderState = { ...state };
       if (state[payload._id]?.sum >= 1) {
-        newOrderState[payload._id] = {
-          ...newOrderState[payload._id],
-          sum: state[payload._id].sum + 1,
-        };
+        newOrderState[payload._id].sum += 1;
       } else {
         newOrderState[payload._id] = {
           data: payload,
@@ -70,10 +71,7 @@ function orderReducer(
     case ORDER_REDUCER_TYPES.REMOVE:
       const newRemOrderState = { ...state };
       if (state[payload._id].sum > 1) {
-        newRemOrderState[payload._id] = {
-          ...newRemOrderState[payload._id],
-          sum: state[payload._id].sum - 1,
-        };
+        newRemOrderState[payload._id].sum -= 1;
       } else {
         delete newRemOrderState[payload._id];
       }
