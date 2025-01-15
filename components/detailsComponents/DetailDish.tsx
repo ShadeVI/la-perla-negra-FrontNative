@@ -3,17 +3,11 @@ import { Colors } from "@/constants/Colors";
 import { useLanguage } from "@/context/Language";
 import { ColorScheme, useTheme } from "@/context/Theme";
 import { Dish } from "@/lib/sanity/httpSanity";
-import {
-  Pressable,
-  StyleSheet,
-  Text,
-  useWindowDimensions,
-  View,
-} from "react-native";
+import { StyleSheet, Text, useWindowDimensions, View } from "react-native";
 import Animated, { Easing, FadeIn, FadeInUp } from "react-native-reanimated";
-import { SafeAreaView } from "react-native-safe-area-context";
 import { ORDER_REDUCER_TYPES, useOrder } from "@/context/Order";
-import { CURRENCIES, currenciesConverter } from "@/utils/utils"
+import { currenciesConverter } from "@/utils/utils";
+import GenericPressableButtton from "../GenericPressableButtton";
 
 interface DetailDishProps {
   details: Dish;
@@ -28,7 +22,7 @@ const DetailDish = ({ details }: DetailDishProps) => {
   const styles = createStyles(theme, colorScheme);
 
   return (
-    <SafeAreaView style={{ flex: 1, paddingVertical: 60 }}>
+    <View style={{ flex: 1, paddingVertical: 60 }}>
       <Animated.View
         entering={FadeInUp.duration(700).delay(100).easing(Easing.ease)}
         style={[styles.imageContainer, { height: height - 150 }]}
@@ -39,7 +33,7 @@ const DetailDish = ({ details }: DetailDishProps) => {
         />
       </Animated.View>
       <View style={styles.content}>
-        <View style={styles.contentLeft}> 
+        <View style={styles.contentLeft}>
           <Text style={styles.title}>
             {details.identifierNumber} -{" "}
             {details.title[selectedLanguage?.id ?? "es"] || details.title.es}
@@ -48,23 +42,16 @@ const DetailDish = ({ details }: DetailDishProps) => {
             {details.description[selectedLanguage?.id ?? "es"] ||
               details.description.es}
           </Text>
-          <Text style={styles.price}>
-            {currenciesConverter(details.price)}
-          </Text>
+          <Text style={styles.price}>{currenciesConverter(details.price)}</Text>
         </View>
         <View style={styles.contentRight}>
           <View>
-            <Pressable
-              android_ripple={{ color: theme?.text }}
-              style={styles.orderButton}
+            <GenericPressableButtton
+              text="ADD TO YOUR MEMO LIST"
               onPress={() =>
                 dispatch({ payload: details, type: ORDER_REDUCER_TYPES.ADD })
               }
-            >
-              <Text style={{ color: theme?.text, fontSize: 20 }}>
-                ADD TO YOUR ORDER LIST
-              </Text>
-            </Pressable>
+            />
           </View>
           <Text style={styles.ingredientsTitle}>Ingredientes</Text>
           <View style={styles.ingredientsContainer}>
@@ -87,7 +74,7 @@ const DetailDish = ({ details }: DetailDishProps) => {
           </View>
         </View>
       </View>
-    </SafeAreaView>
+    </View>
   );
 };
 
@@ -166,16 +153,5 @@ const createStyles = (theme = Colors.light, colorScheme: ColorScheme) =>
       textAlign: "center",
       textDecorationLine: "underline",
       marginBottom: 20,
-    },
-    orderButton: {
-      minWidth: 100,
-      justifyContent: "center",
-      alignItems: "center",
-      marginBottom: 50,
-      padding: 20,
-      borderRadius: 10,
-      borderWidth: 1,
-      borderColor: theme.text,
-      marginHorizontal: "auto",
     },
   });

@@ -17,7 +17,7 @@ import {
   View,
 } from "react-native";
 import Animated, { Easing, FadeIn, FadeInUp } from "react-native-reanimated";
-import { SafeAreaView } from "react-native-safe-area-context";
+import GenericPressableButtton from "../GenericPressableButtton";
 
 interface DetailWineProps {
   details: Wine;
@@ -33,7 +33,7 @@ export const DetailWine = ({ details }: DetailWineProps) => {
   const styles = createStyles(theme, colorScheme, isTablet);
 
   return (
-    <SafeAreaView
+    <View
       style={{
         flex: 1,
         paddingVertical: 60,
@@ -75,17 +75,12 @@ export const DetailWine = ({ details }: DetailWineProps) => {
             />
           </View>
           <View>
-            <Pressable
-              android_ripple={{ color: theme?.text }}
-              style={styles.orderButton}
+            <GenericPressableButtton
+              text="ADD TO YOUR MEMO LIST"
               onPress={() =>
                 dispatch({ payload: details, type: ORDER_REDUCER_TYPES.ADD })
               }
-            >
-              <Text style={{ color: theme?.text, fontSize: 20 }}>
-                ADD TO YOUR ORDER LIST
-              </Text>
-            </Pressable>
+            />
           </View>
           <Text style={styles.ingredientsTitle}>Ingredientes</Text>
           <View style={styles.ingredientsContainer}>
@@ -108,7 +103,7 @@ export const DetailWine = ({ details }: DetailWineProps) => {
           </View>
         </View>
       </View>
-    </SafeAreaView>
+    </View>
   );
 };
 
@@ -198,17 +193,6 @@ const createStyles = (
       textAlign: "center",
       fontSize: 18,
       color: theme.background,
-    },
-    orderButton: {
-      minWidth: 100,
-      justifyContent: "center",
-      alignItems: "center",
-      marginBottom: 50,
-      padding: 20,
-      borderRadius: 10,
-      borderWidth: 1,
-      borderColor: theme.text,
-      marginHorizontal: "auto",
     },
   });
 
