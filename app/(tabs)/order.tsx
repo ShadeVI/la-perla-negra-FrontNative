@@ -1,3 +1,4 @@
+import GenericPressableButtton from "@/components/GenericPressableButtton";
 import { Colors } from "@/constants/Colors";
 import { useLanguage } from "@/context/Language";
 import {
@@ -60,28 +61,13 @@ const order = () => {
         >
           Your Memo:
         </Text>
-        <Pressable
-          android_ripple={{ color: theme?.text }}
-          style={{
-            padding: 12,
-            borderWidth: 1,
-            borderColor: theme?.text,
-            borderRadius: 10,
-            backgroundColor: theme?.gray,
-          }}
+        <GenericPressableButtton
+          text="Reset List"
           onPress={() =>
             dispatch({ payload: null, type: ORDER_REDUCER_TYPES.RESET })
           }
-        >
-          <Text
-            style={{
-              color: theme?.text,
-              fontSize: 20,
-            }}
-          >
-            Reset memo
-          </Text>
-        </Pressable>
+          containerExtraStyles={{ marginBottom: 0 }}
+        />
       </View>
       <ScrollView
         contentContainerStyle={{

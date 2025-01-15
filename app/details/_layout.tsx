@@ -4,7 +4,6 @@ import { useData } from "@/context/Data";
 import { useLanguage } from "@/context/Language";
 import { Ionicons } from "@expo/vector-icons";
 import { useTheme } from "@/context/Theme";
-import { SafeAreaView } from "react-native-safe-area-context";
 
 const Layout = () => {
   const params = useLocalSearchParams();

@@ -76,6 +76,7 @@ export const DetailWine = ({ details }: DetailWineProps) => {
               onPress={() =>
                 dispatch({ payload: details, type: ORDER_REDUCER_TYPES.ADD })
               }
+              containerExtraStyles={{ marginTop: 50 }}
             />
           </View>
           <Text style={styles.ingredientsTitle}>Ingredientes</Text>

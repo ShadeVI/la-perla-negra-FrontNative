@@ -27,10 +27,10 @@ const GenericPressableButtton = ({
   const styles = createStyles(theme, colorScheme);
 
   return (
-    <View style={styles.orderButton}>
+    <View style={[styles.orderButton, containerExtraStyles]}>
       <Pressable
         android_ripple={{ color: theme?.text }}
-        style={[{ padding: 20 }, containerExtraStyles]}
+        style={[{ padding: 20 }]}
         onPress={onPress}
       >
         <Text style={[styles.text, textExtraStyles]}>{text}</Text>
