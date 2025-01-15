@@ -5,12 +5,9 @@ import { ORDER_REDUCER_TYPES, useOrder } from "@/context/Order";
 import { ColorScheme, useTheme } from "@/context/Theme";
 import { useDevice } from "@/hooks/useResponsive";
 import { Wine } from "@/lib/sanity/httpSanity";
-import { lineHeight } from "@/utils/utils";
 import { PortableText } from "@portabletext/react-native";
-import { Link } from "expo-router";
 import {
   Image,
-  Pressable,
   StyleSheet,
   Text,
   useWindowDimensions,

@@ -3,15 +3,8 @@ import { Colors } from "@/constants/Colors";
 import { useLanguage } from "@/context/Language";
 import { ColorScheme, useTheme } from "@/context/Theme";
 import { GenericSimpleDescriptionDrink } from "@/lib/sanity/httpSanity";
-import {
-  Pressable,
-  StyleSheet,
-  Text,
-  useWindowDimensions,
-  View,
-} from "react-native";
+import { StyleSheet, Text, useWindowDimensions, View } from "react-native";
 import Animated, { Easing, FadeIn, FadeInUp } from "react-native-reanimated";
-import { SafeAreaView } from "react-native-safe-area-context";
 import { ORDER_REDUCER_TYPES, useOrder } from "@/context/Order";
 import GenericPressableButtton from "../GenericPressableButtton";
 
