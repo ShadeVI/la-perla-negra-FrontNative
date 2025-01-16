@@ -4,7 +4,6 @@ import { useData } from "@/context/Data";
 import { useLanguage } from "@/context/Language";
 import { Ionicons } from "@expo/vector-icons";
 import { useTheme } from "@/context/Theme";
-import { SafeAreaView } from "react-native-safe-area-context";
 
 const Layout = () => {
   const params = useLocalSearchParams();
@@ -18,7 +17,7 @@ const Layout = () => {
     return <Text>Not found.</Text>;
   }
   return (
-    <SafeAreaView style={{ flex: 1 }}>
+    <View style={{ flex: 1 }}>
       <Stack.Screen
         options={{
           headerTitle: `${detailsDish.identifierNumber} - ${
@@ -37,7 +36,7 @@ const Layout = () => {
         }}
       />
       <Slot />
-    </SafeAreaView>
+    </View>
   );
 };
 export default Layout;

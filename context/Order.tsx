@@ -4,32 +4,37 @@ import { createContext, useContext, useReducer } from "react";
 export enum ORDER_REDUCER_TYPES {
   ADD,
   REMOVE,
+  RESET,
 }
 
 interface OrderProviderProps {
   children: React.ReactNode;
 }
 
+export interface OrderContextState {
+  [key: string]: { data: SanityReturnData; sum: number };
+}
+
 interface ContextValue {
-  orders: SanityReturnData[];
+  order: OrderContextState;
   dispatch: React.Dispatch<{
-    payload: SanityReturnData;
+    payload: SanityReturnData | null;
     type: ORDER_REDUCER_TYPES;
   }>;
 }
 
 const INITIAL_CONTEXT_VALUE: ContextValue = {
-  orders: [],
+  order: {},
   dispatch: () => {},
 };
 
 const OrderContext = createContext<ContextValue>(INITIAL_CONTEXT_VALUE);
 
 export const OrderProvider = ({ children }: OrderProviderProps) => {
-  const [orders, dispatch] = useReducer(orderReducer, []);
+  const [order, dispatch] = useReducer(orderReducer, {});
 
   return (
-    <OrderContext.Provider value={{ orders, dispatch }}>
+    <OrderContext.Provider value={{ order, dispatch }}>
       {children}
     </OrderContext.Provider>
   );
@@ -44,17 +49,33 @@ export const useOrder = () => {
 };
 
 function orderReducer(
-  state: SanityReturnData[],
-  action: { payload: SanityReturnData; type: ORDER_REDUCER_TYPES }
+  state: OrderContextState,
+  action: { payload: SanityReturnData | null; type: ORDER_REDUCER_TYPES }
 ) {
   const { payload, type } = action;
+
+  if (!payload || type === ORDER_REDUCER_TYPES.RESET) return {};
+
   switch (type) {
     case ORDER_REDUCER_TYPES.ADD:
-      return [...state, payload];
-    case ORDER_REDUCER_TYPES.REMOVE:
-      const positionElementToRemove = state.indexOf(payload);
-      const newOrderState = state.toSpliced(positionElementToRemove, 1);
+      const newOrderState = { ...state };
+      if (state[payload._id]?.sum >= 1) {
+        newOrderState[payload._id].sum += 1;
+      } else {
+        newOrderState[payload._id] = {
+          data: payload,
+          sum: 1,
+        };
+      }
       return newOrderState;
+    case ORDER_REDUCER_TYPES.REMOVE:
+      const newRemOrderState = { ...state };
+      if (state[payload._id].sum > 1) {
+        newRemOrderState[payload._id].sum -= 1;
+      } else {
+        delete newRemOrderState[payload._id];
+      }
+      return newRemOrderState;
     default:
       return state;
   }

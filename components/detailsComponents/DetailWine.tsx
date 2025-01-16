@@ -5,19 +5,16 @@ import { ORDER_REDUCER_TYPES, useOrder } from "@/context/Order";
 import { ColorScheme, useTheme } from "@/context/Theme";
 import { useDevice } from "@/hooks/useResponsive";
 import { Wine } from "@/lib/sanity/httpSanity";
-import { lineHeight } from "@/utils/utils";
 import { PortableText } from "@portabletext/react-native";
-import { Link } from "expo-router";
 import {
   Image,
-  Pressable,
   StyleSheet,
   Text,
   useWindowDimensions,
   View,
 } from "react-native";
 import Animated, { Easing, FadeIn, FadeInUp } from "react-native-reanimated";
-import { SafeAreaView } from "react-native-safe-area-context";
+import GenericPressableButtton from "../GenericPressableButtton";
 
 interface DetailWineProps {
   details: Wine;
@@ -33,7 +30,7 @@ export const DetailWine = ({ details }: DetailWineProps) => {
   const styles = createStyles(theme, colorScheme, isTablet);
 
   return (
-    <SafeAreaView
+    <View
       style={{
         flex: 1,
         paddingVertical: 60,
@@ -53,7 +50,6 @@ export const DetailWine = ({ details }: DetailWineProps) => {
       <View style={styles.content}>
         <View style={styles.contentLeft}>
           <Text style={styles.title}>
-            {details.identifierNumber} -{" "}
             {details.title[selectedLanguage?.id ?? "es"] || details.title.es}
           </Text>
           <PortableText
@@ -75,17 +71,13 @@ export const DetailWine = ({ details }: DetailWineProps) => {
             />
           </View>
           <View>
-            <Pressable
-              android_ripple={{ color: theme?.text }}
-              style={styles.orderButton}
+            <GenericPressableButtton
+              text="ADD TO YOUR MEMO LIST"
               onPress={() =>
                 dispatch({ payload: details, type: ORDER_REDUCER_TYPES.ADD })
               }
-            >
-              <Text style={{ color: theme?.text, fontSize: 20 }}>
-                ADD TO YOUR ORDER LIST
-              </Text>
-            </Pressable>
+              containerExtraStyles={{ marginTop: 50 }}
+            />
           </View>
           <Text style={styles.ingredientsTitle}>Ingredientes</Text>
           <View style={styles.ingredientsContainer}>
@@ -108,7 +100,7 @@ export const DetailWine = ({ details }: DetailWineProps) => {
           </View>
         </View>
       </View>
-    </SafeAreaView>
+    </View>
   );
 };
 
@@ -198,17 +190,6 @@ const createStyles = (
       textAlign: "center",
       fontSize: 18,
       color: theme.background,
-    },
-    orderButton: {
-      minWidth: 100,
-      justifyContent: "center",
-      alignItems: "center",
-      marginBottom: 50,
-      padding: 20,
-      borderRadius: 10,
-      borderWidth: 1,
-      borderColor: theme.text,
-      marginHorizontal: "auto",
     },
   });
 

@@ -5,7 +5,7 @@ import Animated from "react-native-reanimated";
 import Ionicons from "@expo/vector-icons/Ionicons";
 import { LinearGradient } from "expo-linear-gradient";
 import { useLanguage } from "@/context/Language";
-import { SanityReturnData } from "@/lib/sanity/httpSanity";
+import { SanityDocumentTypes, SanityReturnData } from "@/lib/sanity/httpSanity";
 import { Colors } from "@/constants/Colors";
 import { ColorScheme, useTheme } from "@/context/Theme";
 import { useDevice } from "@/hooks/useResponsive";
@@ -13,9 +13,10 @@ import { lineHeight } from "@/utils/utils";
 
 interface MenuCardProps {
   item: SanityReturnData;
+  isSmall?: boolean;
 }
 
-const MenuCard = ({ item }: MenuCardProps) => {
+const MenuCard = ({ item, isSmall }: MenuCardProps) => {
   const { selectedLanguage } = useLanguage();
   const { theme, colorScheme } = useTheme();
   const { isTablet } = useDevice();
@@ -24,7 +25,7 @@ const MenuCard = ({ item }: MenuCardProps) => {
 
   return (
     <Link key={item._id} href={`/details/${item._id}` as "/details/:id"}>
-      <View style={styles.card}>
+      <View style={[styles.card, isSmall && { height: isTablet ? 150 : 100 }]}>
         <Animated.Image source={{ uri: item.imageUrl }} style={styles.image} />
         <LinearGradient
           colors={[
@@ -45,7 +46,9 @@ const MenuCard = ({ item }: MenuCardProps) => {
           />
         )}
         <View style={styles.textContainer}>
-          <Text style={styles.number}>{item.identifierNumber}</Text>
+          {item._type === SanityDocumentTypes.DISH && (
+            <Text style={styles.number}>{item.identifierNumber}</Text>
+          )}
           <Text style={styles.title}>
             {item.title[selectedLanguage?.id || "es"] ?? item.title.es}
           </Text>
