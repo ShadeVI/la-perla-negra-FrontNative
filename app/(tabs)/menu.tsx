@@ -40,10 +40,10 @@ export default function MenuScreen() {
   };
 
   useEffect(() => {
-    fetchCategories()
-      .then((res) => {
-        setCategories(
-          res.sort((a, b) => a.identifierNumber - b.identifierNumber)
+    fetchCategories() // Chiamata a una funzione asincrona per recuperare le categorie
+      .then((res) => { // Quando la promessa è risolta, eseguiamo il codice in .then()
+        setCategories( // Impostiamo lo stato delle categorie con i dati recuperati
+          res.sort((a, b) => a.identifierNumber - b.identifierNumber) // Ordina le categorie in base a "identifierNumber" in ordine ascendente
         );
         setDefaultCategory(res[0]?.identifierNumber);
       })

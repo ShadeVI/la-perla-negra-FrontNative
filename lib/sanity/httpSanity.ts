@@ -22,7 +22,7 @@ _type,
   "imageUrl": image.asset -> url,
   "verticalImageUrl": verticalImage.asset -> url,
   "slug": slug.current,
-  identifierNumber,
+  identifierNumber, 
   isHighlighted,
   description,
   price,
@@ -33,6 +33,8 @@ _type,
   },
   isVisible,
 }`
+
+console.table(QUERY_DISHES)
 
 export interface CategoryTitle {
   [key: string]: string
@@ -79,7 +81,7 @@ interface BaseData {
   price: number;
   slug: string;
   imageUrl: string;
-  identifierNumber: number;
+  identifierNumber: number; 
   isHighlighted: boolean;
   categoryNumber: number;
   ingredients: {
