@@ -1,4 +1,4 @@
-import { StyleSheet, Text, View } from "react-native";
+import { Pressable, StyleSheet, Text, View } from "react-native";
 import { Link } from "expo-router";
 import Constants from "expo-constants";
 import Animated from "react-native-reanimated";
@@ -24,36 +24,47 @@ const MenuCard = ({ item, isSmall }: MenuCardProps) => {
   const styles = createStyles(theme, colorScheme, isTablet);
 
   return (
-    <Link key={item._id} href={`/details/${item._id}` as "/details/:id"}>
-      <View style={[styles.card, isSmall && { height: isTablet ? 150 : 100 }]}>
-        <Animated.Image source={{ uri: item.imageUrl }} style={styles.image} />
-        <LinearGradient
-          colors={[
-            "transparent",
-            colorScheme === "light"
-              ? "rgba(115, 115, 115, 0.6)"
-              : "rgba(150, 150, 150, 0.9)",
-          ]}
-          start={{ x: 1, y: 0 }}
-          style={styles.overlay}
-        />
-        {item.isHighlighted && (
-          <Ionicons
-            style={styles.highlighted}
-            name="star-sharp"
-            size={30}
-            color={theme?.tint}
+    <Link
+      key={item._id}
+      href={`/details/${item._id}` as "/details/:id"}
+      asChild
+    >
+      <Pressable>
+        <View
+          style={[styles.card, isSmall && { height: isTablet ? 150 : 100 }]}
+        >
+          <Animated.Image
+            source={{ uri: item.imageUrl }}
+            style={styles.image}
           />
-        )}
-        <View style={styles.textContainer}>
-          {item._type === SanityDocumentTypes.DISH && (
-            <Text style={styles.number}>{item.identifierNumber}</Text>
+          <LinearGradient
+            colors={[
+              "transparent",
+              colorScheme === "light"
+                ? "rgba(115, 115, 115, 0.6)"
+                : "rgba(150, 150, 150, 0.9)",
+            ]}
+            start={{ x: 1, y: 0 }}
+            style={styles.overlay}
+          />
+          {item.isHighlighted && (
+            <Ionicons
+              style={styles.highlighted}
+              name="star-sharp"
+              size={30}
+              color={theme?.tint}
+            />
           )}
-          <Text style={styles.title}>
-            {item.title[selectedLanguage?.id || "es"] ?? item.title.es}
-          </Text>
+          <View style={styles.textContainer}>
+            {item._type === SanityDocumentTypes.DISH && (
+              <Text style={styles.number}>{item.identifierNumber}</Text>
+            )}
+            <Text style={styles.title}>
+              {item.title[selectedLanguage?.id || "es"] ?? item.title.es}
+            </Text>
+          </View>
         </View>
-      </View>
+      </Pressable>
     </Link>
   );
 };
@@ -66,15 +77,6 @@ const createStyles = (
   isTablet: boolean
 ) =>
   StyleSheet.create({
-    pageContainer: {
-      flex: 1,
-      backgroundColor: theme.background,
-    },
-    flatListContainer: {
-      paddingVertical: 50,
-      marginHorizontal: "auto",
-      gap: 50,
-    },
     card: {
       borderRadius: 10,
       backgroundColor: theme?.icon,
@@ -86,7 +88,7 @@ const createStyles = (
           : "rgba(0, 0, 0, 0.5)"
       }`,
       position: "relative",
-      width: isTablet ? 550 : 320,
+      width: 450,
       height: isTablet ? 300 : 200,
     },
     highlighted: {

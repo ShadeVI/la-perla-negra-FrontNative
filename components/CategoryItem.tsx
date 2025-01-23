@@ -3,6 +3,7 @@ import { useLanguage } from "@/context/Language";
 import { useTheme } from "@/context/Theme";
 import { useDevice } from "@/hooks/useResponsive";
 import { Category } from "@/lib/sanity/httpSanity";
+import { transform } from "@babel/core";
 import { Pressable, StyleSheet, Text, View } from "react-native";
 import Animated, {
   useAnimatedStyle,
@@ -25,17 +26,21 @@ export const CategoryItem = ({
   const { selectedLanguage } = useLanguage();
   const { isTablet } = useDevice();
 
-  const underlineStyle = useAnimatedStyle(() => ({
-    bottom: withTiming(isSelected ? 20 : -20, { duration: 300 }),
-    opacity: withTiming(isSelected ? 1 : 0, { duration: 300 }),
-  }));
+  const underlineStyle = useAnimatedStyle(
+    () => ({
+      left: withTiming(isSelected ? "50%" : "0%", { duration: 300 }),
+      transform: [{ translateX: "-50%" }],
+      opacity: withTiming(isSelected ? 1 : 0, { duration: 300 }),
+    }),
+    [isSelected]
+  );
 
   const styles = createStyles(theme, isTablet);
 
   return (
     <Pressable
       onPress={onPress}
-      style={({ pressed }) => [{ opacity: pressed ? 0.8 : 1 }]}
+      style={({ pressed }) => [{ opacity: pressed ? 0.8 : 1, padding: 20 }]}
     >
       <View style={styles.categoryButton}>
         <Text
@@ -56,9 +61,7 @@ const createStyles = (
   StyleSheet.create({
     categoryButton: {
       position: "relative",
-      height: "100%",
-      paddingHorizontal: 5,
-      marginHorizontal: 10,
+      paddingVertical: 5,
       minWidth: 100,
       alignItems: "center",
       justifyContent: "center",
@@ -74,6 +77,7 @@ const createStyles = (
       position: "absolute",
       borderRadius: 5,
       height: 5,
+      bottom: 0,
       width: "50%",
       marginHorizontal: "auto",
       backgroundColor: theme?.text,

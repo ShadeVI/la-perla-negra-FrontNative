@@ -1,4 +1,4 @@
-import React, { useEffect, useRef } from "react";
+import React, { useRef } from "react";
 import { Colors } from "@/constants/Colors";
 import { ColorScheme, useTheme } from "@/context/Theme";
 import {
@@ -9,12 +9,14 @@ import {
   FlatList,
   StyleSheet,
   TextStyle,
-  useWindowDimensions,
+  Pressable,
 } from "react-native";
 import { useLanguage } from "@/context/Language";
 import { useDevice } from "@/hooks/useResponsive";
 import { Category } from "@/lib/sanity/httpSanity";
 import { CategoryItem } from "./CategoryItem";
+import { Ionicons } from "@expo/vector-icons";
+import Animated from "react-native-reanimated";
 
 interface ExtraStyles {
   viewContainer?: StyleProp<ViewStyle>;
@@ -38,13 +40,33 @@ const CategoriesHeader = ({
   const { theme, colorScheme } = useTheme();
   const { selectedLanguage } = useLanguage();
   const { isTablet } = useDevice();
-  const { width } = useWindowDimensions();
   const scrollRef = useRef<FlatList>(null);
+  const menuRef = useRef<View>(null);
 
   const styles = createStyles(theme, colorScheme, isTablet, extraStyles);
 
   return (
-    <View style={[styles.categoriesWrapper, extraStyles?.viewContainer]}>
+    <Animated.View
+      style={[styles.categoriesWrapper, extraStyles?.viewContainer]}
+      ref={menuRef}
+    >
+      {/* 
+        ******** This is a close button for the menu, NOT WORKING, Need to be implemented if customer need it ********
+      <Pressable
+        onPress={() => console.log("close menu", menuRef.current?.state)}
+        style={{
+          position: "absolute",
+          right: 10,
+          top: 0,
+          zIndex: 800,
+          padding: 10,
+          backgroundColor: "blue",
+        }}
+      >
+        <View>
+          <Ionicons name="close" size={30} color={theme?.tint} />
+        </View>
+      </Pressable> */}
       <FlatList
         ref={scrollRef}
         contentContainerStyle={styles.categoriesContainer}
@@ -66,9 +88,8 @@ const CategoriesHeader = ({
           />
         )}
         keyExtractor={(item) => item._id}
-        horizontal
       />
-    </View>
+    </Animated.View>
   );
 };
 
@@ -82,11 +103,10 @@ const createStyles = (
 ) =>
   StyleSheet.create({
     categoriesWrapper: {
-      height: isTablet ? 90 : 80,
-      justifyContent: "center",
-      alignItems: "center",
+      width: 300,
       zIndex: 10,
       backgroundColor: theme?.gray,
+      position: "relative",
     },
     categoriesList: {
       borderBottomColor: theme?.text,
@@ -99,14 +119,11 @@ const createStyles = (
       shadowRadius: 10,
     },
     categoriesContainer: {
-      alignItems: "center",
-      justifyContent: "space-around",
-      paddingHorizontal: 15,
-      gap: isTablet ? 25 : 15,
+      marginVertical: 25,
+      paddingBottom: 50,
     },
     categoryButton: {
       position: "relative",
-      height: "100%",
       paddingHorizontal: 5,
       marginHorizontal: 10,
       minWidth: 100,
