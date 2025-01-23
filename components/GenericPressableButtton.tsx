@@ -45,13 +45,9 @@ const createStyles = (theme = Colors.light, colorScheme: ColorScheme) =>
   StyleSheet.create({
     orderButton: {
       minWidth: 100,
-      justifyContent: "center",
-      alignItems: "center",
-      marginBottom: 50,
       borderRadius: 10,
       borderWidth: 1,
       borderColor: theme.text,
-      marginHorizontal: "auto",
       overflow: "hidden",
     },
     text: { color: theme?.text, fontSize: 20 },

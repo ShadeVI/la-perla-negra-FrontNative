@@ -1,44 +1,19 @@
 import GenericPressableButtton from "@/components/GenericPressableButtton";
 import { Colors } from "@/constants/Colors";
 import { useLanguage } from "@/context/Language";
-import {
-  ORDER_REDUCER_TYPES,
-  OrderContextState,
-  useOrder,
-} from "@/context/Order";
+import { ORDER_REDUCER_TYPES, useOrder } from "@/context/Order";
 import { ColorScheme, useTheme } from "@/context/Theme";
-import { SanityDocumentTypes, SanityReturnData } from "@/lib/sanity/httpSanity";
+import { useTextTranslation } from "@/hooks/useTranslation";
+import { SanityDocumentTypes } from "@/lib/sanity/httpSanity";
 import { Pressable, ScrollView, StyleSheet, Text, View } from "react-native";
 
 const order = () => {
   const { selectedLanguage } = useLanguage();
   const { order, dispatch } = useOrder();
   const { theme, colorScheme } = useTheme();
+  const { translateInAppText } = useTextTranslation();
 
   const styles = createStyles(theme, colorScheme);
-
-  /* const orderGroupedByType = Object.entries(order).reduce(
-    (
-      acc: Record<
-        string,
-        {
-          data: SanityReturnData;
-          sum: number;
-        }[]
-      >,
-      orderItem
-    ) => {
-      const key = orderItem[1].data._type;
-      if (!acc[key]) {
-        acc[key] = [];
-      }
-      acc[key].push(orderItem[1]);
-      return acc;
-    },
-    {}
-  );
-
-  console.log(JSON.stringify(orderGroupedByType, null, 2)); */
 
   return (
     <View style={styles.container}>
@@ -59,10 +34,10 @@ const order = () => {
             marginBottom: 50,
           }}
         >
-          Your Memo:
+          {translateInAppText("memo-title")}:
         </Text>
         <GenericPressableButtton
-          text="Reset List"
+          text={translateInAppText("btn-memo-reset-text").toUpperCase()}
           onPress={() =>
             dispatch({ payload: null, type: ORDER_REDUCER_TYPES.RESET })
           }

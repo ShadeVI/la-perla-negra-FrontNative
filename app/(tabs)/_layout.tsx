@@ -7,8 +7,10 @@ import { IconSymbol } from "@/components/ui/IconSymbol";
 import TabBarBackground from "@/components/ui/TabBarBackground";
 import { Colors } from "@/constants/Colors";
 import { SafeAreaView } from "react-native-safe-area-context";
+import { useTextTranslation } from "@/hooks/useTranslation";
 
 export default function TabLayout() {
+  const { translateInAppText } = useTextTranslation();
   return (
     <SafeAreaView style={{ flex: 1 }}>
       <Tabs
@@ -29,7 +31,7 @@ export default function TabLayout() {
         <Tabs.Screen
           name="index"
           options={{
-            title: "Home",
+            title: translateInAppText("tab-home"),
             tabBarIcon: ({ color }) => (
               <IconSymbol size={28} name="house.fill" color={color} />
             ),
@@ -38,7 +40,7 @@ export default function TabLayout() {
         <Tabs.Screen
           name="menu"
           options={{
-            title: "Explore Menu",
+            title: translateInAppText("tab-explore-menu"),
             tabBarIcon: ({ color }) => (
               <IconSymbol size={28} name="paperplane.fill" color={color} />
             ),
@@ -47,7 +49,7 @@ export default function TabLayout() {
         <Tabs.Screen
           name="order"
           options={{
-            title: "Your Memo",
+            title: translateInAppText("tab-memo"),
             tabBarIcon: ({ color }) => (
               <IconSymbol size={28} name="list.number.ar" color={color} />
             ),

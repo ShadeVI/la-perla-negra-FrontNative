@@ -15,6 +15,8 @@ import {
 } from "react-native";
 import Animated, { Easing, FadeIn, FadeInUp } from "react-native-reanimated";
 import GenericPressableButtton from "../GenericPressableButtton";
+import { useTextTranslation } from "@/hooks/useTranslation";
+import IngredientsSection from "../IngredientsSection";
 
 interface DetailWineProps {
   details: Wine;
@@ -26,6 +28,7 @@ export const DetailWine = ({ details }: DetailWineProps) => {
   const { theme, colorScheme } = useTheme();
   const { isTablet } = useDevice();
   const { dispatch } = useOrder();
+  const { translateInAppText } = useTextTranslation();
 
   const styles = createStyles(theme, colorScheme, isTablet);
 
@@ -70,34 +73,17 @@ export const DetailWine = ({ details }: DetailWineProps) => {
               style={styles.imageVertical}
             />
           </View>
-          <View>
+          <View style={[styles.memoButtonsContainer, { marginTop: 50 }]}>
             <GenericPressableButtton
-              text="ADD TO YOUR MEMO LIST"
+              text={translateInAppText("btn-add-memo").toUpperCase()}
               onPress={() =>
                 dispatch({ payload: details, type: ORDER_REDUCER_TYPES.ADD })
               }
-              containerExtraStyles={{ marginTop: 50 }}
             />
           </View>
-          <Text style={styles.ingredientsTitle}>Ingredientes</Text>
-          <View style={styles.ingredientsContainer}>
-            {details?.ingredients?.length > 0
-              ? details?.ingredients.map((ingredient, index) => {
-                  return (
-                    <Animated.View
-                      entering={FadeIn.duration(500).delay(index * 300)}
-                      key={ingredient._id}
-                      style={styles.badge}
-                    >
-                      <Text style={styles.ingredientName}>
-                        {ingredient.name[selectedLanguage?.id || "es"] ||
-                          ingredient.name.es}
-                      </Text>
-                    </Animated.View>
-                  );
-                })
-              : null}
-          </View>
+          {details?.ingredients?.length > 0 ? (
+            <IngredientsSection ingredients={details.ingredients} />
+          ) : null}
         </View>
       </View>
     </View>
@@ -161,35 +147,13 @@ const createStyles = (
       fontSize: 30,
       color: theme?.text,
     },
-    ingredientsContainer: {
+    memoButtonsContainer: {
       flexDirection: "row",
       flexWrap: "wrap",
-      columnGap: 30,
-      rowGap: 15,
-      justifyContent: "center",
+      justifyContent: "space-around",
       alignItems: "center",
-      marginHorizontal: 50,
-    },
-    ingredientsTitle: {
-      color: theme?.text,
-      fontSize: 28,
-      textAlign: "center",
-      textDecorationLine: "underline",
-      marginTop: 50,
       marginBottom: 30,
-    },
-    badge: {
-      padding: 12,
-      borderRadius: 20,
-      backgroundColor: colorScheme === "dark" ? theme.text : theme.tint,
-      flexShrink: 1,
-      justifyContent: "center",
-      alignItems: "center",
-    },
-    ingredientName: {
-      textAlign: "center",
-      fontSize: 18,
-      color: theme.background,
+      gap: 20,
     },
   });
 

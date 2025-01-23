@@ -34,7 +34,7 @@ _type,
   isVisible,
 }`
 
-export interface CategoryTitle {
+export interface MultiLanguageStringField {
   [key: string]: string
 }
 
@@ -45,7 +45,7 @@ export const fetchSupportedLanguages = async () => {
 
 export interface Category {
   _id: string,
-  title: CategoryTitle,
+  title: MultiLanguageStringField,
   slug: string,
   identifierNumber: number
 }
@@ -67,27 +67,23 @@ export enum SanityDocumentTypes {
 
 export type SanityAllowedDocumentTypes = SanityDocumentTypes.DISH | SanityDocumentTypes.DRINK | SanityDocumentTypes.WINE | SanityDocumentTypes.COCKTAIL | SanityDocumentTypes.BEER | SanityDocumentTypes.COFFEE
 
-interface BaseData {
+type Ingredient = {
+  name: MultiLanguageStringField;
+  _id: string;
+}
+
+export interface BaseData {
   _id: string;
   _type: SanityAllowedDocumentTypes;
-  title: {
-    [key: string]: string;
-  };
-  description: {
-    [key: string]: string;
-  };
+  title: MultiLanguageStringField;
+  description: MultiLanguageStringField;
   price: number;
   slug: string;
   imageUrl: string;
   identifierNumber: number;
   isHighlighted: boolean;
   categoryNumber: number;
-  ingredients: {
-    name: {
-      [key: string]: string;
-    };
-    _id: string;
-  }[];
+  ingredients: Ingredient[];
   isVisible: boolean;
 }
 
