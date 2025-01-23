@@ -11,10 +11,12 @@ import {
 } from "@/lib/sanity/httpSanity";
 import LoadingIndicator from "@/components/LoadingIndicator";
 import MenuCard from "@/components/MenuCard";
+import { useTextTranslation } from "@/hooks/useTranslation";
 
 export default function MenuScreen() {
   const { theme } = useTheme();
   const { data } = useData();
+  const { translateInAppText } = useTextTranslation();
   const [selectedCategory, setSelectedCategory] = useState<
     number | undefined
   >();
@@ -90,7 +92,7 @@ export default function MenuScreen() {
             <Text
               style={{ color: theme?.text, textAlign: "center", fontSize: 30 }}
             >
-              No data found
+              {translateInAppText("no-data-found")}
             </Text>
           }
           numColumns={2}

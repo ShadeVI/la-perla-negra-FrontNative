@@ -5,6 +5,7 @@ import DetailWine from "@/components/detailsComponents/DetailWine";
 import { Colors } from "@/constants/Colors";
 import { useData } from "@/context/Data";
 import { useTheme } from "@/context/Theme";
+import { useTextTranslation } from "@/hooks/useTranslation";
 import {
   Dish,
   Drink,
@@ -22,6 +23,7 @@ const Details = () => {
   const params = useLocalSearchParams();
   const { data } = useData();
   const { theme } = useTheme();
+  const { translateInAppText } = useTextTranslation();
 
   const details: Dish | Wine | undefined = data.find(
     (item) => item._id === params.id
@@ -30,11 +32,11 @@ const Details = () => {
   const styles = createStyles(theme);
 
   if (!details) {
-    return <Text>No data found.</Text>;
+    return <Text>{translateInAppText("no-data-found")}</Text>;
   }
 
   const renderer = (item: Dish | Wine | Drink | Beer | Cocktail) => {
-    if (!item) return <Text>No data found.</Text>;
+    if (!item) return <Text>{translateInAppText("no-data-found")}</Text>;
     switch (item._type) {
       case SanityDocumentTypes.DISH:
         return <DetailDish details={item as Dish} />;
