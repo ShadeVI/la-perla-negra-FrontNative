@@ -159,6 +159,9 @@ export default function MenuScreen() {
           }
           numColumns={2}
           columnWrapperStyle={{
+            flex: 1,
+            justifyContent: "flex-start",
+            alignItems: "flex-start",
             gap: 50,
           }}
         />
@@ -171,11 +174,11 @@ const createStyles = (theme = Colors.light) =>
   StyleSheet.create({
     pageContainer: {
       flex: 1,
+      flexDirection: "row",
       backgroundColor: theme.background,
     },
     flatListContainer: {
-      paddingVertical: 50,
-      marginHorizontal: "auto",
+      padding: 50,
       gap: 50,
     },
   });
