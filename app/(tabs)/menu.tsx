@@ -146,10 +146,7 @@ export default function MenuScreen() {
           renderItem={({ item }) => (
             <MenuCard
               item={item}
-              isSmall={
-                item._type === SanityDocumentTypes.DRINK ||
-                item._type === SanityDocumentTypes.COFFEE
-              }
+              isSmall={item._type !== SanityDocumentTypes.DISH}
             />
           )}
           keyExtractor={(item) => item._id}
