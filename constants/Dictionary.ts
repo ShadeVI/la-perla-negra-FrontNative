@@ -1,6 +1,6 @@
 export type AllowedLanguages = "es" | "en" | "de"
 
-type AllowedDictionaryKeys = "tab-home" | "tab-explore-menu" | "tab-memo" | "ingredients" | "btn-add-memo" | "no-data-found" | "memo-title" | "btn-memo-reset-text"
+type AllowedDictionaryKeys = "tab-home" | "tab-explore-menu" | "tab-memo" | "ingredients" | "btn-add-memo" | "no-data-found" | "memo-title" | "btn-memo-reset-text" | "sparkling" | "rose" | "red" | "white" | "btn-remove-filters"
 
 export const dictionary: Record<AllowedDictionaryKeys, Record<AllowedLanguages, string>> = {
   "tab-home": {
@@ -42,5 +42,30 @@ export const dictionary: Record<AllowedDictionaryKeys, Record<AllowedLanguages, 
     "es": "Limpiar lista",
     "en": "Clear list",
     "de": "Liste löschen"
+  },
+  "sparkling": {
+    "es": "Espumoso",
+    "en": "Sparkling",
+    "de": "Perlwein"
+  },
+  "rose": {
+    "es": "Rosado",
+    "en": "Rose",
+    "de": "Rosé"
+  },
+  "red": {
+    "es": "Tinto",
+    "en": "Red",
+    "de": "Rot"
+  },
+  "white": {
+    "es": "Blanco",
+    "en": "White",
+    "de": "Weiß"
+  },
+  "btn-remove-filters": {
+    "es": "Eliminar filtros",
+    "en": "Remove filters",
+    "de": "Filter entfernen"
   }
 }

@@ -38,7 +38,6 @@ const CategoriesHeader = ({
   const { theme, colorScheme } = useTheme();
   const { selectedLanguage } = useLanguage();
   const { isTablet } = useDevice();
-  const { width } = useWindowDimensions();
   const scrollRef = useRef<FlatList>(null);
 
   const styles = createStyles(theme, colorScheme, isTablet, extraStyles);

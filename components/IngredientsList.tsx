@@ -46,8 +46,9 @@ const createStyles = (theme = Colors.light, colorScheme: ColorScheme) =>
       marginHorizontal: 50,
     },
     badge: {
-      padding: 12,
-      borderRadius: 20,
+      paddingVertical: 4,
+      paddingHorizontal: 10,
+      borderRadius: 6,
       backgroundColor: colorScheme === "dark" ? theme.text : theme.tint,
       flexShrink: 1,
       justifyContent: "center",
