@@ -10,6 +10,8 @@ import { currenciesConverter } from "@/utils/utils";
 import GenericPressableButtton from "../GenericPressableButtton";
 import { useTextTranslation } from "@/hooks/useTranslation";
 import IngredientsSection from "../IngredientsSection";
+import { PortableText } from "@portabletext/react-native";
+import { createPortableTextConfig } from "@/constants/PortableText";
 
 interface DetailDishProps {
   details: Dish;
@@ -41,10 +43,14 @@ const DetailDish = ({ details }: DetailDishProps) => {
             {details.identifierNumber} -{" "}
             {details.title[selectedLanguage?.id ?? "es"] || details.title.es}
           </Text>
-          <Text style={styles.description}>
-            {details.description[selectedLanguage?.id ?? "es"] ||
-              details.description.es}
-          </Text>
+          <PortableText
+            value={details?.description[selectedLanguage?.id ?? "es"] || []}
+            components={createPortableTextConfig({
+              theme: theme,
+              colorScheme: colorScheme,
+            })}
+            onMissingComponent={false}
+          />
           <Text style={styles.price}>{currenciesConverter(details.price)}</Text>
         </View>
         <View style={styles.contentRight}>

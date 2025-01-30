@@ -77,7 +77,7 @@ export interface BaseData {
   _id: string;
   _type: SanityAllowedDocumentTypes;
   title: MultiLanguageStringField;
-  description: MultiLanguageStringField;
+  description: { [key: string]: PortableTextBlock[] };
   price: number;
   slug: string;
   imageUrl: string;
@@ -98,8 +98,7 @@ export enum WineType {
   SPARKLING = 'sparkling',
 }
 
-export interface Wine extends Omit<BaseData, 'description'> {
-  description: { [key: string]: PortableTextBlock[] };
+export interface Wine extends BaseData {
   isAlchohol: boolean;
   verticalImageUrl: string;
   type: WineType;

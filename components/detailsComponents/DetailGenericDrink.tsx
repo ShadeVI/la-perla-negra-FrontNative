@@ -10,6 +10,8 @@ import GenericPressableButtton from "../GenericPressableButtton";
 import IngredientsSection from "../IngredientsSection";
 import { useTextTranslation } from "@/hooks/useTranslation";
 import { currenciesConverter } from "@/utils/utils";
+import { createPortableTextConfig } from "@/constants/PortableText";
+import { PortableText } from "@portabletext/react-native";
 
 interface DetailGenericDrinkProps {
   details: GenericSimpleDescriptionDrink;
@@ -49,10 +51,14 @@ const DetailGenericDrink = ({ details }: DetailGenericDrinkProps) => {
             {details.title[selectedLanguage?.id ?? "es"] || details.title.es}
           </Text>
           {details?.description && (
-            <Text style={styles.description}>
-              {details.description[selectedLanguage?.id ?? "es"] ||
-                details.description.es}
-            </Text>
+            <PortableText
+              value={details?.description[selectedLanguage?.id ?? "es"] || []}
+              components={createPortableTextConfig({
+                theme: theme,
+                colorScheme: colorScheme,
+              })}
+              onMissingComponent={false}
+            />
           )}
           <Text style={styles.price}>{currenciesConverter(details.price)}</Text>
         </View>
