@@ -15,8 +15,8 @@ const QUERY_CATEGORIES = `*[_type == 'category']{
 }`
 
 const QUERY_DISHES = `*[_type in ['dish', 'drink', 'wine', 'cocktail', 'beer', 'coffee']]{
-...,
-_type,
+  ...,
+  _type,
   _id,
   title,
   "imageUrl": image.asset -> url,
@@ -32,6 +32,7 @@ _type,
     _id
   },
   isVisible,
+  type
 }`
 
 export interface MultiLanguageStringField {
@@ -90,10 +91,18 @@ export interface BaseData {
 export interface Dish extends BaseData {
 }
 
+export enum WineType {
+  RED = 'red',
+  WHITE = 'white',
+  ROSE = 'rose',
+  SPARKLING = 'sparkling',
+}
+
 export interface Wine extends Omit<BaseData, 'description'> {
   description: { [key: string]: PortableTextBlock[] };
   isAlchohol: boolean;
   verticalImageUrl: string;
+  type: WineType;
 }
 
 export interface Drink extends BaseData {

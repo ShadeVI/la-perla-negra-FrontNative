@@ -1,6 +1,6 @@
 import CategoriesHeader from "@/components/CategoriesHeader";
 import { useEffect, useMemo, useState } from "react";
-import { StyleSheet, View, Text, FlatList } from "react-native";
+import { StyleSheet, View, Text, FlatList, Pressable } from "react-native";
 import { Colors } from "@/constants/Colors";
 import { useData } from "@/context/Data";
 import { useTheme } from "@/context/Theme";
@@ -8,10 +8,14 @@ import {
   Category,
   fetchCategories,
   SanityDocumentTypes,
+  Wine,
+  WineType,
 } from "@/lib/sanity/httpSanity";
 import LoadingIndicator from "@/components/LoadingIndicator";
 import MenuCard from "@/components/MenuCard";
 import { useTextTranslation } from "@/hooks/useTranslation";
+import FilterWines from "@/components/FilterWines";
+import { Ionicons } from "@expo/vector-icons";
 
 export default function MenuScreen() {
   const { theme } = useTheme();
@@ -22,10 +26,25 @@ export default function MenuScreen() {
   >();
   const [categories, setCategories] = useState<Category[]>();
   const [isLoading, setIsLoading] = useState<boolean>(true);
+  const [activeWineFilters, setActiveWineFilters] = useState<WineType[]>([]);
+  const [showFilterWines, setShowFilterWines] = useState(false);
 
-  const filteredDishes = useMemo(() => {
+  const handleOnPressWineFilter = (filter: WineType | null) => {
+    if (!filter) {
+      setActiveWineFilters([]);
+      return;
+    }
+    setActiveWineFilters((prev) => {
+      if (prev.includes(filter)) {
+        return prev.filter((item) => item !== filter);
+      }
+      return [...prev, filter];
+    });
+  };
+
+  const filteredData = useMemo(() => {
     return data
-      .filter((dish) => dish.categoryNumber === selectedCategory)
+      .filter((element) => element.categoryNumber === selectedCategory)
       .sort((a, b) => a.identifierNumber - b.identifierNumber);
   }, [data, selectedCategory]);
 
@@ -75,16 +94,59 @@ export default function MenuScreen() {
         onPressHandler={onPressHandlerSelectedCategory}
       />
       <View style={{ flex: 1 }}>
+        {/** WINE FILTER WILL ONLY BE SHOWN FOR WINE TYPE */}
+        {filteredData.length > 0 &&
+          filteredData[0]._type === SanityDocumentTypes.WINE && (
+            <View
+              style={{
+                flexDirection: "row",
+                justifyContent: "flex-end",
+                alignItems: "stretch",
+                paddingHorizontal: 50,
+                height: 80,
+              }}
+            >
+              <View
+                style={{
+                  flex: 1,
+                  flexDirection: "row",
+                  justifyContent: "flex-end",
+                }}
+              >
+                {showFilterWines && (
+                  <FilterWines
+                    filters={(filteredData as Wine[]).map((data) => data.type)}
+                    onPress={handleOnPressWineFilter}
+                    activeWineFilters={activeWineFilters}
+                  />
+                )}
+              </View>
+              <Pressable
+                onPress={() => setShowFilterWines(!showFilterWines)}
+                style={{
+                  paddingHorizontal: 20,
+                  alignSelf: "center",
+                }}
+              >
+                <Ionicons name="filter" size={40} color={theme?.text} />
+              </Pressable>
+            </View>
+          )}
         <FlatList
           contentContainerStyle={styles.flatListContainer}
-          data={filteredDishes}
+          data={
+            filteredData.some(
+              (item) => item._type === SanityDocumentTypes.WINE
+            ) && activeWineFilters.length > 0
+              ? (filteredData as Wine[]).filter((item) =>
+                  activeWineFilters.includes(item.type)
+                )
+              : filteredData
+          }
           renderItem={({ item }) => (
             <MenuCard
               item={item}
-              isSmall={
-                item._type === SanityDocumentTypes.DRINK ||
-                item._type === SanityDocumentTypes.COFFEE
-              }
+              isSmall={item._type !== SanityDocumentTypes.DISH}
             />
           )}
           keyExtractor={(item) => item._id}
