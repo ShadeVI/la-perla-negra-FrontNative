@@ -43,14 +43,16 @@ const DetailDish = ({ details }: DetailDishProps) => {
             {details.identifierNumber} -{" "}
             {details.title[selectedLanguage?.id ?? "es"] || details.title.es}
           </Text>
-          <PortableText
-            value={details?.description[selectedLanguage?.id ?? "es"] || []}
-            components={createPortableTextConfig({
-              theme: theme,
-              colorScheme: colorScheme,
-            })}
-            onMissingComponent={false}
-          />
+          {details?.description && (
+            <PortableText
+              value={details?.description[selectedLanguage?.id ?? "es"] || []}
+              components={createPortableTextConfig({
+                theme: theme,
+                colorScheme: colorScheme,
+              })}
+              onMissingComponent={false}
+            />
+          )}
           <Text style={styles.price}>{currenciesConverter(details.price)}</Text>
         </View>
         <View style={styles.contentRight}>
