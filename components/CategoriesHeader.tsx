@@ -79,7 +79,7 @@ const CategoriesHeader = ({
             isSelected={selectedCategory === item.identifierNumber}
             onPress={() => {
               scrollRef.current?.scrollToIndex({
-                index: index - 3 < 0 ? 0 : index - 2,
+                index: index - 3 < 0 ? 0 : index - 3,
                 animated: true,
               });
               onPressHandler(item.identifierNumber);

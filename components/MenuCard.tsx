@@ -57,9 +57,19 @@ const MenuCard = ({ item, isSmall }: MenuCardProps) => {
           )}
           <View style={styles.textContainer}>
             {item._type === SanityDocumentTypes.DISH && (
-              <Text style={styles.number}>{item.identifierNumber}</Text>
+              <Text
+                style={[styles.number, isSmall && isTablet && { fontSize: 25 }]}
+              >
+                {item.identifierNumber}
+              </Text>
             )}
-            <Text style={styles.title}>
+            <Text
+              style={[
+                styles.title,
+                isSmall &&
+                  isTablet && { fontSize: 22, lineHeight: lineHeight(15) },
+              ]}
+            >
               {item.title[selectedLanguage?.id || "es"] ?? item.title.es}
             </Text>
           </View>

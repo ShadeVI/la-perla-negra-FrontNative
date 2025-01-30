@@ -143,12 +143,7 @@ export default function MenuScreen() {
                 )
               : filteredData
           }
-          renderItem={({ item }) => (
-            <MenuCard
-              item={item}
-              isSmall={item._type !== SanityDocumentTypes.DISH}
-            />
-          )}
+          renderItem={({ item }) => <MenuCard item={item} isSmall={true} />}
           keyExtractor={(item) => item._id}
           ListEmptyComponent={
             <Text
