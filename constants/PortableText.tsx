@@ -18,8 +18,8 @@ export const createPortableTextConfig = ({
       return (
         <Text
           style={{
-            fontSize: 26,
-            lineHeight: lineHeight(22),
+            fontSize: 34,
+            lineHeight: lineHeight(26),
             paddingVertical: 5,
             color: theme?.text,
           }}
@@ -32,9 +32,9 @@ export const createPortableTextConfig = ({
       return (
         <Text
           style={{
-            fontSize: 24,
+            fontSize: 30,
 
-            lineHeight: lineHeight(22),
+            lineHeight: lineHeight(26),
             paddingVertical: 5,
             color: theme?.text,
           }}
@@ -47,8 +47,8 @@ export const createPortableTextConfig = ({
       return (
         <Text
           style={{
-            fontSize: 23,
-            lineHeight: lineHeight(20),
+            fontSize: 28,
+            lineHeight: lineHeight(22),
             paddingVertical: 5,
             color: theme?.text,
           }}
@@ -61,8 +61,8 @@ export const createPortableTextConfig = ({
       return (
         <Text
           style={{
-            fontSize: 22,
-            lineHeight: lineHeight(20),
+            fontSize: 26,
+            lineHeight: lineHeight(22),
             paddingVertical: 5,
             color: theme?.text,
           }}
@@ -75,7 +75,7 @@ export const createPortableTextConfig = ({
       return (
         <Text
           style={{
-            fontSize: 21,
+            fontSize: 23,
             lineHeight: lineHeight(20),
             paddingVertical: 5,
             color: theme?.text,
