@@ -1,7 +1,13 @@
 import { Pressable, StyleSheet, Text, View } from "react-native";
 import { Link } from "expo-router";
 import Constants from "expo-constants";
-import Animated from "react-native-reanimated";
+import Animated, {
+  FadeIn,
+  FadeInLeft,
+  FadeInRight,
+  FadeOut,
+  FadeOutRight,
+} from "react-native-reanimated";
 import Ionicons from "@expo/vector-icons/Ionicons";
 import { LinearGradient } from "expo-linear-gradient";
 import { useLanguage } from "@/context/Language";
@@ -14,12 +20,12 @@ import { lineHeight } from "@/utils/utils";
 interface MenuCardProps {
   item: SanityReturnData;
   isSmall?: boolean;
+  isTablet: boolean;
 }
 
-const MenuCard = ({ item, isSmall }: MenuCardProps) => {
+const MenuCard = ({ item, isSmall, isTablet }: MenuCardProps) => {
   const { selectedLanguage } = useLanguage();
   const { theme, colorScheme } = useTheme();
-  const { isTablet } = useDevice();
 
   const styles = createStyles(theme, colorScheme, isTablet);
 
@@ -30,7 +36,9 @@ const MenuCard = ({ item, isSmall }: MenuCardProps) => {
       asChild
     >
       <Pressable>
-        <View
+        <Animated.View
+          entering={FadeIn.duration(300)}
+          exiting={FadeOut.duration(300)}
           style={[styles.card, isSmall && { height: isTablet ? 150 : 100 }]}
         >
           <Animated.Image
@@ -51,7 +59,7 @@ const MenuCard = ({ item, isSmall }: MenuCardProps) => {
             <Ionicons
               style={styles.highlighted}
               name="star-sharp"
-              size={30}
+              size={20}
               color={theme?.tint}
             />
           )}
@@ -73,7 +81,7 @@ const MenuCard = ({ item, isSmall }: MenuCardProps) => {
               {item.title[selectedLanguage?.id || "es"] ?? item.title.es}
             </Text>
           </View>
-        </View>
+        </Animated.View>
       </Pressable>
     </Link>
   );
@@ -89,7 +97,7 @@ const createStyles = (
   StyleSheet.create({
     card: {
       borderRadius: 10,
-      backgroundColor: theme?.icon,
+      backgroundColor: theme?.text,
       overflow: "hidden",
       elevation: Constants.platform?.android ? 3 : 0,
       boxShadow: `0px 0px 10px 0px ${
@@ -98,13 +106,13 @@ const createStyles = (
           : "rgba(0, 0, 0, 0.5)"
       }`,
       position: "relative",
-      width: 450,
+      width: 410,
       height: isTablet ? 300 : 200,
     },
     highlighted: {
       position: "absolute",
-      right: 25,
-      top: 25,
+      right: 15,
+      top: 15,
       padding: 5,
       borderRadius: 100,
       backgroundColor: "white",

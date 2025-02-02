@@ -109,8 +109,8 @@ const createStyles = (
       position: "relative",
     },
     categoriesList: {
-      borderBottomColor: theme?.text,
-      borderBottomWidth: StyleSheet.hairlineWidth,
+      borderRightColor: theme?.text,
+      borderRightWidth: StyleSheet.hairlineWidth,
       shadowColor:
         colorScheme === "dark"
           ? "rgba(148, 148, 148, 0.55)"
@@ -121,29 +121,5 @@ const createStyles = (
     categoriesContainer: {
       marginVertical: 25,
       paddingBottom: 50,
-    },
-    categoryButton: {
-      position: "relative",
-      paddingHorizontal: 5,
-      marginHorizontal: 10,
-      minWidth: 100,
-      alignItems: "center",
-      justifyContent: "center",
-      borderBottomWidth: 0,
-      borderBottomColor: theme?.text,
-    },
-    categoryText: {
-      color: theme?.text,
-      textAlign: "center",
-      fontSize: isTablet ? 20 : 16,
-    },
-    underline: {
-      position: "absolute",
-      borderRadius: 5,
-      height: 5,
-      width: "50%",
-      marginHorizontal: "auto",
-      left: "25%",
-      backgroundColor: theme?.text,
     },
   });

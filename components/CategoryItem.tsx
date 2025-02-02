@@ -78,7 +78,7 @@ const createStyles = (
       borderRadius: 5,
       height: 5,
       bottom: 0,
-      width: "50%",
+      width: "30%",
       marginHorizontal: "auto",
       backgroundColor: theme?.text,
     },
