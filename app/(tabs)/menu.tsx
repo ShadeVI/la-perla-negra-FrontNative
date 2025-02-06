@@ -43,10 +43,11 @@ export default function MenuScreen() {
   };
 
   const filteredData = useMemo(() => {
+    console.log("CALLED MEMO");
     return data
       .filter((element) => element.categoryNumber === selectedCategory)
       .sort((a, b) => a.identifierNumber - b.identifierNumber);
-  }, [data, selectedCategory]);
+  }, [selectedCategory]);
 
   const onPressHandlerSelectedCategory = (categoryId: number) => {
     setSelectedCategory(categoryId);
@@ -143,7 +144,9 @@ export default function MenuScreen() {
                 )
               : filteredData
           }
-          renderItem={({ item }) => <MenuCard item={item} isSmall={true} />}
+          renderItem={({ item }) => (
+            <MenuCard item={item} isSmall={true} isTablet />
+          )}
           keyExtractor={(item) => item._id}
           ListEmptyComponent={
             <Text

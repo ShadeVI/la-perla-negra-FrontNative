@@ -9,13 +9,10 @@ import {
   FlatList,
   StyleSheet,
   TextStyle,
-  Pressable,
 } from "react-native";
 import { useLanguage } from "@/context/Language";
-import { useDevice } from "@/hooks/useResponsive";
 import { Category } from "@/lib/sanity/httpSanity";
 import { CategoryItem } from "./CategoryItem";
-import { Ionicons } from "@expo/vector-icons";
 import Animated from "react-native-reanimated";
 
 interface ExtraStyles {
@@ -39,11 +36,10 @@ const CategoriesHeader = ({
 }: CategoriesHeaderProps) => {
   const { theme, colorScheme } = useTheme();
   const { selectedLanguage } = useLanguage();
-  const { isTablet } = useDevice();
   const scrollRef = useRef<FlatList>(null);
   const menuRef = useRef<View>(null);
 
-  const styles = createStyles(theme, colorScheme, isTablet, extraStyles);
+  const styles = createStyles(theme, colorScheme);
 
   return (
     <Animated.View
@@ -97,9 +93,7 @@ export default CategoriesHeader;
 
 const createStyles = (
   theme: typeof Colors.light | undefined = Colors.light,
-  colorScheme: ColorScheme,
-  isTablet: boolean,
-  extraStyles?: ExtraStyles
+  colorScheme: ColorScheme
 ) =>
   StyleSheet.create({
     categoriesWrapper: {
@@ -109,8 +103,8 @@ const createStyles = (
       position: "relative",
     },
     categoriesList: {
-      borderBottomColor: theme?.text,
-      borderBottomWidth: StyleSheet.hairlineWidth,
+      borderRightColor: theme?.text,
+      borderRightWidth: StyleSheet.hairlineWidth,
       shadowColor:
         colorScheme === "dark"
           ? "rgba(148, 148, 148, 0.55)"
@@ -121,29 +115,5 @@ const createStyles = (
     categoriesContainer: {
       marginVertical: 25,
       paddingBottom: 50,
-    },
-    categoryButton: {
-      position: "relative",
-      paddingHorizontal: 5,
-      marginHorizontal: 10,
-      minWidth: 100,
-      alignItems: "center",
-      justifyContent: "center",
-      borderBottomWidth: 0,
-      borderBottomColor: theme?.text,
-    },
-    categoryText: {
-      color: theme?.text,
-      textAlign: "center",
-      fontSize: isTablet ? 20 : 16,
-    },
-    underline: {
-      position: "absolute",
-      borderRadius: 5,
-      height: 5,
-      width: "50%",
-      marginHorizontal: "auto",
-      left: "25%",
-      backgroundColor: theme?.text,
     },
   });

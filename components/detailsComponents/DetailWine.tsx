@@ -3,7 +3,6 @@ import { createPortableTextConfig } from "@/constants/PortableText";
 import { useLanguage } from "@/context/Language";
 import { ORDER_REDUCER_TYPES, useOrder } from "@/context/Order";
 import { ColorScheme, useTheme } from "@/context/Theme";
-import { useDevice } from "@/hooks/useResponsive";
 import { Wine } from "@/lib/sanity/httpSanity";
 import { PortableText } from "@portabletext/react-native";
 import {
@@ -13,7 +12,7 @@ import {
   useWindowDimensions,
   View,
 } from "react-native";
-import Animated, { Easing, FadeIn, FadeInUp } from "react-native-reanimated";
+import Animated, { Easing, FadeInUp } from "react-native-reanimated";
 import GenericPressableButtton from "../GenericPressableButtton";
 import { useTextTranslation } from "@/hooks/useTranslation";
 import IngredientsSection from "../IngredientsSection";
@@ -26,11 +25,10 @@ export const DetailWine = ({ details }: DetailWineProps) => {
   const { height } = useWindowDimensions();
   const { selectedLanguage } = useLanguage();
   const { theme, colorScheme } = useTheme();
-  const { isTablet } = useDevice();
   const { dispatch } = useOrder();
   const { translateInAppText } = useTextTranslation();
 
-  const styles = createStyles(theme, colorScheme, isTablet);
+  const styles = createStyles(theme, colorScheme);
 
   return (
     <View
@@ -92,11 +90,7 @@ export const DetailWine = ({ details }: DetailWineProps) => {
 
 export default DetailWine;
 
-const createStyles = (
-  theme = Colors.light,
-  colorScheme: ColorScheme,
-  isTablet: boolean
-) =>
+const createStyles = (theme = Colors.light, colorScheme: ColorScheme) =>
   StyleSheet.create({
     imageContainer: {
       width: "100%",
