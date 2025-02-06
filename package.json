@@ -59,7 +59,11 @@
   "expo": {
     "doctor": {
       "reactNativeDirectoryCheck": {
-        "listUnknownPackages": false
+        "listUnknownPackages": false,
+        "exclude": [
+          "@sanity/client",
+          "@portabletext/react-native"
+        ]
       }
     }
   }
