@@ -16,13 +16,11 @@ import MenuCard from "@/components/MenuCard";
 import { useTextTranslation } from "@/hooks/useTranslation";
 import FilterWines from "@/components/FilterWines";
 import { Ionicons } from "@expo/vector-icons";
-import { useDevice } from "@/hooks/useResponsive";
 
 export default function MenuScreen() {
   const { theme } = useTheme();
   const { data } = useData();
   const { translateInAppText } = useTextTranslation();
-  const { isTablet } = useDevice();
   const [selectedCategory, setSelectedCategory] = useState<
     number | undefined
   >();

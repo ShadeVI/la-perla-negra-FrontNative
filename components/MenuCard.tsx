@@ -1,20 +1,13 @@
 import { Pressable, StyleSheet, Text, View } from "react-native";
 import { Link } from "expo-router";
 import Constants from "expo-constants";
-import Animated, {
-  FadeIn,
-  FadeInLeft,
-  FadeInRight,
-  FadeOut,
-  FadeOutRight,
-} from "react-native-reanimated";
+import Animated, { FadeIn, FadeOut } from "react-native-reanimated";
 import Ionicons from "@expo/vector-icons/Ionicons";
 import { LinearGradient } from "expo-linear-gradient";
 import { useLanguage } from "@/context/Language";
 import { SanityDocumentTypes, SanityReturnData } from "@/lib/sanity/httpSanity";
 import { Colors } from "@/constants/Colors";
 import { ColorScheme, useTheme } from "@/context/Theme";
-import { useDevice } from "@/hooks/useResponsive";
 import { lineHeight } from "@/utils/utils";
 
 interface MenuCardProps {

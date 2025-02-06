@@ -1,14 +1,14 @@
 import { Colors } from "@/constants/Colors";
 import { useLanguage } from "@/context/Language";
 import { useTheme } from "@/context/Theme";
-import { useDevice } from "@/hooks/useResponsive";
 import { Category } from "@/lib/sanity/httpSanity";
-import { transform } from "@babel/core";
 import { Pressable, StyleSheet, Text, View } from "react-native";
 import Animated, {
   useAnimatedStyle,
   withTiming,
 } from "react-native-reanimated";
+import * as Device from "expo-device";
+import { useEffect, useState } from "react";
 
 interface CategoryItemProps {
   item: Category;
@@ -24,7 +24,7 @@ export const CategoryItem = ({
 }: CategoryItemProps) => {
   const { theme } = useTheme();
   const { selectedLanguage } = useLanguage();
-  const { isTablet } = useDevice();
+  const [isTablet, setIsTablet] = useState(false);
 
   const underlineStyle = useAnimatedStyle(
     () => ({
@@ -36,6 +36,15 @@ export const CategoryItem = ({
   );
 
   const styles = createStyles(theme, isTablet);
+
+  useEffect(() => {
+    async function isTablet() {
+      const res =
+        (await Device.getDeviceTypeAsync()) === Device.DeviceType.TABLET;
+      setIsTablet(res);
+    }
+    isTablet();
+  }, []);
 
   return (
     <Pressable

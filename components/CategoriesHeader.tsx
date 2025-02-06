@@ -9,13 +9,10 @@ import {
   FlatList,
   StyleSheet,
   TextStyle,
-  Pressable,
 } from "react-native";
 import { useLanguage } from "@/context/Language";
-import { useDevice } from "@/hooks/useResponsive";
 import { Category } from "@/lib/sanity/httpSanity";
 import { CategoryItem } from "./CategoryItem";
-import { Ionicons } from "@expo/vector-icons";
 import Animated from "react-native-reanimated";
 
 interface ExtraStyles {
@@ -39,11 +36,10 @@ const CategoriesHeader = ({
 }: CategoriesHeaderProps) => {
   const { theme, colorScheme } = useTheme();
   const { selectedLanguage } = useLanguage();
-  const { isTablet } = useDevice();
   const scrollRef = useRef<FlatList>(null);
   const menuRef = useRef<View>(null);
 
-  const styles = createStyles(theme, colorScheme, isTablet, extraStyles);
+  const styles = createStyles(theme, colorScheme);
 
   return (
     <Animated.View
@@ -97,9 +93,7 @@ export default CategoriesHeader;
 
 const createStyles = (
   theme: typeof Colors.light | undefined = Colors.light,
-  colorScheme: ColorScheme,
-  isTablet: boolean,
-  extraStyles?: ExtraStyles
+  colorScheme: ColorScheme
 ) =>
   StyleSheet.create({
     categoriesWrapper: {
