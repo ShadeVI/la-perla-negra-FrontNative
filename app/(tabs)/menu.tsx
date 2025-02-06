@@ -43,7 +43,6 @@ export default function MenuScreen() {
   };
 
   const filteredData = useMemo(() => {
-    console.log("CALLED MEMO");
     return data
       .filter((element) => element.categoryNumber === selectedCategory)
       .sort((a, b) => a.identifierNumber - b.identifierNumber);
