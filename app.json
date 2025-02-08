@@ -19,7 +19,7 @@
         "foregroundImage": "./assets/images/adaptive-icon.png",
         "backgroundColor": "#ffffff"
       },
-      "package": "com.sshadevi.laPerlaNegra"
+      "package": "com.sshadevi.laperlanegra"
     },
     "web": {
       "bundler": "metro",
@@ -36,6 +36,22 @@
           "resizeMode": "contain",
           "backgroundColor": "#ffffff"
         }
+      ],
+      [
+        "expo-font",
+        {
+          "fonts": [
+            "./assets/fonts/SpaceMono-Regular.ttf"
+          ]
+        }
+      ],
+      [
+        "expo-build-properties",
+        {
+          "android": {
+            "kotlinVersion":"1.9.24"
+          }
+        }
       ]
     ],
     "experiments": {
@@ -48,6 +64,7 @@
       "eas": {
         "projectId": "8aa40a37-b77a-4dd4-a768-5ec9de57270e"
       }
-    }
+    },
+    "owner": "sshadevi"
   }
 }
