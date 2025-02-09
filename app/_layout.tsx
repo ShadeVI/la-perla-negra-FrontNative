@@ -49,7 +49,7 @@ export default function RootLayout() {
   if (!appIsReady) {
     return null;
   }
-  return <View><Text>layout</Text></View>
+  return <View style={{ flex: 1, }} onLayout={onLayoutRootView}><Text>layout</Text></View>
   /*
   return (
     <ThemeProvider initialColorScheme={Appearance.getColorScheme()}>
