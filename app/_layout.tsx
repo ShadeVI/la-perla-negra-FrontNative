@@ -2,8 +2,7 @@ import { DataProvider } from "@/context/Data";
 import { LanguageProvider } from "@/context/Language";
 import { OrderProvider } from "@/context/Order";
 import { ThemeProvider } from "@/context/Theme";
-import { Stack } from "expo-router";
-import * as SplashScreen from "expo-splash-screen";
+import { Stack, SplashScreen } from "expo-router";
 import { StatusBar } from "expo-status-bar";
 import { useCallback, useEffect, useState } from "react";
 import { Appearance, View } from "react-native";
@@ -56,22 +55,17 @@ export default function RootLayout() {
         <DataProvider>
           <OrderProvider>
             <StatusBar style="auto" />
-            <SafeAreaProvider>
-              <View
-                style={{
-                  flex: 1,
-                }}
-                onLayout={onLayoutRootView}
-              >
-                <Stack>
-                  <Stack.Screen
-                    name="(tabs)"
-                    options={{ headerShown: false }}
-                  />
-                  <Stack.Screen name="+not-found" />
-                </Stack>
-              </View>
-            </SafeAreaProvider>
+            <View
+              style={{
+                flex: 1,
+              }}
+              onLayout={onLayoutRootView}
+            >
+              <Stack>
+                <Stack.Screen name="(tabs)" options={{ headerShown: false }} />
+                <Stack.Screen name="+not-found" />
+              </Stack>
+            </View>
           </OrderProvider>
         </DataProvider>
       </LanguageProvider>
