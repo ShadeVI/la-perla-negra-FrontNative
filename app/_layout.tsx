@@ -6,7 +6,7 @@ import { Stack } from "expo-router";
 import * as SplashScreen from "expo-splash-screen";
 import { StatusBar } from "expo-status-bar";
 import { useCallback, useEffect, useState } from "react";
-import { Appearance, View } from "react-native";
+import { Appearance, View, Text } from "react-native";
 import "react-native-reanimated";
 import { SafeAreaProvider } from "react-native-safe-area-context";
 
@@ -49,7 +49,8 @@ export default function RootLayout() {
   if (!appIsReady) {
     return null;
   }
-
+  return <View><Text>layout</Text></View>
+  /*
   return (
     <ThemeProvider initialColorScheme={Appearance.getColorScheme()}>
       <LanguageProvider>
@@ -76,5 +77,5 @@ export default function RootLayout() {
         </DataProvider>
       </LanguageProvider>
     </ThemeProvider>
-  );
+  );*/
 }
