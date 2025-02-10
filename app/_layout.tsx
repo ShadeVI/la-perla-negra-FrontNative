@@ -49,7 +49,7 @@ function RootLayoutNav() {
   console.log("RENDERING: RootLayoutNav");
   const colorScheme = useColorScheme();
 
-  return <View style={{flex: 1, justify content: "center", alignItems: "center" }}><Text>Testing rootLayoutNav Render</Text></View>
+  return <View style={{flex: 1, justifyContent: "center", alignItems: "center" }}><Text>Testing rootLayoutNav Render</Text></View>
 /*
   return (
     <ThemeProvider initialColorScheme={colorScheme}>
