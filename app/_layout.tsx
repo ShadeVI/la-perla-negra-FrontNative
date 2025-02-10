@@ -7,7 +7,7 @@ import FontAwesome from "@expo/vector-icons/FontAwesome";
 import { useFonts } from "expo-font";
 import { useEffect } from "react";
 import * as SplashScreen from "expo-splash-screen";
-import { useColorScheme } from "react-native";
+import { useColorScheme, View, Text } from "react-native";
 import "react-native-reanimated";
 
 export const unstable_settings = {
@@ -49,6 +49,8 @@ function RootLayoutNav() {
   console.log("RENDERING: RootLayoutNav");
   const colorScheme = useColorScheme();
 
+  return <View style={{flex: 1, justify content: "center", alignItems: "center" }}><Text>Testing rootLayoutNav Render</Text></View>
+/*
   return (
     <ThemeProvider initialColorScheme={colorScheme}>
       <LanguageProvider>
@@ -62,5 +64,5 @@ function RootLayoutNav() {
         </DataProvider>
       </LanguageProvider>
     </ThemeProvider>
-  );
+  ); */
 }
