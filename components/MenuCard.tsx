@@ -23,11 +23,7 @@ const MenuCard = ({ item, isSmall, isTablet }: MenuCardProps) => {
   const styles = createStyles(theme, colorScheme, isTablet);
 
   return (
-    <Link
-      key={item._id}
-      href={`/details/${item._id}` as "/details/:id"}
-      asChild
-    >
+    <Link key={item._id} href={`/details/${item._id}`} asChild>
       <Pressable>
         <Animated.View
           entering={FadeIn.duration(300)}
