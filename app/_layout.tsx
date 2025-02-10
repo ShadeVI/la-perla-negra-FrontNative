@@ -28,11 +28,15 @@ export default function RootLayout() {
     ...FontAwesome.font,
   }); */
 
-  const loaded = true;
-  const error = false;
+  useEffect(() => {
+    setTimeout(() => {
+      SplashScreen.hideAsync();
+      console.log("Forzo la chiusura dello splash screen dopo 3 secondi");
+    }, 3000);
+  }, []);
 
   // Expo Router uses Error Boundaries to catch errors in the navigation tree.
-  useEffect(() => {
+  /* useEffect(() => {
     if (error) throw error;
   }, [error]);
 
@@ -44,7 +48,7 @@ export default function RootLayout() {
 
   if (!loaded) {
     return null;
-  }
+  } */
 
   return <RootLayoutNav />;
 }
