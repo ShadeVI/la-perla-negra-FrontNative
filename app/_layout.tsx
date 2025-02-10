@@ -3,18 +3,21 @@ import { LanguageProvider } from "@/context/Language";
 import { OrderProvider } from "@/context/Order";
 import { ThemeProvider } from "@/context/Theme";
 import { Stack } from "expo-router";
-import { StatusBar } from "expo-status-bar";
 import FontAwesome from "@expo/vector-icons/FontAwesome";
 import { useFonts } from "expo-font";
 import { useEffect } from "react";
 import * as SplashScreen from "expo-splash-screen";
-import { Appearance } from "react-native";
+import { useColorScheme } from "react-native";
 import "react-native-reanimated";
 
 export {
   // Catch any errors thrown by the Layout component.
   ErrorBoundary,
 } from "expo-router";
+
+export const unstable_settings = {
+  initialRouteName: "(tabs)",
+};
 
 // Prevent the splash screen from auto-hiding before asset loading is complete.
 SplashScreen.preventAutoHideAsync();
@@ -44,12 +47,13 @@ export default function RootLayout() {
 }
 
 function RootLayoutNav() {
+  const colorScheme = useColorScheme();
+
   return (
-    <ThemeProvider initialColorScheme={Appearance.getColorScheme()}>
+    <ThemeProvider initialColorScheme={colorScheme}>
       <LanguageProvider>
         <DataProvider>
           <OrderProvider>
-            <StatusBar style="auto" />
             <Stack>
               <Stack.Screen name="(tabs)" options={{ headerShown: false }} />
               <Stack.Screen name="+not-found" />

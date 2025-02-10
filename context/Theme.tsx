@@ -21,7 +21,7 @@ export const ThemeProvider = ({
   initialColorScheme = "dark",
 }: {
   children: React.ReactNode;
-  initialColorScheme: ColorScheme;
+  initialColorScheme?: ColorScheme;
 }) => {
   const [colorScheme, setColorScheme] = useState(initialColorScheme);
   const theme: Theme = colorScheme ? Colors[colorScheme] : Colors.light;
