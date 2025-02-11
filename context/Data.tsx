@@ -19,7 +19,10 @@ export const DataProvider: React.FC<{ children: ReactNode }> = ({
   const [data, setData] = useState<SanityReturnData[]>([]);
 
   useEffect(() => {
-    fetchData().then((res) => setData(res));
+    fetchData().then((res) => {
+      console.log("FETCHING: DATA");
+      setData(res);
+    });
   }, []);
 
   return (

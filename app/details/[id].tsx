@@ -1,6 +1,5 @@
 import DetailDish from "@/components/detailsComponents/DetailDish";
 import DetailGenericDrink from "@/components/detailsComponents/DetailGenericDrink";
-import DetailDrink from "@/components/detailsComponents/DetailGenericDrink";
 import DetailWine from "@/components/detailsComponents/DetailWine";
 import { Colors } from "@/constants/Colors";
 import { useData } from "@/context/Data";
@@ -12,7 +11,6 @@ import {
   Wine,
   Beer,
   Cocktail,
-  Coffee,
   GenericSimpleDescriptionDrink,
   SanityDocumentTypes,
 } from "@/lib/sanity/httpSanity";

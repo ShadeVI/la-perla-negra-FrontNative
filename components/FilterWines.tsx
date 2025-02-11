@@ -1,7 +1,7 @@
 import { useTheme } from "@/context/Theme";
 import { useTextTranslation } from "@/hooks/useTranslation";
 import { WineType } from "@/lib/sanity/httpSanity";
-import { Pressable, StyleSheet, Text, View } from "react-native";
+import { Pressable, Text, View } from "react-native";
 import Animated, { FadeInRight, FadeOutRight } from "react-native-reanimated";
 
 interface FilterWinesProps {

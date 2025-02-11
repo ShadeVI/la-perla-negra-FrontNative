@@ -34,7 +34,8 @@ const Button = ({ item, extraStyles, handleOnPress }: ButtonProps) => {
     >
       <Pressable
         style={[
-          styles.button, extraStyles?.pressableContainer, 
+          styles.button,
+          extraStyles?.pressableContainer,
           selectedLanguage?.id === item.id && {
             backgroundColor: theme?.tint,
           },
@@ -43,7 +44,8 @@ const Button = ({ item, extraStyles, handleOnPress }: ButtonProps) => {
       >
         <Text
           style={[
-            styles.buttonText, extraStyles?.text,
+            styles.buttonText,
+            extraStyles?.text,
             selectedLanguage?.id === item.id && {
               color: colorScheme === "dark" ? theme?.text : theme?.background,
             },

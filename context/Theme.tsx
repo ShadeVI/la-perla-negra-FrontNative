@@ -21,7 +21,7 @@ export const ThemeProvider = ({
   initialColorScheme = "dark",
 }: {
   children: React.ReactNode;
-  initialColorScheme: ColorScheme;
+  initialColorScheme?: ColorScheme;
 }) => {
   const [colorScheme, setColorScheme] = useState(initialColorScheme);
   const theme: Theme = colorScheme ? Colors[colorScheme] : Colors.light;
@@ -29,6 +29,8 @@ export const ThemeProvider = ({
   Appearance.addChangeListener(({ colorScheme }) =>
     setColorScheme(colorScheme ?? null)
   );
+
+  console.log("RENDERING: THEME");
 
   return (
     <ThemeContext.Provider value={{ theme, colorScheme, setColorScheme }}>

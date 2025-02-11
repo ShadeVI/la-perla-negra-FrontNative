@@ -23,11 +23,7 @@ const MenuCard = ({ item, isSmall, isTablet }: MenuCardProps) => {
   const styles = createStyles(theme, colorScheme, isTablet);
 
   return (
-    <Link
-      key={item._id}
-      href={`/details/${item._id}` as "/details/:id"}
-      asChild
-    >
+    <Link key={item._id} href={`/details/${item._id}`} asChild>
       <Pressable>
         <Animated.View
           entering={FadeIn.duration(300)}
@@ -59,7 +55,7 @@ const MenuCard = ({ item, isSmall, isTablet }: MenuCardProps) => {
           <View style={styles.textContainer}>
             {item._type === SanityDocumentTypes.DISH && (
               <Text
-                style={[styles.number, isSmall && isTablet && { fontSize: 25 }]}
+                style={[styles.number, isSmall && isTablet && { fontSize: 24 }]}
               >
                 {item.identifierNumber}
               </Text>
@@ -68,7 +64,7 @@ const MenuCard = ({ item, isSmall, isTablet }: MenuCardProps) => {
               style={[
                 styles.title,
                 isSmall &&
-                  isTablet && { fontSize: 22, lineHeight: lineHeight(15) },
+                  isTablet && { fontSize: 20, lineHeight: lineHeight(13) },
               ]}
             >
               {item.title[selectedLanguage?.id || "es"] ?? item.title.es}
@@ -124,10 +120,10 @@ const createStyles = (
       flex: 1,
       justifyContent: "space-around",
       alignItems: "flex-start",
-      width: "80%",
+      width: "100%",
       position: "absolute",
-      bottom: 25,
-      left: 25,
+      bottom: 15,
+      left: 20,
       gap: 10,
     },
     number: {

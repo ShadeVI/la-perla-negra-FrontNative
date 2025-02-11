@@ -42,6 +42,7 @@ export const LanguageProvider = ({
 
   useEffect(() => {
     fetchSupportedLanguages().then((res: Language[]) => {
+      console.log("FETCHING: LANGUAGES");
       setAllSupportedLanguages(res);
       const defaultLanguage = res.find((lang) => lang.isDefault)!;
       setSelectedLanguage(defaultLanguage);
