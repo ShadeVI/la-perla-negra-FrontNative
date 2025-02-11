@@ -7,7 +7,7 @@ import FontAwesome from "@expo/vector-icons/FontAwesome";
 import { useFonts } from "expo-font";
 import { useEffect } from "react";
 import * as SplashScreen from "expo-splash-screen";
-import { useColorScheme, View, Text } from "react-native";
+import { useColorScheme } from "react-native";
 import "react-native-reanimated";
 
 export const unstable_settings = {
@@ -23,8 +23,6 @@ export default function RootLayout() {
     ...FontAwesome.font,
   });
 
-  console.log("RENDERING: ROOTLAYOUT");
-
   // Expo Router uses Error Boundaries to catch errors in the navigation tree.
   useEffect(() => {
     if (error) throw error;
@@ -32,13 +30,11 @@ export default function RootLayout() {
 
   useEffect(() => {
     if (loaded) {
-      console.log("CALLING: hideAsync");
       SplashScreen.hideAsync();
     }
   }, [loaded]);
 
   if (!loaded) {
-    console.log("RETURNING: null");
     return null;
   }
 
@@ -46,7 +42,6 @@ export default function RootLayout() {
 }
 
 function RootLayoutNav() {
-  console.log("RENDERING: RootLayoutNav");
   const colorScheme = useColorScheme();
 
   return (

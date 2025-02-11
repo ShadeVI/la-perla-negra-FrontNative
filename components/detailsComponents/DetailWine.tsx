@@ -31,12 +31,7 @@ export const DetailWine = ({ details }: DetailWineProps) => {
   const styles = createStyles(theme, colorScheme);
 
   return (
-    <View
-      style={{
-        flex: 1,
-        paddingVertical: 60,
-      }}
-    >
+    <View style={{ flex: 1 }}>
       {details?.imageUrl && (
         <Animated.View
           entering={FadeInUp.duration(700).delay(100).easing(Easing.ease)}

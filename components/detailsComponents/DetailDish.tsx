@@ -27,7 +27,7 @@ const DetailDish = ({ details }: DetailDishProps) => {
   const styles = createStyles(theme, colorScheme);
 
   return (
-    <View style={{ flex: 1, paddingVertical: 60 }}>
+    <View style={{ flex: 1 }}>
       <Animated.View
         entering={FadeInUp.duration(700).delay(100).easing(Easing.ease)}
         style={[styles.imageContainer, { height: height - 150 }]}
