@@ -37,7 +37,7 @@
         "expo-build-properties",
         {
           "android": {
-            "kotlinVersion":"1.9.25"
+            "kotlinVersion": "1.9.25"
           }
         }
       ],
@@ -59,6 +59,12 @@
         "projectId": "8aa40a37-b77a-4dd4-a768-5ec9de57270e"
       }
     },
-    "owner": "sshadevi"
+    "owner": "sshadevi",
+    "runtimeVersion": {
+      "policy": "appVersion"
+    },
+    "updates": {
+      "url": "https://u.expo.dev/8aa40a37-b77a-4dd4-a768-5ec9de57270e"
+    }
   }
 }
