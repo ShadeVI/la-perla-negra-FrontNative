@@ -32,7 +32,6 @@ const Layout = () => {
               </View>
             ) : null,
           headerTintColor: theme?.text,
-          headerTransparent: true,
         }}
       />
       <Slot />

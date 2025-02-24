@@ -5,9 +5,11 @@ import { ThemeProvider } from "@/context/Theme";
 import { Stack } from "expo-router";
 import FontAwesome from "@expo/vector-icons/FontAwesome";
 import { useFonts } from "expo-font";
-import { useEffect } from "react";
+import { useEffect, useState } from "react";
 import * as SplashScreen from "expo-splash-screen";
-import { useColorScheme } from "react-native";
+import { AppState, Platform, useColorScheme } from "react-native";
+import { setStatusBarHidden, StatusBar } from "expo-status-bar";
+import * as NavigationBar from "expo-navigation-bar";
 import "react-native-reanimated";
 
 export const unstable_settings = {
@@ -44,11 +46,28 @@ export default function RootLayout() {
 function RootLayoutNav() {
   const colorScheme = useColorScheme();
 
+  const navigationConfig = async () => {
+    if (Platform.OS === "android") {
+      await NavigationBar.setBehaviorAsync("overlay-swipe");
+      await NavigationBar.setVisibilityAsync("hidden");
+    }
+  };
+  useEffect(() => {
+    if (Platform.OS !== "web") {
+      setStatusBarHidden(true, "none");
+    }
+
+    if (Platform.OS === "android") {
+      navigationConfig();
+    }
+  }, []);
+
   return (
     <ThemeProvider initialColorScheme={colorScheme}>
       <LanguageProvider>
         <DataProvider>
           <OrderProvider>
+            <StatusBar hidden={true} style="auto" />
             <Stack>
               <Stack.Screen name="(tabs)" options={{ headerShown: false }} />
               <Stack.Screen name="+not-found" />
