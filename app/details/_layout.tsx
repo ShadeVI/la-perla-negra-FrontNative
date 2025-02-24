@@ -18,6 +18,22 @@ const Layout = () => {
   }
   return (
     <View style={{ flex: 1 }}>
+      <Stack.Screen
+        options={{
+          headerTitle: `${detailsDish.identifierNumber} - ${translateCMSText(
+            detailsDish.title
+          )}`,
+          headerTitleAlign: "center",
+          headerStyle: { backgroundColor: theme?.gray },
+          headerRight: () =>
+            detailsDish.isHighlighted ? (
+              <View>
+                <Ionicons name="star-sharp" size={30} color={theme?.tint} />
+              </View>
+            ) : null,
+          headerTintColor: theme?.text,
+        }}
+      />
       <Slot />
     </View>
   );
