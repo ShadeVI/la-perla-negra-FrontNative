@@ -14,14 +14,15 @@ import {
   GenericSimpleDescriptionDrink,
   SanityDocumentTypes,
 } from "@/lib/sanity/httpSanity";
-import { useLocalSearchParams } from "expo-router";
+import { Ionicons } from "@expo/vector-icons";
+import { Stack, useLocalSearchParams } from "expo-router";
 import { ScrollView, StyleSheet, Text, View } from "react-native";
 
 const Details = () => {
   const params = useLocalSearchParams();
   const { data } = useData();
   const { theme } = useTheme();
-  const { translateInAppText } = useTextTranslation();
+  const { translateCMSText, translateInAppText } = useTextTranslation();
 
   const details: Dish | Wine | undefined = data.find(
     (item) => item._id === params.id
@@ -60,7 +61,26 @@ const Details = () => {
   };
 
   return (
-    <ScrollView style={styles.scrollContainer}>{renderer(details)}</ScrollView>
+    <View style={styles.scrollContainer}>
+      <Stack.Screen
+        options={{
+          headerTitle: `${details.identifierNumber} - ${translateCMSText(
+            details.title
+          )}`,
+          headerTitleAlign: "center",
+          headerStyle: { backgroundColor: theme?.gray },
+          headerRight: () =>
+            details.isHighlighted ? (
+              <View>
+                <Ionicons name="star-sharp" size={30} color={theme?.tint} />
+              </View>
+            ) : null,
+          headerTintColor: theme?.text,
+          headerTransparent: true,
+        }}
+      />
+      {renderer(details)}
+    </View>
   );
 };
 export default Details;
@@ -68,6 +88,6 @@ export default Details;
 const createStyles = (theme = Colors.light) =>
   StyleSheet.create({
     scrollContainer: {
-      backgroundColor: theme?.background,
+      flex: 1,
     },
   });
