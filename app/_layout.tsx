@@ -8,6 +8,8 @@ import { useFonts } from "expo-font";
 import { useEffect } from "react";
 import * as SplashScreen from "expo-splash-screen";
 import { useColorScheme } from "react-native";
+import { StatusBar } from "expo-status-bar";
+import * as NavigationBar from "expo-navigation-bar";
 import "react-native-reanimated";
 
 export const unstable_settings = {
@@ -44,11 +46,14 @@ export default function RootLayout() {
 function RootLayoutNav() {
   const colorScheme = useColorScheme();
 
+  NavigationBar.setVisibilityAsync("hidden");
+
   return (
     <ThemeProvider initialColorScheme={colorScheme}>
       <LanguageProvider>
         <DataProvider>
           <OrderProvider>
+            <StatusBar style="auto" />
             <Stack>
               <Stack.Screen name="(tabs)" options={{ headerShown: false }} />
               <Stack.Screen name="+not-found" />
