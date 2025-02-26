@@ -1,50 +1,35 @@
-# Welcome to your Expo app 👋
+# La Perla Negra (carta digital)
 
-This is an [Expo](https://expo.dev) project created with [`create-expo-app`](https://www.npmjs.com/package/create-expo-app).
+La aplicación es una carta digital creada para un restaurante.
 
-## Get started
+## Stack utilizado
 
-1. Install dependencies
+- Expo
+- React Native
+- Sanity.io
 
-   ```bash
-   npm install
-   ```
+### Funcionalidades
+La aplicación recibe los datos desde el CMS desarrollado con Sanity.
+Muestra un menu con las categorias y los diferentes productos.
+El cliente puede añadir los productos a una pre-comanda para simplificar el servicio.
+El restaurante podrá modificar los productos y las categorias desde Sanity (CMS)
+La aplicación se traduce en tres idiomas.
 
-2. Start the app
+#### Imagenes
 
-   ```bash
-    npx expo start
-   ```
+Pagina principal:
 
-In the output, you'll find options to open the app in a
+![Captura de pantalla 2025-02-26 114210](https://github.com/user-attachments/assets/b42f8708-014d-4ed7-959e-028577cca0fb)
 
-- [development build](https://docs.expo.dev/develop/development-builds/introduction/)
-- [Android emulator](https://docs.expo.dev/workflow/android-studio-emulator/)
-- [iOS simulator](https://docs.expo.dev/workflow/ios-simulator/)
-- [Expo Go](https://expo.dev/go), a limited sandbox for trying out app development with Expo
+Menu:
 
-You can start developing by editing the files inside the **app** directory. This project uses [file-based routing](https://docs.expo.dev/router/introduction).
+![Captura de pantalla 2025-02-26 114226](https://github.com/user-attachments/assets/f2b8413d-3697-455b-a167-1edc75bf8ba0)
 
-## Get a fresh project
+Detalles del producto:
 
-When you're ready, run:
+![Captura de pantalla 2025-02-26 114247](https://github.com/user-attachments/assets/0b7b6442-b480-4fa8-82db-c8f6b970beb0)
+![Captura de pantalla 2025-02-26 114541](https://github.com/user-attachments/assets/3f1d93b3-7437-4058-a171-6160841cdd61)
 
-```bash
-npm run reset-project
-```
+Lista pre-comanda:
 
-This command will move the starter code to the **app-example** directory and create a blank **app** directory where you can start developing.
-
-## Learn more
-
-To learn more about developing your project with Expo, look at the following resources:
-
-- [Expo documentation](https://docs.expo.dev/): Learn fundamentals, or go into advanced topics with our [guides](https://docs.expo.dev/guides).
-- [Learn Expo tutorial](https://docs.expo.dev/tutorial/introduction/): Follow a step-by-step tutorial where you'll create a project that runs on Android, iOS, and the web.
-
-## Join the community
-
-Join our community of developers creating universal apps.
-
-- [Expo on GitHub](https://github.com/expo/expo): View our open source platform and contribute.
-- [Discord community](https://chat.expo.dev): Chat with Expo users and ask questions.
+![Captura de pantalla 2025-02-26 114605](https://github.com/user-attachments/assets/af2b29db-e96f-4afb-bda1-c6b05f2e52e9)
