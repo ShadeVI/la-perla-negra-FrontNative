@@ -15,7 +15,7 @@ import {
   SanityDocumentTypes,
 } from "@/lib/sanity/httpSanity";
 import { useLocalSearchParams } from "expo-router";
-import { ScrollView, StyleSheet, Text, View } from "react-native";
+import { StyleSheet, Text, View } from "react-native";
 
 const Details = () => {
   const params = useLocalSearchParams();
@@ -59,15 +59,13 @@ const Details = () => {
     }
   };
 
-  return (
-    <ScrollView style={styles.scrollContainer}>{renderer(details)}</ScrollView>
-  );
+  return <View style={styles.scrollContainer}>{renderer(details)}</View>;
 };
 export default Details;
 
 const createStyles = (theme = Colors.light) =>
   StyleSheet.create({
     scrollContainer: {
-      backgroundColor: theme?.background,
+      flex: 1,
     },
   });

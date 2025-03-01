@@ -20,7 +20,6 @@ export const DataProvider: React.FC<{ children: ReactNode }> = ({
 
   useEffect(() => {
     fetchData().then((res) => {
-      console.log("FETCHING: DATA");
       setData(res);
     });
   }, []);

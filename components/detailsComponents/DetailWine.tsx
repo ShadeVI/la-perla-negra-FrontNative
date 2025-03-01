@@ -7,6 +7,7 @@ import { Wine } from "@/lib/sanity/httpSanity";
 import { PortableText } from "@portabletext/react-native";
 import {
   Image,
+  ScrollView,
   StyleSheet,
   Text,
   useWindowDimensions,
@@ -31,12 +32,7 @@ export const DetailWine = ({ details }: DetailWineProps) => {
   const styles = createStyles(theme, colorScheme);
 
   return (
-    <View
-      style={{
-        flex: 1,
-        paddingVertical: 60,
-      }}
-    >
+    <ScrollView style={styles.scrollContainer}>
       {details?.imageUrl && (
         <Animated.View
           entering={FadeInUp.duration(700).delay(100).easing(Easing.ease)}
@@ -84,7 +80,7 @@ export const DetailWine = ({ details }: DetailWineProps) => {
           ) : null}
         </View>
       </View>
-    </View>
+    </ScrollView>
   );
 };
 
@@ -92,6 +88,9 @@ export default DetailWine;
 
 const createStyles = (theme = Colors.light, colorScheme: ColorScheme) =>
   StyleSheet.create({
+    scrollContainer: {
+      backgroundColor: theme?.background,
+    },
     imageContainer: {
       width: "100%",
       boxShadow: `0 2px 10px 1px ${

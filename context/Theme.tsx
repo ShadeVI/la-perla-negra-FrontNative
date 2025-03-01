@@ -30,8 +30,6 @@ export const ThemeProvider = ({
     setColorScheme(colorScheme ?? null)
   );
 
-  console.log("RENDERING: THEME");
-
   return (
     <ThemeContext.Provider value={{ theme, colorScheme, setColorScheme }}>
       {children}

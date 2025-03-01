@@ -3,8 +3,14 @@ import { Colors } from "@/constants/Colors";
 import { useLanguage } from "@/context/Language";
 import { ColorScheme, useTheme } from "@/context/Theme";
 import { Dish } from "@/lib/sanity/httpSanity";
-import { StyleSheet, Text, useWindowDimensions, View } from "react-native";
-import Animated, { Easing, FadeIn, FadeInUp } from "react-native-reanimated";
+import {
+  ScrollView,
+  StyleSheet,
+  Text,
+  useWindowDimensions,
+  View,
+} from "react-native";
+import Animated, { Easing, FadeInUp } from "react-native-reanimated";
 import { ORDER_REDUCER_TYPES, useOrder } from "@/context/Order";
 import { currenciesConverter } from "@/utils/utils";
 import GenericPressableButtton from "../GenericPressableButtton";
@@ -27,7 +33,7 @@ const DetailDish = ({ details }: DetailDishProps) => {
   const styles = createStyles(theme, colorScheme);
 
   return (
-    <View style={{ flex: 1, paddingVertical: 60 }}>
+    <ScrollView style={styles.scrollContainer}>
       <Animated.View
         entering={FadeInUp.duration(700).delay(100).easing(Easing.ease)}
         style={[styles.imageContainer, { height: height - 150 }]}
@@ -69,7 +75,7 @@ const DetailDish = ({ details }: DetailDishProps) => {
           ) : null}
         </View>
       </View>
-    </View>
+    </ScrollView>
   );
 };
 
@@ -77,6 +83,9 @@ export default DetailDish;
 
 const createStyles = (theme = Colors.light, colorScheme: ColorScheme) =>
   StyleSheet.create({
+    scrollContainer: {
+      backgroundColor: theme?.background,
+    },
     imageContainer: {
       width: "100%",
       boxShadow: `0 2px 10px 1px ${

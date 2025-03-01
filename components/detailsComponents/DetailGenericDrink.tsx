@@ -3,7 +3,13 @@ import { Colors } from "@/constants/Colors";
 import { useLanguage } from "@/context/Language";
 import { ColorScheme, useTheme } from "@/context/Theme";
 import { GenericSimpleDescriptionDrink } from "@/lib/sanity/httpSanity";
-import { StyleSheet, Text, useWindowDimensions, View } from "react-native";
+import {
+  ScrollView,
+  StyleSheet,
+  Text,
+  useWindowDimensions,
+  View,
+} from "react-native";
 import Animated, { Easing, FadeInUp } from "react-native-reanimated";
 import { ORDER_REDUCER_TYPES, useOrder } from "@/context/Order";
 import GenericPressableButtton from "../GenericPressableButtton";
@@ -27,7 +33,7 @@ const DetailGenericDrink = ({ details }: DetailGenericDrinkProps) => {
   const styles = createStyles(theme, colorScheme);
 
   return (
-    <View style={{ flex: 1, paddingVertical: 60 }}>
+    <ScrollView style={styles.scrollContainer}>
       {details?.imageUrl && (
         <Animated.View
           entering={FadeInUp.duration(700).delay(100).easing(Easing.ease)}
@@ -76,7 +82,7 @@ const DetailGenericDrink = ({ details }: DetailGenericDrinkProps) => {
           ) : null}
         </View>
       </View>
-    </View>
+    </ScrollView>
   );
 };
 
@@ -84,6 +90,9 @@ export default DetailGenericDrink;
 
 const createStyles = (theme = Colors.light, colorScheme: ColorScheme) =>
   StyleSheet.create({
+    scrollContainer: {
+      backgroundColor: theme?.background,
+    },
     imageContainer: {
       width: "100%",
       boxShadow: `0 2px 10px 1px ${

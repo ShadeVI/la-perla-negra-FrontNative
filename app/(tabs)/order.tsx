@@ -7,7 +7,7 @@ import { useTextTranslation } from "@/hooks/useTranslation";
 import { SanityDocumentTypes } from "@/lib/sanity/httpSanity";
 import { Pressable, ScrollView, StyleSheet, Text, View } from "react-native";
 
-const order = () => {
+const OrderPage = () => {
   const { selectedLanguage } = useLanguage();
   const { order, dispatch } = useOrder();
   const { theme, colorScheme } = useTheme();
@@ -182,7 +182,7 @@ const order = () => {
   );
 };
 
-export default order;
+export default OrderPage;
 
 const createStyles = (theme = Colors.light, colorScheme: ColorScheme) =>
   StyleSheet.create({
