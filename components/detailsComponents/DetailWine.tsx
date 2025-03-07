@@ -26,6 +26,7 @@ export const DetailWine = ({ details }: DetailWineProps) => {
   const { height } = useWindowDimensions();
   const { selectedLanguage } = useLanguage();
   const { theme, colorScheme } = useTheme();
+  const { order } = useOrder();
   const { dispatch } = useOrder();
   const { translateInAppText } = useTextTranslation();
 
@@ -74,10 +75,18 @@ export const DetailWine = ({ details }: DetailWineProps) => {
                 dispatch({ payload: details, type: ORDER_REDUCER_TYPES.ADD })
               }
             />
+            <View>
+              {order[details._id]?.sum > 0 && (
+                <Text style={styles.listCount}>
+                  {order[details._id]?.sum}{" "}
+                  {translateInAppText("text-product-in-list")}
+                </Text>
+              )}
+            </View>
           </View>
-          {details?.ingredients?.length > 0 ? (
+          {details?.ingredients?.length > 0 && (
             <IngredientsSection ingredients={details.ingredients} />
-          ) : null}
+          )}
         </View>
       </View>
     </ScrollView>
@@ -148,10 +157,8 @@ const createStyles = (theme = Colors.light, colorScheme: ColorScheme) =>
       marginBottom: 30,
       gap: 20,
     },
+    listCount: {
+      fontSize: 20,
+      color: theme?.text,
+    },
   });
-
-const createPortableTextStyles = (
-  theme = Colors.light,
-  colorScheme: ColorScheme,
-  isTablet: boolean
-) => StyleSheet.create({});

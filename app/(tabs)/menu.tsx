@@ -4,13 +4,7 @@ import { StyleSheet, View, Text, FlatList, Pressable } from "react-native";
 import { Colors } from "@/constants/Colors";
 import { useData } from "@/context/Data";
 import { useTheme } from "@/context/Theme";
-import {
-  Category,
-  fetchCategories,
-  SanityDocumentTypes,
-  Wine,
-  WineType,
-} from "@/lib/sanity/httpSanity";
+import { SanityDocumentTypes, Wine, WineType } from "@/lib/sanity/httpSanity";
 import LoadingIndicator from "@/components/LoadingIndicator";
 import MenuCard from "@/components/MenuCard";
 import { useTextTranslation } from "@/hooks/useTranslation";
@@ -19,13 +13,12 @@ import { Ionicons } from "@expo/vector-icons";
 
 export default function MenuScreen() {
   const { theme } = useTheme();
-  const { data } = useData();
+  const { data, categories, isLoading } = useData();
   const { translateInAppText } = useTextTranslation();
   const [selectedCategory, setSelectedCategory] = useState<
     number | undefined
   >();
-  const [categories, setCategories] = useState<Category[]>();
-  const [isLoading, setIsLoading] = useState<boolean>(true);
+
   const [activeWineFilters, setActiveWineFilters] = useState<WineType[]>([]);
   const [showFilterWines, setShowFilterWines] = useState(false);
 
@@ -52,22 +45,6 @@ export default function MenuScreen() {
     setSelectedCategory(categoryId);
   };
 
-  const setDefaultCategory = (categoryId: number) => {
-    setSelectedCategory(categoryId);
-  };
-
-  useEffect(() => {
-    fetchCategories()
-      .then((res) => {
-        setCategories(
-          res.sort((a, b) => a.identifierNumber - b.identifierNumber)
-        );
-        setDefaultCategory(res[0]?.identifierNumber);
-      })
-      .catch((err) => console.log(err))
-      .finally(() => setIsLoading(false));
-  }, []);
-
   const styles = createStyles(theme);
 
   if (isLoading) {
@@ -81,10 +58,16 @@ export default function MenuScreen() {
   if (!categories) {
     return (
       <View style={styles.pageContainer}>
-        <Text>No categories found</Text>
+        <Text>{translateInAppText("no-categories-found")}</Text>
       </View>
     );
   }
+
+  useEffect(() => {
+    if (!selectedCategory && categories.length > 0) {
+      setSelectedCategory(categories[0].identifierNumber);
+    }
+  }, [categories]);
 
   return (
     <View style={styles.pageContainer}>

@@ -1,4 +1,9 @@
-import { fetchData, SanityReturnData } from "@/lib/sanity/httpSanity";
+import {
+  Category,
+  fetchCategories,
+  fetchData,
+  SanityReturnData,
+} from "@/lib/sanity/httpSanity";
 import React, {
   createContext,
   useState,
@@ -9,6 +14,8 @@ import React, {
 
 interface DataContextProps {
   data: SanityReturnData[];
+  categories: Category[];
+  isLoading: boolean;
 }
 
 const DataContext = createContext<DataContextProps | undefined>(undefined);
@@ -17,15 +24,25 @@ export const DataProvider: React.FC<{ children: ReactNode }> = ({
   children,
 }) => {
   const [data, setData] = useState<SanityReturnData[]>([]);
+  const [categories, setCategories] = useState<Category[]>([]);
+  const [isLoading, setIsLoading] = useState<boolean>(true);
 
   useEffect(() => {
-    fetchData().then((res) => {
-      setData(res);
-    });
+    Promise.all([fetchCategories(), fetchData()])
+      .then((res) => {
+        setCategories(
+          res[0].sort((a, b) => a.identifierNumber - b.identifierNumber)
+        );
+        setData(res[1]);
+      })
+      .catch((err) => console.log(err))
+      .finally(() => setIsLoading(false));
   }, []);
 
   return (
-    <DataContext.Provider value={{ data }}>{children}</DataContext.Provider>
+    <DataContext.Provider value={{ data, categories, isLoading }}>
+      {children}
+    </DataContext.Provider>
   );
 };
 

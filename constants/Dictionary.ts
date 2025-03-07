@@ -1,6 +1,6 @@
 export type AllowedLanguages = "es" | "en" | "de"
 
-type AllowedDictionaryKeys = "tab-home" | "tab-explore-menu" | "tab-memo" | "ingredients" | "btn-add-memo" | "no-data-found" | "memo-title" | "btn-memo-reset-text" | "sparkling" | "rose" | "red" | "white" | "btn-remove-filters"
+type AllowedDictionaryKeys = "tab-home" | "tab-explore-menu" | "tab-memo" | "ingredients" | "btn-add-memo" | "no-data-found" | "memo-title" | "btn-memo-reset-text" | "sparkling" | "rose" | "red" | "white" | "btn-remove-filters" | "btn-go-to-memo" | "no-categories-found" | "text-product-in-list"
 
 export const dictionary: Record<AllowedDictionaryKeys, Record<AllowedLanguages, string>> = {
   "tab-home": {
@@ -32,6 +32,11 @@ export const dictionary: Record<AllowedDictionaryKeys, Record<AllowedLanguages, 
     "es": "No se encontraron datos.",
     "en": "No data found.",
     "de": "Keine Daten gefunden."
+  },
+  "no-categories-found": {
+    "es": "No se encontraron categorías.",
+    "en": "No categories found.",
+    "de": "Keine Kategorien gefunden."
   },
   "memo-title": {
     "es": "Tu lista",
@@ -67,5 +72,15 @@ export const dictionary: Record<AllowedDictionaryKeys, Record<AllowedLanguages, 
     "es": "Eliminar filtros",
     "en": "Remove filters",
     "de": "Filter entfernen"
+  },
+  "btn-go-to-memo": {
+    "es": "Ir a la lista",
+    "en": "Go to memo",
+    "de": "Zur Nachricht gehen"
+  },
+  "text-product-in-list": {
+    "es": "en tu lista",
+    "en": "in your list",
+    "de": "in Ihrer Liste"
   }
 }

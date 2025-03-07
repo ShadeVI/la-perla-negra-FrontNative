@@ -1,6 +1,5 @@
 import GenericPressableButtton from "@/components/GenericPressableButtton";
 import { Colors } from "@/constants/Colors";
-import { useLanguage } from "@/context/Language";
 import { ORDER_REDUCER_TYPES, useOrder } from "@/context/Order";
 import { ColorScheme, useTheme } from "@/context/Theme";
 import { useTextTranslation } from "@/hooks/useTranslation";
@@ -8,10 +7,9 @@ import { SanityDocumentTypes } from "@/lib/sanity/httpSanity";
 import { Pressable, ScrollView, StyleSheet, Text, View } from "react-native";
 
 const OrderPage = () => {
-  const { selectedLanguage } = useLanguage();
   const { order, dispatch } = useOrder();
   const { theme, colorScheme } = useTheme();
-  const { translateInAppText } = useTextTranslation();
+  const { translateInAppText, translateCMSText } = useTextTranslation();
 
   const styles = createStyles(theme, colorScheme);
 
@@ -171,7 +169,7 @@ const OrderPage = () => {
                         .padEnd(10)}
                   </Text>
                   <Text style={{ color: theme?.text, fontSize: 26 }}>
-                    {content.data.title[selectedLanguage?.id ?? "es"]}
+                    {translateCMSText(content.data.title)}
                   </Text>
                 </View>
               </View>
