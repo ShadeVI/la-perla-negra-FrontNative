@@ -1,6 +1,6 @@
 export type AllowedLanguages = "es" | "en" | "de"
 
-type AllowedDictionaryKeys = "tab-home" | "tab-explore-menu" | "tab-memo" | "ingredients" | "btn-add-memo" | "no-data-found" | "memo-title" | "btn-memo-reset-text" | "sparkling" | "rose" | "red" | "white" | "btn-remove-filters" | "btn-go-to-memo" | "no-categories-found" | "text-product-in-list"
+type AllowedDictionaryKeys = "tab-home" | "tab-explore-menu" | "tab-memo" | "ingredients" | "btn-add-memo" | "no-data-found" | "memo-title" | "btn-memo-reset-text" | "sparkling" | "rose" | "red" | "white" | "btn-remove-filters" | "btn-go-to-memo" | "no-categories-found" | "text-product-in-list" | "allergens" | "gluten" | "eggs" | "fish" | "crustaceans" | "peanuts" | "soy" | "dairy" | "tree-nuts" | "celery" | "mustard" | "sesame-seeds" | "sulfur-dioxide-and-sulfites" | "lupins" | "mollusks"
 
 export const dictionary: Record<AllowedDictionaryKeys, Record<AllowedLanguages, string>> = {
   "tab-home": {
@@ -82,5 +82,80 @@ export const dictionary: Record<AllowedDictionaryKeys, Record<AllowedLanguages, 
     "es": "en tu lista",
     "en": "in your list",
     "de": "in Ihrer Liste"
-  }
+  },
+  "allergens": {
+    "es": "Alérgenos",
+    "en": "Allergens",
+    "de": "Allergene"
+  },
+  "gluten": {
+    "es": "Gluten",
+    "en": "Gluten",
+    "de": "Gluten"
+  },
+  "eggs": {
+    "es": "Huevos",
+    "en": "Eggs",
+    "de": "Eier"
+  },
+  "fish": {
+    "es": "Pescado",
+    "en": "Fish",
+    "de": "Fisch"
+  },
+  "crustaceans": {
+    "es": "Crustáceos",
+    "en": "Crustaceans",
+    "de": "Krustentiere"
+  },
+  "peanuts": {
+    "es": "Cacahuetes",
+    "en": "Peanuts",
+    "de": "Erdnüsse"
+  },
+  "soy": {
+    "es": "Soja",
+    "en": "Soybeans",
+    "de": "Sojabohnen"
+  },
+  "dairy": {
+    "es": "Lácteos",
+    "en": "Dairy",
+    "de": "Milchprodukte"
+  },
+  "tree-nuts": {
+    "es": "Frutos de cáscara",
+    "en": "Nuts",
+    "de": "Nüsse"
+  },
+  "celery": {
+    "es": "Apio",
+    "en": "Celery",
+    "de": "Sellerie"
+  },
+  "mustard": {
+    "es": "Mostaza",
+    "en": "Mustard",
+    "de": "Senf"
+  },
+  "sesame-seeds": {
+    "es": "Sésamo",
+    "en": "Sesame",
+    "de": "Sesam"
+  },
+  "sulfur-dioxide-and-sulfites": {
+    "es": "Dióxido de azufre",
+    "en": "Sulphur dioxide",
+    "de": "Schwefeldioxid"
+  },
+  "lupins": {
+    "es": "Altramuces",
+    "en": "Lupin",
+    "de": "Lupinen"
+  },
+  "mollusks": {
+    "es": "Moluscos",
+    "en": "Molluscs",
+    "de": "Weichtiere"
+  },
 }

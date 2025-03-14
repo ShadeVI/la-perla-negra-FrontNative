@@ -39,7 +39,8 @@
     "expo-symbols": "~0.2.2",
     "expo-device": "~7.0.2",
     "expo-updates": "~0.27.1",
-    "expo-navigation-bar": "~4.0.8"
+    "expo-navigation-bar": "~4.0.8",
+    "react-native-svg": "15.8.0"
   },
   "devDependencies": {
     "@types/jest": "29.5.14",

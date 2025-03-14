@@ -18,6 +18,7 @@ import { useTextTranslation } from "@/hooks/useTranslation";
 import IngredientsSection from "../IngredientsSection";
 import { PortableText } from "@portabletext/react-native";
 import { createPortableTextConfig } from "@/constants/PortableText";
+import AllergensSection from "../AllergensSection";
 
 interface DetailDishProps {
   details: Dish;
@@ -78,9 +79,16 @@ const DetailDish = ({ details }: DetailDishProps) => {
               )}
             </View>
           </View>
-          {details?.ingredients?.length > 0 && (
-            <IngredientsSection ingredients={details.ingredients} />
-          )}
+          <View>
+            {details?.ingredients?.length > 0 && (
+              <IngredientsSection ingredients={details.ingredients} />
+            )}
+          </View>
+          <View>
+            {details?.allergens?.length > 0 && (
+              <AllergensSection allergens={details.allergens} />
+            )}
+          </View>
         </View>
       </View>
     </ScrollView>
@@ -120,6 +128,7 @@ const createStyles = (theme = Colors.light, colorScheme: ColorScheme) =>
     contentRight: {
       flex: 1,
       paddingHorizontal: 30,
+      gap: 30,
     },
     title: {
       fontSize: 30,
@@ -140,7 +149,7 @@ const createStyles = (theme = Colors.light, colorScheme: ColorScheme) =>
     memoButtonsContainer: {
       flexDirection: "row",
       flexWrap: "wrap",
-      justifyContent: "space-around",
+      justifyContent: "space-between",
       alignItems: "center",
       marginBottom: 30,
       gap: 20,

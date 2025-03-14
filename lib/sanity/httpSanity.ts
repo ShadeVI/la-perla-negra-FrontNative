@@ -32,7 +32,8 @@ const QUERY_DISHES = `*[_type in ['dish', 'drink', 'wine', 'cocktail', 'beer', '
     _id
   },
   isVisible,
-  type
+  type,
+  allergens
 }`
 
 export interface MultiLanguageStringField {
@@ -73,6 +74,8 @@ type Ingredient = {
   _id: string;
 }
 
+export type Allergen = "gluten" | "crustaceans" | "eggs" | "fish" | "peanuts" | "soy" | "dairy" | "tree-nuts" | "celery" | "mustard" | "sesame-seeds" | "sulfur-dioxide-and-sulfites" | "lupins" | "mollusks"
+
 export interface BaseData {
   _id: string;
   _type: SanityAllowedDocumentTypes;
@@ -89,6 +92,7 @@ export interface BaseData {
 }
 
 export interface Dish extends BaseData {
+  allergens: Allergen[];
 }
 
 export enum WineType {

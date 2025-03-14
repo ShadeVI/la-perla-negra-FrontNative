@@ -23,9 +23,7 @@ const Details = () => {
   const { theme } = useTheme();
   const { translateInAppText } = useTextTranslation();
 
-  const details: Dish | Wine | undefined = data.find(
-    (item) => item._id === params.id
-  );
+  const details = data.find((item) => item._id === params.id);
 
   const styles = createStyles(theme);
 
