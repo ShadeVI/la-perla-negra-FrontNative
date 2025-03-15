@@ -43,6 +43,6 @@ const createStyles = (theme = Colors.light, colorScheme: ColorScheme) =>
       flexWrap: "wrap",
       justifyContent: "center",
       alignItems: "center",
-      gap: 10,
+      gap: 15,
     },
   });
