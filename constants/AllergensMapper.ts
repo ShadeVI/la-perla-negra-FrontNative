@@ -20,33 +20,33 @@ export const ALLERGENS: AllergensMapperType = {
     src: require("@/assets/images/allergens/dairy.png")
   },
   crustaceans: {
-    src: ""
+    src: require("@/assets/images/allergens/crustaceans.png")
   },
   peanuts: {
-    src: ""
+    src: require("@/assets/images/allergens/peanut.png")
   },
   soy: {
-    src: ""
+    src: require("@/assets/images/allergens/soy-bean.png")
   },
   "tree-nuts": {
-    src: ""
+    src: require("@/assets/images/allergens/nuts.png")
   },
   celery: {
-    src: ""
+    src: require("@/assets/images/allergens/celery.png")
   },
   mustard: {
-    src: ""
+    src: require("@/assets/images/allergens/mustard.png")
   },
   "sesame-seeds": {
-    src: ""
+    src: require("@/assets/images/allergens/sesame.png")
   },
   "sulfur-dioxide-and-sulfites": {
-    src: ""
+    src: require("@/assets/images/allergens/sulfur-dioxide-sulphites.png")
   },
   lupins: {
-    src: ""
+    src: require("@/assets/images/allergens/lupine.png")
   },
   mollusks: {
-    src: ""
+    src: require("@/assets/images/allergens/squid.png")
   }
 }
